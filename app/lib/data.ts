@@ -14,11 +14,11 @@ export async function fetchEncounters(
 }
 
 export async function fetchEncounterById(
-  id: number
+  id: string
 ): Promise<Encounter | undefined> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(dummyEncounters.find((enc) => enc.id === id))
+      resolve(dummyEncounters.find((enc) => enc.id === Number(id)))
     }, 300)
   })
 }
