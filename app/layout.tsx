@@ -1,3 +1,5 @@
+import './ui/globals.css'
+import { Navbar } from './ui/navbar'
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -5,6 +7,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Navbar />
       <body>{children}</body>
     </html>
   )
