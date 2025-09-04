@@ -7,14 +7,11 @@ import {
 } from '../types/encounters'
 import { PublicUser } from '../types/user'
 
-export async function fetchEncountersForMap(
-  limit = 10, // items per page
-  offset = 0
-): Promise<Encounter[]> {
+export async function fetchEncountersForMap(): Promise<Encounter[]> {
   // Simulate async DB call
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(dummyEncounters.slice(offset, offset + limit))
+      resolve(dummyEncounters)
     }, 500) // optional artificial delay
   })
 }
