@@ -6,7 +6,7 @@ import {
 } from '@heroicons/react/24/outline'
 export const Navbar = () => {
   return (
-    <div className="flex items-center gap-4 p-4 bg-gray-900 w-full h-14">
+    <div className="flex items-center gap-4 p-4 w-full h-14 fixed top-0 z-10 shadow-md bg-white">
       {/* Left side */}
       <div className="flex items-center gap-4">
         <button>

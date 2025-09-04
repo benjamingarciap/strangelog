@@ -1,27 +1,13 @@
 import { fetchEncounters } from '../lib/data'
-import Image from 'next/image'
-import Link from 'next/link'
+
+import EncounterCard from '../ui/encounters/encounter-card'
 
 export default async function Encounters() {
   const encounters = await fetchEncounters()
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center pt-14">
       {encounters.map((encounter) => (
-        <div key={encounter.id}>
-          <Link href={`/encounters/${encounter.id}`}>
-            <h2>{encounter.title}</h2>
-            <p>{encounter.content}</p>
-            {encounter.media.map((item) => (
-              <Image
-                alt={item}
-                key={item}
-                src={item}
-                width={400}
-                height={300}
-              />
-            ))}
-          </Link>
-        </div>
+        <EncounterCard encounter={encounter} key={encounter.id} />
       ))}
     </div>
   )
