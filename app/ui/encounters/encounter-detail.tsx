@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation'
 import {
   Encounter,
   EncounterWithUser,
@@ -13,7 +14,7 @@ import {
 export default function EncounterDetail({
   encounter,
 }: {
-  encounter: EncounterWithUser & { comments: CommentWithUser[] }
+  encounter: EncounterWithUser
 }) {
   const {
     title,
@@ -27,7 +28,11 @@ export default function EncounterDetail({
     date,
     comments,
   } = encounter
-  console.log('EncounterDetail render', encounter)
+  if (!encounter) {
+    notFound()
+  }
+  // console.log('EncounterDetail render', encounter)
+  // console.log('EncounterDetail comment', encounter.comments)
   return (
     <div className=" pt-12">
       <div className="flex max-w-4xl flex-col p-6 my-1.5 mx-1.5 rounded-2xl transition-colors duration-200">
@@ -62,6 +67,7 @@ export default function EncounterDetail({
               width={800}
               height={600}
               className="w-full h-full object-cover"
+              priority
             />
           </div>
         ))}

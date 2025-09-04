@@ -50,6 +50,7 @@ export default function EncounterCard({
                 width={800}
                 height={600}
                 className="w-full h-full object-cover"
+                priority
               />
             </div>
           ))}
