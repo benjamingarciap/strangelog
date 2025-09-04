@@ -7,6 +7,18 @@ import {
 } from '../types/encounters'
 import { PublicUser } from '../types/user'
 
+export async function fetchEncountersForMap(
+  limit = 10, // items per page
+  offset = 0
+): Promise<Encounter[]> {
+  // Simulate async DB call
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(dummyEncounters.slice(offset, offset + limit))
+    }, 500) // optional artificial delay
+  })
+}
+
 export async function fetchEncounters(
   limit = 10, // items per page
   offset = 0
@@ -36,7 +48,7 @@ export async function fetchEncounterById(
     setTimeout(() => {
       const enriched = dummyEncounters.find((enc) => enc.id === Number(id))
       if (!enriched) return resolve(undefined)
-      const withUser = {
+      const withUser: EncounterWithUser = {
         ...enriched,
         creator: dummyUsers.find((u) => u.id === enriched!.creatorId)!,
         comments: enriched!.comments.map((c) => ({

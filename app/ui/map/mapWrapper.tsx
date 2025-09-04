@@ -1,6 +1,8 @@
 'use client'
 import dynamic from 'next/dynamic'
-import Map from './map'
+// import Map from './map'
+
+const Map = dynamic(() => import('./map'), { ssr: false })
 
 export default function MapWrapper({ encounters }: { encounters: any[] }) {
   return (

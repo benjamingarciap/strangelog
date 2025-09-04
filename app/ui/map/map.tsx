@@ -8,7 +8,6 @@ import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import 'leaflet-defaulticon-compatibility'
 import { useRef, useEffect } from 'react'
-
 import { Encounter } from '../../types/encounters'
 
 export default function Map({ encounters }: { encounters: Encounter[] }) {
@@ -18,7 +17,7 @@ export default function Map({ encounters }: { encounters: Encounter[] }) {
       mapRef.current.invalidateSize()
     }
   }, [])
-  console.log(encounters)
+  // console.log(encounters)
 
   return (
     <MapContainer
@@ -37,7 +36,7 @@ export default function Map({ encounters }: { encounters: Encounter[] }) {
           key={encounter.id}
           position={[encounter.location.lat, encounter.location.lng]}
         >
-          {console.log('Marker content:', encounter.content)}
+          {/* {console.log('Marker content:', encounter.content)} */}
           <Popup>
             <strong>👻{encounter.title}</strong>
             <p>{encounter.content}</p>
