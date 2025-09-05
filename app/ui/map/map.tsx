@@ -1,5 +1,5 @@
 'use client'
-
+import React from 'react'
 import { Marker } from 'react-leaflet'
 import { Popup } from 'react-leaflet'
 import { TileLayer } from 'react-leaflet/TileLayer'
@@ -11,7 +11,11 @@ import { useRef, useEffect } from 'react'
 import { Encounter } from '../../types/encounters'
 import L from 'leaflet'
 
-export default function Map({ encounters }: { encounters: Encounter[] }) {
+export default function Map({
+  encounters,
+}: {
+  encounters: Encounter[]
+}): React.ReactElement {
   const mapRef = useRef<L.Map | null>(null)
   useEffect(() => {
     if (mapRef.current) {

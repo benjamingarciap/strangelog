@@ -1,10 +1,11 @@
+import React from 'react'
 import Link from 'next/link'
 import {
   MagnifyingGlassIcon,
   MapPinIcon,
   Bars3Icon,
 } from '@heroicons/react/24/outline'
-export const Navbar = () => {
+export const Navbar = (): React.ReactElement => {
   return (
     <div className="flex items-center gap-4 p-4 w-full h-14 fixed top-0 z-10 shadow-md bg-white">
       {/* Left side */}

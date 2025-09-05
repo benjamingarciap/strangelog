@@ -1,3 +1,4 @@
+import React from 'react'
 import { EncounterWithUser } from '../../types/encounters'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -11,7 +12,7 @@ export default function EncounterCard({
   encounter,
 }: {
   encounter: EncounterWithUser
-}) {
+}): React.ReactElement {
   const { title, content, evidence, media, likes, creator, comments } =
     encounter
 

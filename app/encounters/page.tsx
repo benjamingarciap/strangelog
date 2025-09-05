@@ -1,8 +1,9 @@
 import { fetchEncounters } from '../lib/data'
+import React from 'react'
 
 import EncounterCard from '../ui/encounters/encounter-card'
 
-export default async function Encounters() {
+export default async function Encounters(): Promise<React.ReactElement> {
   const encounters = await fetchEncounters()
   return (
     <div className="flex flex-col items-center justify-center pt-14">

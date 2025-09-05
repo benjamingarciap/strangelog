@@ -2,9 +2,11 @@ import { EncounterWithUser } from '../../types/encounters'
 import { notFound } from 'next/navigation'
 import { fetchEncounterById } from '@/app/lib/data'
 import EncounterDetail from '../../ui/encounters/encounter-detail'
+import React from 'react'
 
-// This is your dynamic route page
-export default async function Page(props: { params: Promise<{ id: string }> }) {
+export default async function Page(props: {
+  params: Promise<{ id: string }>
+}): Promise<React.ReactElement> {
   const params = await props.params
   const { id } = params
   // console.log('Fetching encounter with ID:', id)

@@ -1,3 +1,4 @@
+import React from 'react'
 import { notFound } from 'next/navigation'
 import { EncounterWithUser } from '../../types/encounters'
 import Image from 'next/image'
@@ -11,7 +12,7 @@ export default function EncounterDetail({
   encounter,
 }: {
   encounter: EncounterWithUser
-}) {
+}): React.ReactElement {
   const {
     title,
     content,
