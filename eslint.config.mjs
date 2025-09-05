@@ -2,8 +2,28 @@ import js from '@eslint/js'
 import tsPlugin from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
 import globals from 'globals'
+import { defineConfig } from 'eslint/config' // optional but structured
 
-export default [
+export default defineConfig([
+  // Global ignore block
+  {
+    ignores: [
+      'node_modules/**',
+      '.next/**',
+      'out/**',
+      'build/**',
+      'static/**',
+      'types/**',
+      '*.config.*',
+      '*.manifest.*',
+      'prisma/**',
+      'app/generated/**',
+      'scripts/**',
+      'public/**',
+      '**/*.d.ts',
+    ],
+  },
+
   js.configs.recommended,
 
   // TypeScript files
@@ -41,26 +61,7 @@ export default [
       },
     },
     rules: {
-      // JS-specific rules
+      // JS-specific rules here if any
     },
   },
-
-  // Ignore patterns
-  {
-    ignores: [
-      'node_modules/**',
-      '.next/**',
-      'out/**',
-      'build/**',
-      'static/**',
-      'types/**',
-      '*.config.*',
-      '*.manifest.*',
-      'prisma/**',
-      'app/generated/**',
-      'scripts/**',
-      'public/**',
-      '**/*.d.ts',
-    ],
-  },
-]
+])
