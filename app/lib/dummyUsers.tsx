@@ -1,7 +1,7 @@
 // data/dummyUsers.ts
-import { PublicUser } from '../types/user'
+import { User } from '../types/user'
 
-export const dummyUsers: PublicUser[] = [
+export const dummyUsers: User[] = [
   {
     id: 1,
     username: 'user123',
