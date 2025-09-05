@@ -52,5 +52,6 @@ export interface Encounter {
 // a derived type
 export type EncounterWithUser = Encounter & {
   creator: PublicUser
-  comments: CommentWithUser[]
+  // comments: CommentWithUser[]
+  commentsWithUser: CommentWithUser[]
 }

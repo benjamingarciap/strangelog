@@ -28,7 +28,7 @@ export async function fetchEncounters(
         .map((enc) => ({
           ...enc,
           creator: dummyUsers.find((u) => u.id === enc.creatorId)!,
-          comments: enc.comments.map((c) => ({
+          commentsWithUser: enc.comments.map((c) => ({
             ...c,
             author: dummyUsers.find((u) => u.id === c.authorId)!,
           })) as CommentWithUser[],
@@ -48,7 +48,7 @@ export async function fetchEncounterById(
       const withUser: EncounterWithUser = {
         ...enriched,
         creator: dummyUsers.find((u) => u.id === enriched!.creatorId)!,
-        comments: enriched!.comments.map((c) => ({
+        commentsWithUser: enriched!.comments.map((c) => ({
           ...c,
           author: dummyUsers.find((u) => u.id === c.authorId)!,
         })) as CommentWithUser[],

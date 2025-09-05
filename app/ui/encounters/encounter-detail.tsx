@@ -12,13 +12,20 @@ export default function EncounterDetail({
 }: {
   encounter: EncounterWithUser
 }) {
-  const { title, content, evidence, media, creator, likes, comments } =
-    encounter
+  const {
+    title,
+    content,
+    evidence,
+    media,
+    creator,
+    likes,
+    comments,
+    commentsWithUser,
+  } = encounter
   if (!encounter) {
     notFound()
   }
-  // console.log('EncounterDetail render', encounter)
-  // console.log('EncounterDetail comment', encounter.comments)
+
   return (
     <div className=" pt-12">
       <div className="flex max-w-4xl flex-col p-6 my-1.5 mx-1.5 rounded-2xl transition-colors duration-200">
@@ -84,7 +91,7 @@ export default function EncounterDetail({
           />
         </div>
         <div className="flex flex-col gap-4 mt-6">
-          {comments.map((comment) => (
+          {commentsWithUser.map((comment) => (
             <div key={comment.id}>
               <p className="font-semibold capitalize">
                 {comment.author?.username ?? 'Unknown'}
