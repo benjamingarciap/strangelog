@@ -1,4 +1,6 @@
-import { PublicUser } from './user'
+// types.ts
+
+import { PublicUser, ConfidenceLevel } from './user'
 
 export type UapShape = 'Disc' | 'Triangle' | 'Cylinder' | 'Sphere'
 
@@ -21,16 +23,27 @@ export type EvidenceTag =
   | 'EM interference'
   | 'Physiological effects'
 
+// ----------------------
+// Comments
+// ----------------------
 export interface Comment {
   id: number
   authorId: number
   content: string
   date: string
-}
-export type CommentWithUser = Comment & {
-  author: PublicUser
+  parentId?: number // points to another Comment if it's a reply
+  // replies only exists in enriched/comment-with-user form
+  replies?: Comment[]
 }
 
+export type CommentWithUser = Comment & {
+  author: PublicUser
+  replies?: CommentWithUser[] // nested replies
+}
+
+// ----------------------
+// Encounters
+// ----------------------
 export interface Encounter {
   id: number
   title: string
@@ -41,16 +54,31 @@ export interface Encounter {
   }
   evidence: EvidenceTag[]
   category: EncounterCategory
-  date: string // could use Date if you want to parse it
+  date: string // could use Date if you parse it
   media: string[] // array of URLs
-  likes: number
-  dislikes: number
-  comments: Comment[]
+  likes: number // count of likes
+  dislikes: number // count of dislikes
+  comments: Comment[] // raw comments (DB)
   creatorId: number
 }
 
-// a derived type
+// enriched encounter with user info and comments
 export type EncounterWithUser = Encounter & {
   creator: PublicUser
   commentsWithUser: CommentWithUser[]
+}
+
+// ----------------------
+// Reactions & Confidence (for full CRUD backend)
+// ----------------------
+export interface Reaction {
+  userId: number
+  encounterId: number
+  type: 'LIKE' | 'DISLIKE'
+}
+
+export interface Confidence {
+  userId: number
+  encounterId: number
+  level: ConfidenceLevel
 }

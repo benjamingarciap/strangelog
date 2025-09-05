@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// ----------------------
+// Users
+// ----------------------
+model User {
+  id                Int          @id @default(autoincrement())
+  username          String       @unique
+  email             String       @unique
+  passwordHash      String
+  createdAt         DateTime     @default(now())
+  avatarUrl         String?
+  confidenceLevel   Int          // 1–5
+  bio               String?
+  
+  encounters        Encounter[]  // encounters created by user
+  comments          Comment[]    // comments authored
+  reactions         Reaction[]   // likes/dislikes
+  confidences       Confidence[] // confidence votes
+}
+
+// ----------------------
+// Encounters
+// ----------------------
+model Encounter {
+  id          Int        @id @default(autoincrement())
+  title       String
+  content     String
+  category    String
+  locationLat Float
+  locationLng Float
+  media       String[]   // array of URLs
+  evidence    String[]   // EvidenceTag[]
+  date        DateTime   @default(now())
+  likes       Int        @default(0)
+  dislikes    Int        @default(0)
+  creator     User       @relation(fields: [creatorId], references: [id])
+  creatorId   Int
+  comments    Comment[]
+  reactions   Reaction[]
+  confidences Confidence[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+// ----------------------
+// Comments (with nested replies)
+// ----------------------
+model Comment {
+  id          Int        @id @default(autoincrement())
+  content     String
+  date        DateTime   @default(now())
+  
+  author      User       @relation(fields: [authorId], references: [id])
+  authorId    Int
+  
+  encounter   Encounter  @relation(fields: [encounterId], references: [id])
+  encounterId Int
+
+  parent      Comment?   @relation("CommentReplies", fields: [parentId], references: [id])
+  parentId    Int?
+  replies     Comment[]  @relation("CommentReplies")
+}
+
+// ----------------------
+// Reactions
+// ----------------------
+model Reaction {
+  id          Int        @id @default(autoincrement())
+  type        ReactionType
+  user        User       @relation(fields: [userId], references: [id])
+  userId      Int
+  encounter   Encounter  @relation(fields: [encounterId], references: [id])
+  encounterId Int
+
+  @@unique([userId, encounterId]) // one reaction per user per encounter
+}
+
+enum ReactionType {
+  LIKE
+  DISLIKE
+}
+
+// ----------------------
+// Confidence votes
+// ----------------------
+model Confidence {
+  id          Int       @id @default(autoincrement())
+  level       Int       // 1–5
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+  encounter   Encounter @relation(fields: [encounterId], references: [id])
+  encounterId Int
+
+  @@unique([userId, encounterId]) // one vote per user per encounter
+}

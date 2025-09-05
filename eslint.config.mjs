@@ -56,6 +56,11 @@ export default [
       'types/**',
       '*.config.*',
       '*.manifest.*',
+      'prisma/**',
+      'app/generated/**',
+      'scripts/**',
+      'public/**',
+      '**/*.d.ts',
     ],
   },
 ]

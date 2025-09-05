@@ -18,7 +18,7 @@ export default function EncounterCard({
 
   return (
     <Link href={`/encounters/${encounter.id}`} className="flex flex-col">
-      <div className="border-b border-gray-300">
+      <div className="border-b border-gray-300 max-w-sm mx-auto">
         <div className="flex max-w-4xl flex-col p-6 my-1.5 mx-1.5 rounded-2xl hover:bg-gray-100 transition-colors duration-200">
           <h2 className="capitalize font-semibold text-gray-700">
             {creator.username}

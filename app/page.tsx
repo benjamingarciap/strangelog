@@ -7,8 +7,8 @@ export default async function Home(): Promise<React.ReactElement> {
   const encounters = await fetchEncountersForMap()
   return (
     <div className="flex flex-row justify-center gap-10 w-full max-w-7xl">
-      <Encounters />
       <MapWrapper encounters={encounters} />
+      <Encounters />
     </div>
   )
 }

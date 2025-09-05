@@ -6,7 +6,7 @@ import EncounterCard from '../ui/encounters/encounter-card'
 export default async function Encounters(): Promise<React.ReactElement> {
   const encounters = await fetchEncounters()
   return (
-    <div className="flex flex-col items-center justify-center pt-14">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pt-14">
       {encounters.map((encounter) => (
         <EncounterCard encounter={encounter} key={encounter.id} />
       ))}
