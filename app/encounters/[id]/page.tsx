@@ -5,7 +5,7 @@ import EncounterDetail from '../../ui/encounters/encounter-detail'
 
 // This is your dynamic route page
 export default async function Page({ params }: { params: { id: string } }) {
-  const { id } = await params
+  const { id } = params
   // console.log('Fetching encounter with ID:', id)
   const encounter = await fetchEncounterById(id)
   if (!encounter) {
