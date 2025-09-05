@@ -36,3 +36,4 @@ export async function GET(): Promise<NextResponse> {
     )
   }
 }
+console.log('route loaded', GET())
