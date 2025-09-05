@@ -1,4 +1,4 @@
-import { Encounter, EncounterWithUser } from '../../types/encounters'
+import { EncounterWithUser } from '../../types/encounters'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -16,9 +16,9 @@ export default function EncounterCard({
     encounter
 
   return (
-    <div className="border-b border-gray-300">
-      <div className="flex max-w-4xl flex-col p-6 my-1.5 mx-1.5 rounded-2xl hover:bg-gray-100 transition-colors duration-200">
-        <Link href={`/encounters/${encounter.id}`} className="flex flex-col">
+    <Link href={`/encounters/${encounter.id}`} className="flex flex-col">
+      <div className="border-b border-gray-300">
+        <div className="flex max-w-4xl flex-col p-6 my-1.5 mx-1.5 rounded-2xl hover:bg-gray-100 transition-colors duration-200">
           <h2 className="capitalize font-semibold text-gray-700">
             {creator.username}
           </h2>
@@ -54,23 +54,23 @@ export default function EncounterCard({
               />
             </div>
           ))}
-        </Link>
-        <div className="flex gap-9">
-          <div className="comments flex gap-1 hover:bg-gray-300">
-            <ChatBubbleBottomCenterTextIcon className="w-6 h-6" />
-            {comments.length}
-          </div>
-          <div className="likes flex gap-1">
-            <button className="hover:bg-gray-300">
-              <ArrowDownIcon className="w-6 h-6" />
-            </button>
-            <span>{likes}</span>
-            <button className="hover:bg-gray-300">
-              <ArrowUpIcon className="w-6 h-6" />
-            </button>
+          <div className="flex gap-9">
+            <div className="comments flex gap-1 hover:bg-gray-300">
+              <ChatBubbleBottomCenterTextIcon className="w-6 h-6" />
+              {comments.length}
+            </div>
+            <div className="likes flex gap-1">
+              <button className="hover:bg-gray-300">
+                <ArrowDownIcon className="w-6 h-6" />
+              </button>
+              <span>{likes}</span>
+              <button className="hover:bg-gray-300">
+                <ArrowUpIcon className="w-6 h-6" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

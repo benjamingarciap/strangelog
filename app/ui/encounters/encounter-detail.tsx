@@ -1,9 +1,5 @@
 import { notFound } from 'next/navigation'
-import {
-  Encounter,
-  EncounterWithUser,
-  CommentWithUser,
-} from '../../types/encounters'
+import { EncounterWithUser } from '../../types/encounters'
 import Image from 'next/image'
 import {
   ArrowUpIcon,
@@ -16,18 +12,8 @@ export default function EncounterDetail({
 }: {
   encounter: EncounterWithUser
 }) {
-  const {
-    title,
-    content,
-    evidence,
-    media,
-    creatorId,
-    creator,
-    likes,
-    dislikes,
-    date,
-    comments,
-  } = encounter
+  const { title, content, evidence, media, creator, likes, comments } =
+    encounter
   if (!encounter) {
     notFound()
   }

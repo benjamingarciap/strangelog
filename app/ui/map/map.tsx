@@ -9,9 +9,10 @@ import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import 'leaflet-defaulticon-compatibility'
 import { useRef, useEffect } from 'react'
 import { Encounter } from '../../types/encounters'
+import L from 'leaflet'
 
 export default function Map({ encounters }: { encounters: Encounter[] }) {
-  const mapRef = useRef<any>(null)
+  const mapRef = useRef<L.Map | null>(null)
   useEffect(() => {
     if (mapRef.current) {
       mapRef.current.invalidateSize()

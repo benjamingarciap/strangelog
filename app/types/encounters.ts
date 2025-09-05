@@ -22,7 +22,6 @@ export type EvidenceTag =
   | 'Physiological effects'
 
 export interface Comment {
-  [x: string]: any // index signature to allow extra fields while checking for errors
   id: number
   authorId: number
   content: string

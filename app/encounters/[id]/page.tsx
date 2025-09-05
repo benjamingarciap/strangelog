@@ -1,7 +1,6 @@
 import { EncounterWithUser } from '../../types/encounters'
 import { notFound } from 'next/navigation'
 import { fetchEncounterById } from '@/app/lib/data'
-import Image from 'next/image'
 import EncounterDetail from '../../ui/encounters/encounter-detail'
 
 // This is your dynamic route page
