@@ -1,5 +1,5 @@
 import React from 'react'
-import { EncounterWithUser } from '../../types/encounters'
+import { UIEnrichedEncounter } from '../../types/encounters'
 import Image from 'next/image'
 import Link from 'next/link'
 import {
@@ -11,7 +11,7 @@ import {
 export default function EncounterCard({
   encounter,
 }: {
-  encounter: EncounterWithUser
+  encounter: UIEnrichedEncounter
 }): React.ReactElement {
   const { title, content, evidence, media, likes, creator, comments } =
     encounter

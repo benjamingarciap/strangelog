@@ -1,79 +1,71 @@
-import { dummyEncounters } from './dummyEncounters'
-import { dummyUsers } from './dummyUsers'
+import prisma from '@/lib/prisma'
 import {
-  Encounter,
-  EncounterWithUser,
-  CommentWithUser,
+  Encounter as EncounterDB,
+  Comment as CommentDB,
+} from '../generated/prisma'
+import {
+  UIEvidenceTag,
+  UIEncounterCategory,
+  UIEnrichedEncounter,
 } from '../types/encounters'
-import { PublicUser } from '../types/user'
 
-export async function fetchEncountersForMap(): Promise<Encounter[]> {
-  // Simulate async DB call
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(dummyEncounters)
-    }, 500) // optional artificial delay
-  })
+// Enriched types with related data
+
+type EnrichedEncounter = EncounterDB & {
+  creator: { avatarUrl: string | null; username: string }
+  comments: (CommentDB & {
+    author: { avatarUrl: string | null; username: string }
+  })[]
 }
 
-export async function fetchEncounters(
-  limit = 10, // items per page
-  offset = 0
-): Promise<EncounterWithUser[]> {
-  // Simulate async DB call
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const enriched: EncounterWithUser[] = dummyEncounters
-        .slice(offset, offset + limit)
-        .map((enc) => ({
-          ...enc,
-          creator: dummyUsers.find((u) => u.id === enc.creatorId)!,
-          commentsWithUser: enc.comments.map((c) => ({
-            ...c,
-            author: dummyUsers.find((u) => u.id === c.authorId)!,
-          })) as CommentWithUser[],
-        }))
-      resolve(enriched)
-    }, 500) // optional artificial delay
+// Fetch all encounters with creator and comments
+
+export async function fetchEncountersFromDB(): Promise<UIEnrichedEncounter[]> {
+  const encounters: EnrichedEncounter[] = await prisma.encounter.findMany({
+    include: {
+      creator: { select: { avatarUrl: true, username: true } },
+      comments: {
+        include: { author: { select: { avatarUrl: true, username: true } } },
+      },
+    },
   })
+
+  console.log('Fetched encounters from DB:', encounters)
+  return encounters.map((encounter) => ({
+    ...encounter,
+    location: {
+      lat: encounter.locationLat,
+      lng: encounter.locationLng,
+    },
+    evidence: encounter.evidence as UIEvidenceTag[],
+    category: encounter.category as UIEncounterCategory,
+  }))
 }
 
 export async function fetchEncounterById(
-  id: string
-): Promise<EncounterWithUser | undefined> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const enriched = dummyEncounters.find((enc) => enc.id === Number(id))
-      if (!enriched) return resolve(undefined)
-      const withUser: EncounterWithUser = {
-        ...enriched,
-        creator: dummyUsers.find((u) => u.id === enriched!.creatorId)!,
-        commentsWithUser: enriched!.comments.map((c) => ({
-          ...c,
-          author: dummyUsers.find((u) => u.id === c.authorId)!,
-        })) as CommentWithUser[],
-      }
-      resolve(withUser)
-    }, 300)
-  })
-}
+  id: UIEnrichedEncounter['id']
+): Promise<UIEnrichedEncounter | null> {
+  const encounter: EnrichedEncounter | null = await prisma.encounter.findUnique(
+    {
+      where: { id },
+      include: {
+        creator: { select: { avatarUrl: true, username: true } },
+        comments: {
+          include: { author: { select: { avatarUrl: true, username: true } } },
+        },
+      },
+    }
+  )
+  if (!encounter) return null
 
-export async function fetchEncountersByCategory(
-  category: string
-): Promise<Encounter[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(dummyEncounters.filter((enc) => enc.category === category))
-    }, 300)
-  })
-}
-
-export async function fetchUserById(
-  id: number
-): Promise<PublicUser | undefined> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(dummyUsers.find((user) => user.id === id))
-    }, 300)
-  })
+  console.log('Fetched encounter from DB:', encounter)
+  return {
+    ...encounter,
+    location: {
+      lat: encounter.locationLat,
+      lng: encounter.locationLng,
+    },
+    evidence: encounter.evidence as UIEvidenceTag[],
+    category: encounter.category as UIEncounterCategory,
+  }
 }

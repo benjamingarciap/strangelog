@@ -1,6 +1,6 @@
 import React from 'react'
 import { notFound } from 'next/navigation'
-import { EncounterWithUser } from '../../types/encounters'
+import { UIEnrichedEncounter } from '../../types/encounters'
 import Image from 'next/image'
 import {
   ArrowUpIcon,
@@ -11,18 +11,10 @@ import {
 export default function EncounterDetail({
   encounter,
 }: {
-  encounter: EncounterWithUser
+  encounter: UIEnrichedEncounter
 }): React.ReactElement {
-  const {
-    title,
-    content,
-    evidence,
-    media,
-    creator,
-    likes,
-    comments,
-    commentsWithUser,
-  } = encounter
+  const { title, content, evidence, media, creator, likes, comments } =
+    encounter
   if (!encounter) {
     notFound()
   }
@@ -92,7 +84,7 @@ export default function EncounterDetail({
           />
         </div>
         <div className="flex flex-col gap-4 mt-6">
-          {commentsWithUser.map((comment) => (
+          {comments.map((comment) => (
             <div key={comment.id}>
               <p className="font-semibold capitalize">
                 {comment.author?.username ?? 'Unknown'}

@@ -8,13 +8,13 @@ import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import 'leaflet-defaulticon-compatibility'
 import { useRef, useEffect } from 'react'
-import { Encounter } from '../../types/encounters'
+import { UIEnrichedEncounter } from '../../types/encounters'
 import L from 'leaflet'
 
 export default function Map({
   encounters,
 }: {
-  encounters: Encounter[]
+  encounters: UIEnrichedEncounter[]
 }): React.ReactElement {
   const mapRef = useRef<L.Map | null>(null)
   useEffect(() => {
@@ -26,8 +26,8 @@ export default function Map({
 
   return (
     <MapContainer
-      center={[encounters[0].location.lat, encounters[0].location.lng]} // Madrid as default
-      zoom={8}
+      center={[encounters[61].location.lat, encounters[61].location.lng]} // Madrid as default
+      zoom={3}
       // style={{ height: '500px', width: '100%' }}
       className="w-full h-full"
       ref={mapRef}
