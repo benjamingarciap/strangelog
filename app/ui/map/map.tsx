@@ -64,7 +64,7 @@ export default function Map({
       center={[encounters[61].location.lat, encounters[61].location.lng]} // Madrid as default
       zoom={3}
       // style={{ height: '500px', width: '100%' }}
-      className="w-full h-full"
+      className="w-[400px] h-full"
       ref={mapRef}
     >
       <TileLayer

@@ -15,7 +15,7 @@ export default function MapWrapper({
 }): React.ReactElement {
   const setBounds = useMapStore((state) => state.setBounds)
   return (
-    <div className="w-1/4 h-200 pt-20 sticky top-0 z-10">
+    <div className="min-w-[400px] w-1/4 h-200 pt-20 sticky top-0 z-10">
       <Map encounters={encounters} onBoundsChange={setBounds} />
     </div>
   )

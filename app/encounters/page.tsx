@@ -5,7 +5,7 @@ import EncounterList from '../ui/encounters/encounter-list'
 export default async function Encounters(): Promise<React.ReactElement> {
   const encountersFromDB = await fetchEncountersFromDB()
   return (
-    <div>
+    <div className="w-full h-screen">
       <EncounterList encounters={encountersFromDB} />
     </div>
   )
