@@ -1,11 +1,16 @@
+'use client'
 import React from 'react'
+import { useSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
 import {
   MagnifyingGlassIcon,
   MapPinIcon,
   Bars3Icon,
 } from '@heroicons/react/24/outline'
+
+// Navbar component
 export const Navbar = (): React.ReactElement => {
+  const { data: session } = useSession()
   return (
     <div className="flex items-center gap-4 p-4 w-full h-14 fixed top-0 z-10 shadow-md bg-white">
       {/* Left side */}
@@ -32,7 +37,19 @@ export const Navbar = (): React.ReactElement => {
       {/* Right side */}
       <div className="flex items-center gap-2">
         <button>Create</button>
-        <button>Login</button>
+        {session ? (
+          <button
+            onClick={() => signOut({ callbackUrl: '/' })}
+            className="px-4 py-2 bg-red-500 text-white rounded"
+          >
+            Log Out
+          </button>
+        ) : (
+          <>
+            <Link href="/auth/signin">Signin</Link>
+            <Link href="/auth/signup">Signup</Link>
+          </>
+        )}
       </div>
     </div>
   )
