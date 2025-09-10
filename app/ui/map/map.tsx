@@ -8,6 +8,7 @@ import {
   TileLayer,
   useMapEvents,
   MapContainer,
+  useMap,
 } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
@@ -21,6 +22,13 @@ function MapEventHandler({
 }: {
   onBoundsChange: (_b: LatLngBounds) => void
 }): null {
+  const map = useMap()
+  useEffect(() => {
+    // Initial bounds on mount
+    if (map) {
+      onBoundsChange(map.getBounds())
+    }
+  }, [map, onBoundsChange])
   useMapEvents({
     moveend: (event: L.LeafletEvent) => {
       const bounds = event.target.getBounds()

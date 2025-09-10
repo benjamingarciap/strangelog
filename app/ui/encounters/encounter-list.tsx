@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useMemo } from 'react'
 import EncounterCard from '../encounters/encounter-card'
 import { UIEnrichedEncounter } from '../../types/encounters'
 import { useMapStore } from '../../../stores/mapStore'
@@ -16,17 +16,21 @@ export default function EncounterList({
   console.log('BOUNDS: bounds?.getNorthEast() LAT', bounds?.getNorthEast().lat)
 
   // =========Filtering Encounters by Map Bounds=========
-  const visibleEncounters = bounds
-    ? encounters.filter((e) => {
-        const { lat, lng } = e.location
-        return (
-          lat <= bounds.getNorthEast().lat &&
-          lat >= bounds.getSouthWest().lat &&
-          lng <= bounds.getNorthEast().lng &&
-          lng >= bounds.getSouthWest().lng
-        )
-      })
-    : encounters
+  const visibleEncounters = useMemo(() => {
+    if (!bounds) return []
+    return encounters.filter((e) => {
+      const { lat, lng } = e.location
+      return (
+        lat <= bounds.getNorthEast().lat &&
+        lat >= bounds.getSouthWest().lat &&
+        lng <= bounds.getNorthEast().lng &&
+        lng >= bounds.getSouthWest().lng
+      )
+    })
+  }, [bounds, encounters])
+  if (!bounds) {
+    return <div>Loading map bounds...</div>
+  }
 
   // =========Rendering Encounter Cards=========
   return (
