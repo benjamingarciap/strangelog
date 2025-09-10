@@ -44,7 +44,7 @@ export default function EncounterCard({
           <p className="overflow-hidden text-ellipsis whitespace-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] mb-4">
             {content}
           </p>
-
+          {/* 
           {media.map((item) => (
             <div
               key={item}
@@ -59,7 +59,17 @@ export default function EncounterCard({
                 priority
               />
             </div>
-          ))}
+          ))} */}
+          <div className="w-full max-h-200 overflow-hidden rounded mb-4">
+            <Image
+              alt={media[0]}
+              src={media[0]}
+              width={800}
+              height={600}
+              className="w-full h-full object-cover"
+              priority
+            />
+          </div>
           <div className="flex gap-9">
             <div className="comments flex gap-1 hover:bg-gray-300">
               <ChatBubbleBottomCenterTextIcon className="w-6 h-6" />
