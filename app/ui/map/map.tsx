@@ -1,29 +1,56 @@
 'use client'
 import React from 'react'
-import { Marker } from 'react-leaflet'
-import { Popup } from 'react-leaflet'
-import { TileLayer } from 'react-leaflet/TileLayer'
-import { MapContainer } from 'react-leaflet/MapContainer'
+import { useRef, useEffect } from 'react'
+import L from 'leaflet'
+import {
+  Popup,
+  Marker,
+  TileLayer,
+  useMapEvents,
+  MapContainer,
+} from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import 'leaflet-defaulticon-compatibility'
-import { useRef, useEffect } from 'react'
+import type { LatLngBounds } from 'leaflet'
 import { UIEnrichedEncounter } from '../../types/encounters'
-import L from 'leaflet'
 
+// =========Map Event Handler=========
+function MapEventHandler({
+  onBoundsChange,
+}: {
+  onBoundsChange: (_b: LatLngBounds) => void
+}): null {
+  useMapEvents({
+    moveend: (event: L.LeafletEvent) => {
+      const bounds = event.target.getBounds()
+      // console.log('Map moved. New bounds:', bounds)
+      if (onBoundsChange) {
+        onBoundsChange(bounds) // Call the callback with new Bounds
+      }
+    },
+  })
+  return null
+}
+
+//=========Main Map Component=========
 export default function Map({
   encounters,
+  onBoundsChange,
 }: {
   encounters: UIEnrichedEncounter[]
+  onBoundsChange: (_b: LatLngBounds) => void
 }): React.ReactElement {
+  //=========Map Component=========
+
   const mapRef = useRef<L.Map | null>(null)
   useEffect(() => {
     if (mapRef.current) {
       mapRef.current.invalidateSize()
     }
   }, [])
-  // console.log(encounters)
 
+  // =========Rendering the Map=========
   return (
     <MapContainer
       center={[encounters[61].location.lat, encounters[61].location.lng]} // Madrid as default
@@ -36,6 +63,7 @@ export default function Map({
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
       />
+      <MapEventHandler onBoundsChange={onBoundsChange} />
       {encounters.map((encounter) => (
         <Marker
           key={encounter.id}

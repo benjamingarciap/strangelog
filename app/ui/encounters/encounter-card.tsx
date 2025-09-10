@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { UIEnrichedEncounter } from '../../types/encounters'
 import Image from 'next/image'
@@ -8,11 +9,15 @@ import {
   ChatBubbleBottomCenterTextIcon,
 } from '@heroicons/react/24/outline'
 
+//=========Encounter Card Component=========
+
 export default function EncounterCard({
   encounter,
 }: {
   encounter: UIEnrichedEncounter
 }): React.ReactElement {
+  // =========Using Map Store to Log Bounds=========
+
   const { title, content, evidence, media, likes, creator, comments } =
     encounter
 
