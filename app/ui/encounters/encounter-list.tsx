@@ -11,9 +11,9 @@ export default function EncounterList({
 }): React.ReactElement {
   // =========Using Map Store to get current bounds=========
   const bounds = useMapStore((state) => state.bounds)
-  console.log('Current map bounds in EncounterList:', bounds)
-  console.log('BOUNDS: bounds?.getNorthEast() ', bounds?.getNorthEast())
-  console.log('BOUNDS: bounds?.getNorthEast() LAT', bounds?.getNorthEast().lat)
+  // console.log('Current map bounds in EncounterList:', bounds)
+  // console.log('BOUNDS: bounds?.getNorthEast() ', bounds?.getNorthEast())
+  // console.log('BOUNDS: bounds?.getNorthEast() LAT', bounds?.getNorthEast().lat)
 
   // =========Filtering Encounters by Map Bounds=========
   const visibleEncounters = useMemo(() => {

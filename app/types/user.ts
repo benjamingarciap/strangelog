@@ -5,7 +5,7 @@
 export type ConfidenceLevel = 1 | 2 | 3 | 4 | 5
 
 // Full user (internal/backend)
-export interface User {
+export interface UIUser {
   id: number
   username: string
   email: string
@@ -20,4 +20,4 @@ export interface User {
 }
 
 // Public-facing user (safe to expose to client)
-export type PublicUser = Omit<User, 'passwordHash' | 'email'>
+export type PublicUser = Omit<UIUser, 'passwordHash' | 'email' | 'createdAt'>

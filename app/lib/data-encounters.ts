@@ -20,7 +20,7 @@ type EnrichedEncounter = EncounterDB & {
 
 // Fetch all encounters with creator and comments
 
-export async function fetchEncountersFromDB(): Promise<UIEnrichedEncounter[]> {
+export async function fetchEncounters(): Promise<UIEnrichedEncounter[]> {
   const encounters: EnrichedEncounter[] = await prisma.encounter.findMany({
     include: {
       creator: { select: { avatarUrl: true, username: true } },
@@ -30,7 +30,7 @@ export async function fetchEncountersFromDB(): Promise<UIEnrichedEncounter[]> {
     },
   })
 
-  console.log('Fetched encounters from DB:', encounters)
+  // console.log('Fetched encounters from DB:', encounters)
   return encounters.map((encounter) => ({
     ...encounter,
     location: {
@@ -58,7 +58,7 @@ export async function fetchEncounterById(
   )
   if (!encounter) return null
 
-  console.log('Fetched encounter from DB:', encounter)
+  // console.log('Fetched encounter from DB:', encounter)
   return {
     ...encounter,
     location: {

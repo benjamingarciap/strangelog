@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import { fetchEncounterById } from '@/app/lib/data'
+import { fetchEncounterById } from '@/app/lib/data-encounters'
 import EncounterDetail from '../../ui/encounters/encounter-detail'
 import React from 'react'
 
