@@ -1,19 +1,79 @@
 import prisma from '@/lib/prisma'
 import { User as UserDB } from '../generated/prisma'
+import {
+  UIEncounterCategory,
+  UIEnrichedEncounter,
+  UIEvidenceTag,
+} from '../types/encounters'
 
-export async function fetchUserById(id: number): Promise<UserDB | null> {
-  const user: UserDB | null = await prisma.user.findUnique({
+// ----------------------
+// type definitions
+// ----------------------
+
+export type EnrichedUser = UserDB & {
+  encounters: UIEnrichedEncounter[]
+  reactions: { id: number; type: 'like' | 'dislike' }[]
+}
+export type PublicEnrichedUser = Omit<
+  EnrichedUser,
+  'passwordHash' | 'createdAt'
+>
+// ----------------------
+
+// Fetch user by ID, including their encounters and reactions
+
+export async function fetchUserById(
+  id: number
+): Promise<PublicEnrichedUser | null> {
+  const user = await prisma.user.findUnique({
     where: { id },
-    include: {
-      encounters: true,
+    select: {
+      id: true,
+      username: true,
+      email: true,
+      avatarUrl: true,
+      bio: true,
+      confidenceLevel: true,
+      encounters: {
+        include: {
+          comments: true,
+        },
+      },
       reactions: {
         select: { id: true, type: true },
       },
     },
   })
-  if (user) {
-    return user
-  }
 
-  return null
+  if (!user) return null // User not found
+
+  return {
+    // return public user data
+    ...user,
+    encounters: user.encounters.map((encounter) => ({
+      creator: user,
+      id: encounter.id,
+      title: encounter.title,
+      content: encounter.content,
+      evidence: encounter.evidence as UIEvidenceTag[],
+      location: {
+        lat: encounter.locationLat,
+        lng: encounter.locationLng,
+      },
+      category: encounter.category as UIEncounterCategory,
+      date: encounter.date,
+      media: encounter.media,
+      likes: encounter.likes,
+      dislikes: encounter.dislikes,
+      comments: encounter.comments.map((comment) => ({
+        ...comment,
+        author: user,
+      })),
+      creatorId: encounter.creatorId,
+    })),
+    reactions: user.reactions.map((reaction) => ({
+      id: reaction.id,
+      type: reaction.type.toLowerCase() as 'like' | 'dislike',
+    })),
+  }
 }

@@ -7,10 +7,12 @@ import {
   MapPinIcon,
   Bars3Icon,
 } from '@heroicons/react/24/outline'
+import { useUserStore } from '../../stores/userStore'
 
 // Navbar component
 export const Navbar = (): React.ReactElement => {
   const { data: session } = useSession()
+  const user = useUserStore((state) => state.user)
   return (
     <div className="flex items-center gap-4 p-4 w-full h-14 fixed top-0 z-10 shadow-md bg-white">
       {/* Left side */}
@@ -36,10 +38,10 @@ export const Navbar = (): React.ReactElement => {
       </div>
       {/* Right side */}
       <div className="flex items-center gap-2">
-        {session ? (
+        {session && user ? (
           <>
             <button>Create</button>
-            <Link href="/api/auth/me">Profile</Link>
+            <Link href={`/users/${user.id}`}>Profile</Link>
             <button
               onClick={() => signOut({ callbackUrl: '/' })}
               className="px-4 py-2 bg-red-500 text-white rounded"

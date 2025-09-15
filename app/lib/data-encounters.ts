@@ -1,22 +1,10 @@
 import prisma from '@/lib/prisma'
 import {
-  Encounter as EncounterDB,
-  Comment as CommentDB,
-} from '../generated/prisma'
-import {
   UIEvidenceTag,
   UIEncounterCategory,
   UIEnrichedEncounter,
+  EnrichedEncounter,
 } from '../types/encounters'
-
-// Enriched types with related data
-
-type EnrichedEncounter = EncounterDB & {
-  creator: { avatarUrl: string | null; username: string }
-  comments: (CommentDB & {
-    author: { avatarUrl: string | null; username: string }
-  })[]
-}
 
 // Fetch all encounters with creator and comments
 

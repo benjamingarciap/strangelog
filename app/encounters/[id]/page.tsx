@@ -6,6 +6,8 @@ import React from 'react'
 export default async function Page(props: {
   params: Promise<{ id: string }>
 }): Promise<React.ReactElement> {
+  // Fetch encounter data based on ID from params
+
   const params = await props.params
   const id = parseInt(params.id, 10)
   const encounter = await fetchEncounterById(id)

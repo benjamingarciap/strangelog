@@ -1,6 +1,10 @@
 // types.ts
 
 import { ConfidenceLevel } from './user'
+import {
+  Encounter as EncounterDB,
+  Comment as CommentDB,
+} from '../generated/prisma'
 
 export type UapShape = 'Disc' | 'Triangle' | 'Cylinder' | 'Sphere'
 
@@ -60,6 +64,13 @@ export interface UIEncounter {
 export type UIEnrichedEncounter = Omit<UIEncounter, 'comments'> & {
   creator: { avatarUrl: string | null; username: string }
   comments: (UIComment & {
+    author: { avatarUrl: string | null; username: string }
+  })[]
+}
+// Enriched types with related data
+export type EnrichedEncounter = EncounterDB & {
+  creator: { avatarUrl: string | null; username: string }
+  comments: (CommentDB & {
     author: { avatarUrl: string | null; username: string }
   })[]
 }
