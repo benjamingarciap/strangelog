@@ -3,8 +3,8 @@ import React from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
 import {
-  MagnifyingGlassIcon,
-  MapPinIcon,
+  // MagnifyingGlassIcon,
+  // MapPinIcon,
   Bars3Icon,
 } from '@heroicons/react/24/outline'
 import { useUserStore } from '../../stores/userStore'
@@ -21,19 +21,20 @@ export const Navbar = (): React.ReactElement => {
           <Bars3Icon className="w-6 h-6" />
         </button>
         <Link href="/">
-          <MapPinIcon className="w-6 h-6" />
+          {/* <MapPinIcon className="w-6 h-6" /> */}
+          STRANGELOG
         </Link>
       </div>
       {/* Center input */}
       <div className="flex-1 flex justify-center">
         <div className="relative w-1/2 min-w-[120px]">
-          <input
+          {/* <input
             name="search"
             type="text"
             className="border border-gray-300 rounded-md p-2 h-6 pl-8 w-full"
             placeholder="Search..."
           />
-          <MagnifyingGlassIcon className="absolute left-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <MagnifyingGlassIcon className="absolute left-2 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" /> */}
         </div>
       </div>
       {/* Right side */}

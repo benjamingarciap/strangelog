@@ -11,9 +11,11 @@ import {
 export async function fetchEncounters(): Promise<UIEnrichedEncounter[]> {
   const encounters: EnrichedEncounter[] = await prisma.encounter.findMany({
     include: {
-      creator: { select: { avatarUrl: true, username: true } },
+      creator: { select: { avatarUrl: true, username: true, id: true } },
       comments: {
-        include: { author: { select: { avatarUrl: true, username: true } } },
+        include: {
+          author: { select: { avatarUrl: true, username: true, id: true } },
+        },
       },
     },
   })
@@ -37,9 +39,11 @@ export async function fetchEncounterById(
     {
       where: { id },
       include: {
-        creator: { select: { avatarUrl: true, username: true } },
+        creator: { select: { avatarUrl: true, username: true, id: true } },
         comments: {
-          include: { author: { select: { avatarUrl: true, username: true } } },
+          include: {
+            author: { select: { avatarUrl: true, username: true, id: true } },
+          },
         },
       },
     }

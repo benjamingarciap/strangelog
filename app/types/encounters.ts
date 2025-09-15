@@ -62,16 +62,16 @@ export interface UIEncounter {
 }
 
 export type UIEnrichedEncounter = Omit<UIEncounter, 'comments'> & {
-  creator: { avatarUrl: string | null; username: string }
+  creator: { avatarUrl: string | null; username: string; id: number }
   comments: (UIComment & {
-    author: { avatarUrl: string | null; username: string }
+    author: { avatarUrl: string | null; username: string; id: number }
   })[]
 }
 // Enriched types with related data
 export type EnrichedEncounter = EncounterDB & {
-  creator: { avatarUrl: string | null; username: string }
+  creator: { avatarUrl: string | null; username: string; id: number }
   comments: (CommentDB & {
-    author: { avatarUrl: string | null; username: string }
+    author: { avatarUrl: string | null; username: string; id: number }
   })[]
 }
 

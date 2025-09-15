@@ -7,6 +7,7 @@ import {
   ArrowDownIcon,
   ChatBubbleBottomCenterTextIcon,
 } from '@heroicons/react/24/outline'
+import Link from 'next/link'
 
 export default function EncounterDetail({
   encounter,
@@ -22,10 +23,12 @@ export default function EncounterDetail({
   return (
     <div className=" pt-12">
       <div className="flex max-w-4xl flex-col p-6 my-1.5 mx-1.5 rounded-2xl transition-colors duration-200">
-        <h2 className="capitalize font-semibold text-gray-700">
-          {creator?.username ?? 'Unknown'}
-        </h2>
-        <h3 className="text-xl font-semibold mb-2">{title}</h3>
+        <Link href={`/users/${creator.id}`}>
+          <h2 className="capitalize font-semibold text-gray-700 hover:underline">
+            {creator?.username ?? 'Unknown'}
+          </h2>
+        </Link>
+        <h3 className="text-xl font-semibold mb-2 capitalize">{title}</h3>
 
         <p className="flex flex-wrap gap-2 mb-2">
           {evidence.map((tag) => (
@@ -41,23 +44,23 @@ export default function EncounterDetail({
         <p className="overflow-hidden text-ellipsis whitespace-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] mb-4">
           {content}
         </p>
-
-        {media.map((item) => (
-          <div
-            key={item}
-            className="w-full max-h-200 overflow-hidden rounded mb-4"
-          >
-            <Image
-              alt={item}
-              src={item}
-              width={800}
-              height={600}
-              className="w-full h-full object-cover"
-              priority
-            />
-          </div>
-        ))}
-
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pt-14">
+          {media.map((item) => (
+            <div
+              key={item}
+              className="w-full max-h-200 overflow-hidden rounded mb-4"
+            >
+              <Image
+                alt={item}
+                src={item}
+                width={800}
+                height={600}
+                className="w-full h-full object-cover"
+                priority
+              />
+            </div>
+          ))}
+        </div>
         <div className="flex gap-9">
           <div className="comments flex gap-1 hover:bg-gray-300">
             <ChatBubbleBottomCenterTextIcon className="w-6 h-6" />
@@ -84,14 +87,17 @@ export default function EncounterDetail({
           />
         </div>
         <div className="flex flex-col gap-4 mt-6">
-          {comments.map((comment) => (
-            <div key={comment.id}>
-              <p className="font-semibold capitalize">
-                {comment.author?.username ?? 'Unknown'}
-              </p>
-              <p>{comment.content}</p>
-            </div>
-          ))}
+          {comments &&
+            comments.map((comment) => (
+              <div key={comment.id}>
+                <Link href={`/users/${comment.author.id}`}>
+                  <p className="font-semibold capitalize hover:underline">
+                    {comment.author.username ?? 'Unknown'}
+                  </p>
+                </Link>
+                <p>{comment.content}</p>
+              </div>
+            ))}
         </div>
       </div>
     </div>

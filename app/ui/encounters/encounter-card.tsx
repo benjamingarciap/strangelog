@@ -22,13 +22,18 @@ export default function EncounterCard({
     encounter
 
   return (
-    <Link href={`/encounters/${encounter.id}`} className="flex flex-col">
-      <div className="border-b border-gray-300 max-w-sm mx-auto">
-        <div className="flex max-w-4xl flex-col p-6 my-1.5 mx-1.5 rounded-2xl hover:bg-gray-100 transition-colors duration-200">
-          <h2 className="capitalize font-semibold text-gray-700">
+    <div className="border-b border-gray-300 max-w-sm mx-auto">
+      <div className="flex max-w-4xl flex-col p-6 my-1.5 mx-1.5 rounded-2xl hover:bg-gray-100 transition-colors duration-200">
+        <Link
+          href={`/users/${creator.id}`}
+          onClick={(e) => e.stopPropagation()} // stops bubbling
+        >
+          <h2 className="capitalize font-semibold text-gray-700 hover:underline">
             {creator.username}
           </h2>
-          <h3 className="text-xl font-semibold mb-2">{title}</h3>
+        </Link>
+        <Link href={`/encounters/${encounter.id}`} className="flex flex-col">
+          <h3 className="text-xl font-semibold mb-2 capitalize">{title}</h3>
 
           <p className="flex flex-wrap gap-2 mb-2">
             {evidence.map((tag) => (
@@ -44,22 +49,6 @@ export default function EncounterCard({
           <p className="overflow-hidden text-ellipsis whitespace-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] mb-4">
             {content}
           </p>
-          {/* 
-          {media.map((item) => (
-            <div
-              key={item}
-              className="w-full max-h-200 overflow-hidden rounded mb-4"
-            >
-              <Image
-                alt={item}
-                src={item}
-                width={800}
-                height={600}
-                className="w-full h-full object-cover"
-                priority
-              />
-            </div>
-          ))} */}
           <div className="w-full max-h-200 overflow-hidden rounded mb-4">
             <Image
               alt={media[0]}
@@ -85,8 +74,8 @@ export default function EncounterCard({
               </button>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
-    </Link>
+    </div>
   )
 }
