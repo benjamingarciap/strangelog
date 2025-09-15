@@ -36,14 +36,17 @@ export const Navbar = (): React.ReactElement => {
       </div>
       {/* Right side */}
       <div className="flex items-center gap-2">
-        <button>Create</button>
         {session ? (
-          <button
-            onClick={() => signOut({ callbackUrl: '/' })}
-            className="px-4 py-2 bg-red-500 text-white rounded"
-          >
-            Log Out
-          </button>
+          <>
+            <button>Create</button>
+            <Link href="/api/auth/me">Profile</Link>
+            <button
+              onClick={() => signOut({ callbackUrl: '/' })}
+              className="px-4 py-2 bg-red-500 text-white rounded"
+            >
+              Log Out
+            </button>
+          </>
         ) : (
           <>
             <Link href="/auth/signin">Signin</Link>
