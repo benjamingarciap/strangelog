@@ -31,6 +31,16 @@ input[type='number']::-webkit-outer-spin-button {
 
 /*  Pulsing Dot CSS for Leaflet Markers */
 
+.leaflet-red-dot {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background-color: rgba(239, 68, 68, 0.75); /* red-500 */
+  width: 20px;
+  height: 20px;
+}
+
 .leaflet-pulsing-dot {
   position: relative;
   width: 20px;
@@ -96,4 +106,9 @@ input[type='number']::-webkit-outer-spin-button {
 }
 .leaflet-popup-content p {
   margin: 0 !important;
+}
+
+.leaflet-marker-icon:focus {
+  outline: none; /* removes the blue ring */
+  box-shadow: none; /* some browsers add this */
 }

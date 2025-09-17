@@ -1,13 +1,12 @@
 'use client'
 import React from 'react'
 import { UIEnrichedEncounter } from '../../types/encounters'
-import Link from 'next/link'
 import {
   ArrowUpIcon,
   ArrowDownIcon,
   ChatBubbleBottomCenterTextIcon,
 } from '@heroicons/react/24/outline'
-import router from 'next/router'
+import { useRouter } from 'next/navigation'
 import {
   Carousel,
   CarouselContent,
@@ -23,42 +22,49 @@ export default function EncounterCard({
 }: {
   encounter: UIEnrichedEncounter
 }): React.ReactElement {
-  // =========Using Map Store to Log Bounds=========
-
-  const { title, content, evidence, media, likes, creator, comments } =
+  const router = useRouter()
+  const { title, content, evidence, media, likes, creator, comments, id } =
     encounter
 
   return (
-    <div className="relative flex flex-col justify-between hover:bg-gray-100 transition-colors duration-200  cursor-pointer border border-gray-500">
-      <Carousel className="relative group">
-        <CarouselContent>
-          {media.map((image) => {
-            return (
-              <CarouselItem key={image}>
-                <img src={image} alt="Carousel Item" />
-              </CarouselItem>
-            )
-          })}
-        </CarouselContent>
-        <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-        <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-      </Carousel>
-      <Link href={`/encounters/${encounter.id}`} className="flex flex-col">
-        <div className="flex w-full flex-col pt-3 pl-3 pr-3 pb-0">
-          {/* <Link
-            href={`/users/${creator.id}`}
-            onClick={(e) => e.stopPropagation()} // stops bubbling
-          > */}
-          <h2
-            className="capitalize font-semibold text-gray-700 hover:underline cursor-pointer"
-            onClick={(e) => {
-              e.stopPropagation()
-              router.push(`/users/${creator.id}`)
-              // your button logic here
-            }}
-          >
-            {creator.username}
-          </h2>
+    <div className="flex flex-col justify-between hover:bg-gray-100 transition-colors duration-200  cursor-pointer border border-gray-500">
+      {media && (
+        <Carousel className="relative group">
+          {/* <Link href={`/encounters/${encounter.id}`} className="flex flex-col"> */}
+          <CarouselContent>
+            {media.map((image) => {
+              return (
+                <CarouselItem key={image}>
+                  <img src={image} alt="Carousel Item" />
+                </CarouselItem>
+              )
+            })}
+          </CarouselContent>
+
+          <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+        </Carousel>
+      )}
+      <div
+        onClick={(e) => {
+          router.prefetch(`/encounters/${id}`) // preload page
+          router.push(`/encounters/${id}`)
+        }}
+      >
+        <div className="flex w-full flex-col pt-3 pl-3 pr-3 pb-0 h-[260px]">
+          <div className="flex">
+            <h2
+              className="capitalize font-semibold text-gray-700 hover:underline cursor-pointer"
+              onClick={(e) => {
+                router.prefetch(`/users/${creator.id}`) // preload page
+                router.push(`/users/${creator.id}`)
+                e.stopPropagation() // stops the Link to encounter from firing
+              }}
+            >
+              {creator.username}
+            </h2>
+          </div>
+
           {/* </Link> */}
           <h3 className="text-xl font-semibold mb-1 capitalize">{title}</h3>
 
@@ -89,7 +95,7 @@ export default function EncounterCard({
             </button>
           </div>
         </div>
-      </Link>
+      </div>
     </div>
   )
 }

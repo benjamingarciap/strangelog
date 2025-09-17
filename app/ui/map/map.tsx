@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import L from 'leaflet'
 import {
   Popup,
@@ -23,6 +23,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel'
 import Link from 'next/link'
+import { EscapeToClosePopup } from '../../lib/utils/escape-event-listener'
 
 // // Map icon fix for default marker icons
 // const encounterIcon = L.icon({
@@ -32,6 +33,7 @@ import Link from 'next/link'
 //   popupAnchor: [0, -30], // point from which popup opens
 // })
 
+// =========Custom Pulsing Icon=========
 const pulsingIcon = L.divIcon({
   className: 'leaflet-pulsing-dot',
   iconSize: [20, 20], // matches CSS
@@ -50,6 +52,8 @@ function MapEventHandler({
 }: {
   onBoundsChange: (_b: LatLngBounds) => void
 }): null {
+  // Popup state
+
   //=========Using Map Events to Track Bounds=========
   const map = useMap()
   //---------Initial Bounds on Mount---------
@@ -89,6 +93,7 @@ export default function Map({
   encounters: UIEnrichedEncounter[]
   onBoundsChange: (_b: LatLngBounds) => void
 }): React.ReactElement {
+  const [popupId, setPopupId] = useState<number | null>(null)
   //=========Map Ref=========
 
   const mapRef = useRef<L.Map | null>(null)
@@ -126,40 +131,55 @@ export default function Map({
         subdomains="abcd"
       /> */}
       <MapEventHandler onBoundsChange={onBoundsChange} />
-      {encounters.map(({ id, location, media, title, content }) => (
-        <Marker
-          key={id}
-          position={[location.lat, location.lng]}
-          icon={pulsingIcon}
-        >
-          {/* {console.log('Marker content:', encounter.content)} */}
-          <Popup className="" minWidth={120} maxWidth={350}>
-            <div className="flex flex-col justify-start h-full">
-              <Carousel className="relative group">
-                <CarouselContent>
-                  {media.map((image) => {
-                    return (
-                      <CarouselItem key={image}>
-                        <img src={image} alt="Carousel Item" />
-                      </CarouselItem>
-                    )
-                  })}
-                </CarouselContent>
-                <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              </Carousel>
-              <Link href={`/encounters/${id}`}>
-                <h2 className="capitalize font-bold hover:underline text-lg">
-                  {title}
-                </h2>
-              </Link>
-              <p className="overflow-hidden text-ellipsis whitespace-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] m-0">
-                {content}
-              </p>
-            </div>
-          </Popup>
-        </Marker>
-      ))}
+      <EscapeToClosePopup setPopupId={setPopupId} />
+      {encounters.map(({ id, location, media, title, content }) => {
+        const isActive = popupId === id // marker is "active" if clicked
+        const icon = isActive
+          ? pulsingIcon
+          : L.divIcon({
+              className: 'leaflet-red-dot',
+              iconSize: [10, 10],
+              iconAnchor: [5, 5],
+              html: `<div class="dot"></div>`,
+            })
+        return (
+          <Marker
+            position={[location.lat, location.lng]}
+            icon={icon}
+            eventHandlers={{
+              click: () => setPopupId(id),
+              popupclose: () => setPopupId(null),
+            }}
+            key={id}
+          >
+            <Popup className="" minWidth={120} maxWidth={350}>
+              <div className="flex flex-col justify-start h-full">
+                <Carousel className="relative group">
+                  <CarouselContent>
+                    {media.map((image) => {
+                      return (
+                        <CarouselItem key={image}>
+                          <img src={image} alt="Carousel Item" />
+                        </CarouselItem>
+                      )
+                    })}
+                  </CarouselContent>
+                  <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                </Carousel>
+                <Link href={`/encounters/${id}`}>
+                  <h2 className="capitalize font-bold hover:underline text-lg">
+                    {title}
+                  </h2>
+                </Link>
+                <p className="overflow-hidden text-ellipsis whitespace-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] m-0">
+                  {content}
+                </p>
+              </div>
+            </Popup>
+          </Marker>
+        )
+      })}
     </MapContainer>
   )
 }
