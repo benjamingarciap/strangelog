@@ -35,13 +35,15 @@ export default function EncounterList({
   // =========Rendering Encounter Cards=========
   if (visibleEncounters.length === 0) {
     return (
-      <div className="flex justify-center items-center h-screen w-full">
+      <div className="flex flex-row justify-center items-center h-screen w-full">
         <p className="text-gray-600 max-w-sm">No encounters available.</p>
       </div>
     )
   } else {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pt-14">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pt-14">
+        {/* // <div className="flex gap-0 w-full flex-col my-13">
+      // <div className="grid grid-rows-3 gap-2"> */}
         {visibleEncounters.map((encounter) => (
           <EncounterCard encounter={encounter} key={encounter.id} />
         ))}

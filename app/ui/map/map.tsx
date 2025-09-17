@@ -15,13 +15,33 @@ import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import 'leaflet-defaulticon-compatibility'
 import type { LatLngBounds } from 'leaflet'
 import { UIEnrichedEncounter } from '../../types/encounters'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel'
+import Link from 'next/link'
 
-// Map icon fix for default marker icons
-const encounterIcon = L.icon({
-  iconUrl: '/markers/alien.svg', // your SVG or PNG
-  iconSize: [30, 30], // size of the icon
-  iconAnchor: [15, 30], // point of the icon which corresponds to marker's location
-  popupAnchor: [0, -30], // point from which popup opens
+// // Map icon fix for default marker icons
+// const encounterIcon = L.icon({
+//   iconUrl: '/markers/redcircle.svg', // your SVG or PNG
+//   iconSize: [10, 10], // size of the icon
+//   iconAnchor: [15, 30], // point of the icon which corresponds to marker's location
+//   popupAnchor: [0, -30], // point from which popup opens
+// })
+
+const pulsingIcon = L.divIcon({
+  className: 'leaflet-pulsing-dot',
+  iconSize: [20, 20], // matches CSS
+  iconAnchor: [10, 10], // center the dot
+  html: `
+    <div class="leaflet-pulsing-dot">
+      <div class="ping"></div>
+      <div class="dot"></div>
+    </div>
+  `,
 })
 
 // =========Map Event Handler=========
@@ -30,11 +50,23 @@ function MapEventHandler({
 }: {
   onBoundsChange: (_b: LatLngBounds) => void
 }): null {
+  //=========Using Map Events to Track Bounds=========
   const map = useMap()
+  //---------Initial Bounds on Mount---------
   useEffect(() => {
     // Initial bounds on mount
     if (map) {
       onBoundsChange(map.getBounds())
+      setTimeout(() => {
+        map.invalidateSize()
+      }, 100) // tiny delay ensures layout is done
+    }
+    const handleResize = () => {
+      map.invalidateSize()
+    }
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
     }
   }, [map, onBoundsChange])
   useMapEvents({
@@ -57,7 +89,7 @@ export default function Map({
   encounters: UIEnrichedEncounter[]
   onBoundsChange: (_b: LatLngBounds) => void
 }): React.ReactElement {
-  //=========Map Component=========
+  //=========Map Ref=========
 
   const mapRef = useRef<L.Map | null>(null)
   useEffect(() => {
@@ -71,8 +103,15 @@ export default function Map({
     <MapContainer
       center={[encounters[61].location.lat, encounters[61].location.lng]} // Madrid as default
       zoom={3}
-      className="w-[400px] h-full"
+      className="w-full h-full"
       ref={mapRef}
+      maxBounds={[
+        [-90, -180],
+        [90, 180],
+      ]} // full world bounds
+      maxBoundsViscosity={1.0} // 1.0 = fully restrict panning
+      minZoom={2}
+      maxZoom={10}
     >
       {/* carto light */}
       <TileLayer
@@ -87,16 +126,37 @@ export default function Map({
         subdomains="abcd"
       /> */}
       <MapEventHandler onBoundsChange={onBoundsChange} />
-      {encounters.map((encounter) => (
+      {encounters.map(({ id, location, media, title, content }) => (
         <Marker
-          key={encounter.id}
-          position={[encounter.location.lat, encounter.location.lng]}
-          icon={encounterIcon}
+          key={id}
+          position={[location.lat, location.lng]}
+          icon={pulsingIcon}
         >
           {/* {console.log('Marker content:', encounter.content)} */}
-          <Popup>
-            <strong className="capitalize">{encounter.title}</strong>
-            <p>{encounter.content}</p>
+          <Popup className="" minWidth={120} maxWidth={350}>
+            <div className="flex flex-col justify-start h-full">
+              <Carousel className="relative group">
+                <CarouselContent>
+                  {media.map((image) => {
+                    return (
+                      <CarouselItem key={image}>
+                        <img src={image} alt="Carousel Item" />
+                      </CarouselItem>
+                    )
+                  })}
+                </CarouselContent>
+                <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+              </Carousel>
+              <Link href={`/encounters/${id}`}>
+                <h2 className="capitalize font-bold hover:underline text-lg">
+                  {title}
+                </h2>
+              </Link>
+              <p className="overflow-hidden text-ellipsis whitespace-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] m-0">
+                {content}
+              </p>
+            </div>
           </Popup>
         </Marker>
       ))}

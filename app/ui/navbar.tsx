@@ -14,7 +14,7 @@ export const Navbar = (): React.ReactElement => {
   const { data: session } = useSession()
   const user = useUserStore((state) => state.user)
   return (
-    <div className="flex items-center gap-4 p-4 w-full h-14 fixed top-0 z-10 shadow-md bg-white">
+    <div className="flex items-center gap-4 p-4 w-full h-14 fixed top-0 z-10  bg-white border-b border-black">
       {/* Left side */}
       <div className="flex items-center gap-4">
         <button>
@@ -22,7 +22,7 @@ export const Navbar = (): React.ReactElement => {
         </button>
         <Link href="/">
           {/* <MapPinIcon className="w-6 h-6" /> */}
-          STRANGELOG
+          <p className="hover:underline font-extrabold text-lg">STRANGELOG</p>
         </Link>
       </div>
       {/* Center input */}

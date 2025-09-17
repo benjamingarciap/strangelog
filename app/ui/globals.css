@@ -28,3 +28,72 @@ input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+/*  Pulsing Dot CSS for Leaflet Markers */
+
+.leaflet-pulsing-dot {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.leaflet-pulsing-dot .ping {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background-color: rgba(239, 68, 68, 0.75); /* red-500 */
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.leaflet-pulsing-dot .dot {
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background-color: #dc2626; /* red-600 */
+}
+
+/* keyframes for the pulse */
+@keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  75% {
+    transform: scale(2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* Leaflet Popup Customization */
+.leaflet-popup-content-wrapper {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  padding: 0.5rem !important;
+  border-radius: 0 !important; /* remove rounding */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; /* shadow-lg */
+  width: 350px !important;
+  height: 360px !important;
+}
+
+.leaflet-popup-tip {
+  display: none !important;
+}
+
+.leaflet-popup-content {
+  font-size: 0.875rem !important; /* Tailwind text-sm */
+  margin: 0 !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+.leaflet-popup-content p {
+  margin: 0 !important;
+}
