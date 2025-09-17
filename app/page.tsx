@@ -10,7 +10,7 @@ export default async function Home(): Promise<React.ReactElement> {
   console.log('Fetched user from DB:', user)
   return (
     // <div className="flex flex-row justify-around gap-4 w-full h-screen">
-    <div className="grid grid-cols-1 sm:grid-cols-7 md:grid-cols-7">
+    <div className="grid grid-cols-1 sm:grid-cols-6 md:grid-cols-6">
       <div className="overflow-y-auto col-span-3 h-full">
         <MapWrapper encounters={encounters} />
       </div>
