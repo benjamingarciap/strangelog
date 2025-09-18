@@ -14,7 +14,7 @@ export function SideMenuButton(): React.ReactElement {
           toggleMenu()
         }}
         // className="p-2 focus:outline-none cursor-pointer"
-        className="flex items-center h-[55px] px-5 cursor-pointer border-l-1 border-r-1 border-black max-h-full hover:bg-gray-200"
+        className="flex items-center h-[55px] px-5 cursor-pointer border-r-1 border-black max-h-full hover:bg-gray-200"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
