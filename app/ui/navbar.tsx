@@ -2,10 +2,6 @@
 import React from 'react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-import // MagnifyingGlassIcon,
-// MapPinIcon,
-// Bars3Icon,
-'@heroicons/react/24/outline'
 import { useUserStore } from '../../stores/userStore'
 import { SideMenuButton } from './SideMenuButton'
 
