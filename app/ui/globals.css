@@ -109,6 +109,40 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 .leaflet-marker-icon:focus {
-  outline: none; /* removes the blue ring */
-  box-shadow: none; /* some browsers add this */
+  outline: none !important; /* removes the blue ring */
+  box-shadow: none !important; /* some browsers add this */
+}
+
+/* Custom Leaflet Zoom Control Styles */
+/* Container */
+.leaflet-control-zoom {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-radius: 0 !important; /* remove rounding */
+  border-color: #000000 !important; /* black border */
+  border-width: 1px !important;
+  width: 42px !important;
+  margin-right: 16px !important;
+  margin-top: 76px !important;
+}
+
+/* Buttons */
+.leaflet-control-zoom a {
+  width: 100% !important;
+  background: white !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  height: 37px !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #e5e7eb !important; /* gray-100 */
+}
+
+.leaflet-control-zoom-in {
+  border-bottom: 1px solid #000000 !important; /* black border between buttons */
+}
+
+.dashboard-grid {
+  grid-template-columns: var(--grid-cols);
+  transition: grid-template-columns 0.3s ease-in-out;
 }

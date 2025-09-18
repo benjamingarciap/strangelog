@@ -27,7 +27,9 @@ export default function EncounterCard({
     encounter
 
   return (
-    <div className="flex flex-col justify-between hover:bg-gray-100 transition-colors duration-200  cursor-pointer border border-gray-500">
+    <div
+      className={`flex flex-col justify-between hover:bg-gray-200 transition-colors duration-200  cursor-pointer border-[0.5px] border-black`}
+    >
       {media && (
         <Carousel className="relative group">
           {/* <Link href={`/encounters/${encounter.id}`} className="flex flex-col"> */}
@@ -41,8 +43,8 @@ export default function EncounterCard({
             })}
           </CarouselContent>
 
-          <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-          <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:bg-gray-200 " />
+          <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:bg-gray-200 " />
         </Carousel>
       )}
       <div

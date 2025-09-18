@@ -1,6 +1,6 @@
 'use client'
 import React, { useMemo } from 'react'
-import EncounterCard from '../encounters/encounter-card'
+import EncounterCard from './EncounterCard'
 import { UIEnrichedEncounter } from '../../types/encounters'
 import { useMapStore } from '../../../stores/mapStore'
 
@@ -41,12 +41,12 @@ export default function EncounterList({
     )
   } else {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pt-14">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pt-13">
         {/* // <div className="flex gap-0 w-full flex-col my-13">
       // <div className="grid grid-rows-3 gap-2"> */}
-        {visibleEncounters.map((encounter) => (
-          <EncounterCard encounter={encounter} key={encounter.id} />
-        ))}
+        {visibleEncounters.map((encounter) => {
+          return <EncounterCard encounter={encounter} key={encounter.id} />
+        })}
       </div>
     )
   }

@@ -9,6 +9,7 @@ import {
   useMapEvents,
   MapContainer,
   useMap,
+  ZoomControl,
 } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
@@ -24,6 +25,9 @@ import {
 } from '@/components/ui/carousel'
 import Link from 'next/link'
 import { EscapeToClosePopup } from '../../lib/utils/escape-event-listener'
+import { useMapStore } from '../../../stores/mapStore'
+import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline'
+import { useSideMenuStore } from '../../../stores/sideMenuStore'
 
 // // Map icon fix for default marker icons
 // const encounterIcon = L.icon({
@@ -53,7 +57,7 @@ function MapEventHandler({
   onBoundsChange: (_b: LatLngBounds) => void
 }): null {
   // Popup state
-
+  const isFullscreen = useMapStore((state) => state.isFullscreen)
   //=========Using Map Events to Track Bounds=========
   const map = useMap()
   //---------Initial Bounds on Mount---------
@@ -72,7 +76,7 @@ function MapEventHandler({
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [map, onBoundsChange])
+  }, [map, onBoundsChange, isFullscreen])
   useMapEvents({
     moveend: (event: L.LeafletEvent) => {
       const bounds = event.target.getBounds()
@@ -93,31 +97,70 @@ export default function Map({
   encounters: UIEnrichedEncounter[]
   onBoundsChange: (_b: LatLngBounds) => void
 }): React.ReactElement {
+  const isFullscreen = useMapStore((state) => state.isFullscreen)
   const [popupId, setPopupId] = useState<number | null>(null)
   //=========Map Ref=========
+  const { isOpen } = useSideMenuStore()
 
   const mapRef = useRef<L.Map | null>(null)
   useEffect(() => {
     if (mapRef.current) {
       mapRef.current.invalidateSize()
     }
-  }, [])
+  }, [isFullscreen, isOpen])
+  //---------Handle Map Resize on Layout Change---------
+  // useEffect(() => {
+  //   if (!mapRef.current) return
+
+  //   // wait for flex transition (300ms) to finish
+  //   const timeout = setTimeout(() => {
+  //     mapRef.current?.invalidateSize()
+  //   }, 310) // match the CSS transition duration
+
+  //   return () => clearTimeout(timeout)
+  // }, [isFullscreen, isOpen])
+  // Improved: Listen to transitionend event instead of timeout
+  // useEffect(() => {
+  //   const container = mapRef.current?.getContainer()
+  //   if (!container) return
+
+  //   const handleTransitionEnd = (e: TransitionEvent) => {
+  //     // only invalidate if width changed
+  //     if (e.propertyName === 'flex-basis' || e.propertyName === 'width') {
+  //       mapRef.current?.invalidateSize()
+  //     }
+  //   }
+
+  //   container.addEventListener('transitionend', handleTransitionEnd)
+
+  //   return () => {
+  //     container.removeEventListener('transitionend', handleTransitionEnd)
+  //   }
+  // }, [isFullscreen, isOpen])
 
   // =========Rendering the Map=========
   return (
     <MapContainer
       center={[encounters[61].location.lat, encounters[61].location.lng]} // Madrid as default
       zoom={3}
-      className="w-full h-full"
+      className="w-full h-full border-r-[0.5px] border-black"
       ref={mapRef}
       maxBounds={[
         [-90, -180],
         [90, 180],
       ]} // full world bounds
       maxBoundsViscosity={1.0} // 1.0 = fully restrict panning
-      minZoom={2}
-      maxZoom={10}
+      minZoom={2.5}
+      maxZoom={20}
+      zoomControl={false} // disable default zoom control
     >
+      <ZoomControl position="topright" />
+      <button
+        className="absolute bg-white border border-black p-2 top-4 right-4 z-[1000] hover:bg-gray-200"
+        onClick={() => useMapStore.getState().toggleFullscreen()}
+      >
+        <ArrowsPointingOutIcon className="w-6 h-6" />
+      </button>
       {/* carto light */}
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
@@ -151,6 +194,8 @@ export default function Map({
               popupclose: () => setPopupId(null),
             }}
             key={id}
+            autoPan={true} // pan the map automatically to fit the popup
+            autoPanPadding={[50, 50]} // space between popup and map edge
           >
             <Popup className="" minWidth={120} maxWidth={350}>
               <div className="flex flex-col justify-start h-full">

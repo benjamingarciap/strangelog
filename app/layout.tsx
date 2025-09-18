@@ -1,6 +1,6 @@
 'use client'
 import './ui/globals.css'
-import { Navbar } from './ui/navbar'
+import { Navbar } from './ui/Navbar'
 import React, { ReactElement, useEffect } from 'react'
 import { useUserStore } from '../stores/userStore'
 import SessionWrapper from './ui/SessionWrapper'
