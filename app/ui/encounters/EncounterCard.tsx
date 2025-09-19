@@ -35,7 +35,7 @@ export default function EncounterCard({
         <Carousel className="relative group">
           {/* <Link href={`/encounters/${encounter.id}`} className="flex flex-col"> */}
           <CarouselContent>
-            {media.map((image) => {
+            {media.map((image, index) => {
               return (
                 <CarouselItem key={image}>
                   <Image
@@ -43,7 +43,7 @@ export default function EncounterCard({
                     alt="Carousel Item"
                     width={500}
                     height={300}
-                    loading="lazy"
+                    loading={index === 0 ? 'eager' : 'lazy'} // only first is eager
                     sizes="(max-width: 768px) 100vw, 400px"
                     // placeholder="blur"
                     // blurDataURL={encounter.blurDataUrl}
