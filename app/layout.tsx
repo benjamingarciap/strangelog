@@ -4,6 +4,7 @@ import { Navbar } from './ui/Navbar'
 import React, { ReactElement, useEffect } from 'react'
 import { useUserStore } from '../stores/userStore'
 import SessionWrapper from './ui/SessionWrapper'
+import { SideMenu } from './ui/SideMenu'
 
 export default function RootLayout({
   children,
@@ -26,7 +27,10 @@ export default function RootLayout({
       <body className="flex flex-col items-center bg-gray-100 min-h-screen">
         <SessionWrapper>
           <Navbar />
-          {children}
+          <div className="flex w-full h-screen">
+            <SideMenu />
+            {children}
+          </div>
         </SessionWrapper>
       </body>
     </html>

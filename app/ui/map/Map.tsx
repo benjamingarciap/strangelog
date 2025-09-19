@@ -28,14 +28,7 @@ import { EscapeToClosePopup } from '../../lib/utils/escape-event-listener'
 import { useMapStore } from '../../../stores/mapStore'
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline'
 import { useSideMenuStore } from '../../../stores/sideMenuStore'
-
-// // Map icon fix for default marker icons
-// const encounterIcon = L.icon({
-//   iconUrl: '/markers/redcircle.svg', // your SVG or PNG
-//   iconSize: [10, 10], // size of the icon
-//   iconAnchor: [15, 30], // point of the icon which corresponds to marker's location
-//   popupAnchor: [0, -30], // point from which popup opens
-// })
+import Image from 'next/image'
 
 // =========Custom Pulsing Icon=========
 const pulsingIcon = L.divIcon({
@@ -61,6 +54,7 @@ function MapEventHandler({
   //=========Using Map Events to Track Bounds=========
   const map = useMap()
   //---------Initial Bounds on Mount---------
+  const { isOpen } = useSideMenuStore()
   useEffect(() => {
     // Initial bounds on mount
     if (map) {
@@ -76,7 +70,9 @@ function MapEventHandler({
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [map, onBoundsChange, isFullscreen])
+  }, [map, onBoundsChange, isFullscreen, isOpen])
+  //---------Update Bounds on Move---------
+
   useMapEvents({
     moveend: (event: L.LeafletEvent) => {
       const bounds = event.target.getBounds()
@@ -108,36 +104,6 @@ export default function Map({
       mapRef.current.invalidateSize()
     }
   }, [isFullscreen, isOpen])
-  //---------Handle Map Resize on Layout Change---------
-  // useEffect(() => {
-  //   if (!mapRef.current) return
-
-  //   // wait for flex transition (300ms) to finish
-  //   const timeout = setTimeout(() => {
-  //     mapRef.current?.invalidateSize()
-  //   }, 310) // match the CSS transition duration
-
-  //   return () => clearTimeout(timeout)
-  // }, [isFullscreen, isOpen])
-  // Improved: Listen to transitionend event instead of timeout
-  // useEffect(() => {
-  //   const container = mapRef.current?.getContainer()
-  //   if (!container) return
-
-  //   const handleTransitionEnd = (e: TransitionEvent) => {
-  //     // only invalidate if width changed
-  //     if (e.propertyName === 'flex-basis' || e.propertyName === 'width') {
-  //       mapRef.current?.invalidateSize()
-  //     }
-  //   }
-
-  //   container.addEventListener('transitionend', handleTransitionEnd)
-
-  //   return () => {
-  //     container.removeEventListener('transitionend', handleTransitionEnd)
-  //   }
-  // }, [isFullscreen, isOpen])
-
   // =========Rendering the Map=========
   return (
     <MapContainer
@@ -201,10 +167,16 @@ export default function Map({
               <div className="flex flex-col justify-start h-full">
                 <Carousel className="relative group">
                   <CarouselContent>
-                    {media.map((image) => {
+                    {media.map((image, index) => {
                       return (
                         <CarouselItem key={image}>
-                          <img src={image} alt="Carousel Item" />
+                          <Image
+                            width={500}
+                            height={300}
+                            loading={index === 0 ? 'eager' : 'lazy'}
+                            src={image}
+                            alt="Carousel Item"
+                          />
                         </CarouselItem>
                       )
                     })}

@@ -33,7 +33,6 @@ export default function EncounterCard({
     >
       {media && (
         <Carousel className="relative group">
-          {/* <Link href={`/encounters/${encounter.id}`} className="flex flex-col"> */}
           <CarouselContent>
             {media.map((image, index) => {
               return (
