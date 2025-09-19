@@ -1,10 +1,10 @@
 import prisma from '@/lib/prisma'
 import {
   UIEvidenceTag,
-  UIEncounterCategory,
   UIEnrichedEncounter,
   EnrichedEncounter,
 } from '../types/encounters'
+import { EncounterCategory } from '../generated/prisma'
 
 // Fetch all encounters with creator and comments
 
@@ -28,7 +28,7 @@ export async function fetchEncounters(): Promise<UIEnrichedEncounter[]> {
       lng: encounter.locationLng,
     },
     evidence: encounter.evidence as UIEvidenceTag[],
-    category: encounter.category as UIEncounterCategory,
+    category: encounter.category as EncounterCategory[],
   }))
 }
 
@@ -58,6 +58,6 @@ export async function fetchEncounterById(
       lng: encounter.locationLng,
     },
     evidence: encounter.evidence as UIEvidenceTag[],
-    category: encounter.category as UIEncounterCategory,
+    category: encounter.category as EncounterCategory[],
   }
 }

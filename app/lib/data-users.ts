@@ -2,6 +2,7 @@ import prisma from '@/lib/prisma'
 import { UIEncounterCategory, UIEvidenceTag } from '../types/encounters'
 
 import { PublicEnrichedUser } from '../types/user'
+import { EncounterCategory } from '../generated/prisma'
 
 // Fetch user by ID, including their encounters and reactions
 
@@ -47,7 +48,7 @@ export async function fetchUserById(
         lat: encounter.locationLat,
         lng: encounter.locationLng,
       },
-      category: encounter.category as UIEncounterCategory,
+      category: encounter.category as EncounterCategory[],
       date: encounter.date,
       media: encounter.media,
       likes: encounter.likes,

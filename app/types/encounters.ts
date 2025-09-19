@@ -4,19 +4,39 @@ import { ConfidenceLevel } from './user'
 import {
   Encounter as EncounterDB,
   Comment as CommentDB,
+  EncounterCategory,
 } from '../generated/prisma'
 
 export type UapShape = 'Disc' | 'Triangle' | 'Cylinder' | 'Sphere'
 
 export type UIEncounterCategory =
   | 'UAP — Luminous/Orbs'
-  | `UAP — Structured Craft: ${UapShape}`
+  | 'UAP — Structured Craft: Disc'
+  | 'UAP — Structured Craft: Triangle'
+  | 'UAP — Structured Craft: Cylinder'
+  | 'UAP — Structured Craft: Sphere'
   | 'Transmedium / USO'
   | 'Formation / Swarm'
   | 'Close Encounter (CE-1)'
   | 'Close Encounter (CE-2)'
   | 'Close Encounter (CE-3)'
-  | 'Other / Unclassified'
+  | 'Close Encounter (CE-4: Abduction)'
+  | 'Close Encounter (CE-5: Initiated Contact)'
+  | 'Close Encounter (CE-6: Injury)'
+  | 'Close Encounter (CE-7: Long Term Contact)'
+  | 'Entity Encounter'
+  | 'Abduction Scenario'
+  | 'Poltergeist Activity'
+  | 'Portal / Dimensional'
+  | 'Cattle Mutilation'
+  | 'Men in Black'
+  | 'Missing Time'
+  | 'Psychic Effects'
+  | 'Trace Evidence'
+  | 'EM Interference'
+  | 'Radiation Effects'
+  | 'Weather Disturbance'
+  | 'Other'
 
 export type UIEvidenceTag =
   | 'Visual'
@@ -52,7 +72,7 @@ export interface UIEncounter {
     lng: number
   }
   evidence: UIEvidenceTag[]
-  category: UIEncounterCategory
+  category: EncounterCategory[]
   date: Date // could use Date if you parse it
   media: string[] // array of URLs
   likes: number // count of likes

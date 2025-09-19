@@ -1,18 +1,31 @@
-import { PrismaClient, ReactionType } from '../app/generated/prisma/index.js'
+import {
+  PrismaClient,
+  ReactionType,
+  EncounterCategory,
+} from '../app/generated/prisma/index.js'
 import { faker } from '@faker-js/faker'
 
 const prisma = new PrismaClient()
 
 async function main() {
-  console.log('🔹 Seeding database...')
+  console.log('🔹 Clearing database...')
+
+  // Delete everything in proper order to avoid foreign key conflicts
+  await prisma.confidence.deleteMany()
+  await prisma.reaction.deleteMany()
+  await prisma.comment.deleteMany()
+  await prisma.encounter.deleteMany()
+  await prisma.user.deleteMany()
+
+  console.log('🔹 Database cleared, seeding...')
 
   // ----------------------
   // 1. Create Users
   // ----------------------
   const NUM_USERS = 40
   const usersData = Array.from({ length: NUM_USERS }, () => ({
-    firstName: faker.person.firstName(), // ✅ new
-    lastName: faker.person.lastName(), // ✅ new
+    firstName: faker.person.firstName(),
+    lastName: faker.person.lastName(),
     username: faker.internet.username(),
     email: faker.internet.email(),
     passwordHash: faker.internet.password(), // hash in real app
@@ -28,22 +41,43 @@ async function main() {
   // 2. Create Encounters
   // ----------------------
   const NUM_ENCOUNTERS = 200
+  const encounterCategories: EncounterCategory[] = [
+    'UAP_LUMINOUS_ORBS',
+    'UAP_DISC',
+    'UAP_TRIANGLE',
+    'UAP_CYLINDER',
+    'UAP_SPHERE',
+    'UAP_TRANS_MEDIUM',
+    'UAP_FORMATION_SWARM',
+    'CE_1',
+    'CE_2',
+    'CE_3',
+    'CE_4_ABDUCTION',
+    'CE_5_INITIATED_CONTACT',
+    'CE_6_INJURY',
+    'CE_7_LONG_TERM_CONTACT',
+    'ENTITY_ENCOUNTER',
+    'ABDUCTION_SCENARIO',
+    'POLTERGEIST_ACTIVITY',
+    'PORTAL_DIMENSIONAL',
+    'CATTLE_MUTILATION',
+    'MEN_IN_BLACK',
+    'MISSING_TIME',
+    'PSYCHIC_EFFECTS',
+    'TRACE_EVIDENCE',
+    'EM_INTERFERENCE',
+    'RADIATION_EFFECTS',
+    'WEATHER_DISTURBANCE',
+    'OTHER',
+  ]
+
   const encountersData = Array.from({ length: NUM_ENCOUNTERS }, () => ({
     title: faker.lorem.words(3),
     content: faker.lorem.paragraph(),
-    category: faker.helpers.arrayElement([
-      'UAP — Luminous/Orbs',
-      'UAP — Structured Craft: Disc',
-      'UAP — Structured Craft: Triangle',
-      'UAP — Structured Craft: Cylinder',
-      'UAP — Structured Craft: Sphere',
-      'Transmedium / USO',
-      'Formation / Swarm',
-      'Close Encounter (CE-1)',
-      'Close Encounter (CE-2)',
-      'Close Encounter (CE-3)',
-      'Other / Unclassified',
-    ]),
+    category: faker.helpers.arrayElements(
+      encounterCategories,
+      faker.number.int({ min: 1, max: 3 })
+    ),
     locationLat: faker.location.latitude({ min: -90, max: 90 }),
     locationLng: faker.location.longitude({ min: -180, max: 180 }),
     media: [
@@ -72,7 +106,7 @@ async function main() {
   const allEncounters = await prisma.encounter.findMany()
 
   // ----------------------
-  // 3. Create Comments (with nested replies)
+  // 3. Create Comments
   // ----------------------
   const NUM_COMMENTS = 700
   const commentsData = Array.from({ length: NUM_COMMENTS }, () => {

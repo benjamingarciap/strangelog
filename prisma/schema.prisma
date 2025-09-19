@@ -11,7 +11,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 // ----------------------
 // Users
 // ----------------------
@@ -43,7 +42,7 @@ model Encounter {
   id          Int        @id @default(autoincrement())
   title       String
   content     String
-  category    String
+  category    EncounterCategory[]
   locationLat Float
   locationLng Float
   media       String[]   // array of URLs
@@ -58,6 +57,36 @@ model Encounter {
   confidences Confidence[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+}
+
+enum EncounterCategory {
+  UAP_LUMINOUS_ORBS
+  UAP_DISC
+  UAP_TRIANGLE
+  UAP_CYLINDER
+  UAP_SPHERE
+  UAP_TRANS_MEDIUM
+  UAP_FORMATION_SWARM
+  CE_1
+  CE_2
+  CE_3
+  CE_4_ABDUCTION
+  CE_5_INITIATED_CONTACT
+  CE_6_INJURY
+  CE_7_LONG_TERM_CONTACT
+  ENTITY_ENCOUNTER
+  ABDUCTION_SCENARIO
+  POLTERGEIST_ACTIVITY
+  PORTAL_DIMENSIONAL
+  CATTLE_MUTILATION
+  MEN_IN_BLACK
+  MISSING_TIME
+  PSYCHIC_EFFECTS
+  TRACE_EVIDENCE
+  EM_INTERFERENCE
+  RADIATION_EFFECTS
+  WEATHER_DISTURBANCE
+  OTHER
 }
 
 // ----------------------
