@@ -30,11 +30,13 @@
     "next": "15.5.2",
     "next-auth": "^4.24.11",
     "openmoji": "^16.0.0",
+    "plaiceholder": "^3.0.0",
     "prisma": "^6.15.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-leaflet": "^5.0.0",
     "shadcn-ui": "^0.9.5",
+    "sharp": "^0.34.4",
     "tailwind-merge": "^3.3.1",
     "use-places-autocomplete": "^4.0.1",
     "zustand": "^5.0.8"

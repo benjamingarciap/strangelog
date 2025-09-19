@@ -14,6 +14,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
+import Image from 'next/image'
 
 //=========Encounter Card Component=========
 
@@ -37,7 +38,15 @@ export default function EncounterCard({
             {media.map((image) => {
               return (
                 <CarouselItem key={image}>
-                  <img src={image} alt="Carousel Item" />
+                  <Image
+                    src={image}
+                    alt="Carousel Item"
+                    width={500}
+                    height={300}
+                    loading="lazy"
+                    // placeholder="blur"
+                    // blurDataURL={encounter.blurDataUrl}
+                  />
                 </CarouselItem>
               )
             })}
