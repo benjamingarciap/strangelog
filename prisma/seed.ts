@@ -11,6 +11,8 @@ async function main() {
   // ----------------------
   const NUM_USERS = 40
   const usersData = Array.from({ length: NUM_USERS }, () => ({
+    firstName: faker.person.firstName(), // ✅ new
+    lastName: faker.person.lastName(), // ✅ new
     username: faker.internet.username(),
     email: faker.internet.email(),
     passwordHash: faker.internet.password(), // hash in real app

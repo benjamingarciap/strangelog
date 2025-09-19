@@ -12,6 +12,8 @@ export async function fetchUserById(
     where: { id },
     select: {
       id: true,
+      firstName: true,
+      lastName: true,
       username: true,
       email: true,
       avatarUrl: true,
@@ -35,6 +37,8 @@ export async function fetchUserById(
     ...user,
     encounters: user.encounters.map((encounter) => ({
       creator: user,
+      firstName: user.firstName || '',
+      lastName: user.lastName || '',
       id: encounter.id,
       title: encounter.title,
       content: encounter.content,
