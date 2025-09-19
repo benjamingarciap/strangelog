@@ -28,6 +28,7 @@ export type PublicUser = Omit<UIUser, 'passwordHash' | 'email' | 'createdAt'>
 // Enriched user with encounters and reactions
 export type EnrichedUser = UserDB & {
   encounters: UIEnrichedEncounter[]
+  savedEncounters: UIEnrichedEncounter[]
   reactions: { id: number; type: 'like' | 'dislike' }[]
 }
 export type PublicEnrichedUser = Omit<

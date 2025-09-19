@@ -157,6 +157,23 @@ async function main() {
     skipDuplicates: true,
   })
 
+  // ----------------------
+  // 6. Assign Saved Encounters
+  // ----------------------
+  for (const user of allUsers) {
+    const numSaved = faker.number.int({ min: 0, max: 10 })
+    const savedEncounters = faker.helpers.arrayElements(allEncounters, numSaved)
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        savedEncounters: {
+          connect: savedEncounters.map((enc) => ({ id: enc.id })),
+        },
+      },
+    })
+  }
+
   console.log('✅ Seed finished successfully!')
 }
 

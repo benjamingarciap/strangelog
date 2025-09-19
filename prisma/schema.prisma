@@ -30,6 +30,7 @@ model User {
   comments          Comment[]    // comments authored
   reactions         Reaction[]   // likes/dislikes
   confidences       Confidence[] // confidence votes
+  savedEncounters   Encounter[]  @relation("SavedEncounters") // many-to-many
     // NextAuth relations
   accounts          Account[]
   sessions          Session[]
@@ -57,6 +58,7 @@ model Encounter {
   confidences Confidence[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  savedBy     User[]     @relation("SavedEncounters") // many-to-many
 }
 
 enum EncounterCategory {
