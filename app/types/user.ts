@@ -1,3 +1,6 @@
+import { User as UserDB } from '../generated/prisma'
+import { UIEnrichedEncounter } from '../types/encounters'
+
 // ----------------------
 // User types
 // ----------------------
@@ -21,3 +24,14 @@ export interface UIUser {
 
 // Public-facing user (safe to expose to client)
 export type PublicUser = Omit<UIUser, 'passwordHash' | 'email' | 'createdAt'>
+
+// Enriched user with encounters and reactions
+export type EnrichedUser = UserDB & {
+  encounters: UIEnrichedEncounter[]
+  reactions: { id: number; type: 'like' | 'dislike' }[]
+}
+export type PublicEnrichedUser = Omit<
+  EnrichedUser,
+  'passwordHash' | 'createdAt'
+>
+// ----------------------

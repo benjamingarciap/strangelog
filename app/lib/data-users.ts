@@ -1,24 +1,7 @@
 import prisma from '@/lib/prisma'
-import { User as UserDB } from '../generated/prisma'
-import {
-  UIEncounterCategory,
-  UIEnrichedEncounter,
-  UIEvidenceTag,
-} from '../types/encounters'
+import { UIEncounterCategory, UIEvidenceTag } from '../types/encounters'
 
-// ----------------------
-// type definitions
-// ----------------------
-
-export type EnrichedUser = UserDB & {
-  encounters: UIEnrichedEncounter[]
-  reactions: { id: number; type: 'like' | 'dislike' }[]
-}
-export type PublicEnrichedUser = Omit<
-  EnrichedUser,
-  'passwordHash' | 'createdAt'
->
-// ----------------------
+import { PublicEnrichedUser } from '../types/user'
 
 // Fetch user by ID, including their encounters and reactions
 

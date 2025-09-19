@@ -1,6 +1,7 @@
 import React from 'react'
 import { fetchUserById } from '../../lib/data-users'
-import Link from 'next/link'
+import ProfileHeader from '../../ui/profile/profile-header'
+import ProfileContent from '../../ui/profile/profile-content'
 
 export default async function UserPage(props: {
   params: Promise<{ id: string }>
@@ -16,12 +17,11 @@ export default async function UserPage(props: {
   }
 
   // Destructure user data
-  const { username, email, bio, avatarUrl, encounters } = user
 
   // Render user profile
   return (
-    <div className="flex flex-col justify-center items-center mt-[55px] w-full overflow-y-auto">
-      <div>
+    <div className="max-h-full flex flex-col justify-center items-center mt-[55px] w-full overflow-y-auto">
+      {/* <div className="max-h-full flex max-w-4xl flex-col p-6 my-1.5 mx-1.5">
         <img
           src={
             avatarUrl
@@ -67,7 +67,10 @@ export default async function UserPage(props: {
         })}
         <br />
 
-        {/* Additional user info can be displayed here */}
+      </div> */}
+      <div className="max-h-full container mx-auto space-y-6 px-4 py-10">
+        <ProfileHeader user={user} />
+        <ProfileContent user={user} />
       </div>
     </div>
   )

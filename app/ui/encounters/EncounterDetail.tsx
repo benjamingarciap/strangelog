@@ -21,8 +21,8 @@ export default function EncounterDetail({
   }
 
   return (
-    <div className=" pt-12">
-      <div className="flex max-w-4xl flex-col p-6 my-1.5 mx-1.5 rounded-2xl transition-colors duration-200">
+    <div className="max-h-full flex flex-col justify-center items-center mt-[55px] w-full overflow-y-auto">
+      <div className="max-h-full flex max-w-4xl flex-col p-6 my-1.5 mx-1.5 ">
         <Link href={`/users/${creator.id}`}>
           <h2 className="capitalize font-semibold text-gray-700 hover:underline">
             {creator?.username ?? 'Unknown'}
@@ -41,9 +41,7 @@ export default function EncounterDetail({
           ))}
         </p>
 
-        <p className="overflow-hidden text-ellipsis whitespace-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] mb-4">
-          {content}
-        </p>
+        <p className=" mb-4">{content}</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 pt-14">
           {media.map((item) => (
             <div
