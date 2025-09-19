@@ -44,6 +44,7 @@ export default function EncounterCard({
                     width={500}
                     height={300}
                     loading="lazy"
+                    sizes="(max-width: 768px) 100vw, 400px"
                     // placeholder="blur"
                     // blurDataURL={encounter.blurDataUrl}
                   />
