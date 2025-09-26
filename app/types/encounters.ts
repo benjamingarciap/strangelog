@@ -1,6 +1,5 @@
 // types.ts
 
-import { ConfidenceLevel } from './user'
 import {
   Encounter as EncounterDB,
   Comment as CommentDB,
@@ -86,7 +85,16 @@ export type UIEnrichedEncounter = Omit<UIEncounter, 'comments'> & {
   comments: (UIComment & {
     author: { avatarUrl: string | null; username: string; id: number }
   })[]
+  confidences?: Confidence[]
 }
+
+export type Confidence = {
+  encounterId: number
+  id: number
+  level: number
+  userId: number
+}
+
 // Enriched types with related data
 export type EnrichedEncounter = EncounterDB & {
   creator: { avatarUrl: string | null; username: string; id: number }
@@ -102,10 +110,4 @@ export interface Reaction {
   userId: number
   encounterId: number
   type: 'LIKE' | 'DISLIKE'
-}
-
-export interface Confidence {
-  userId: number
-  encounterId: number
-  level: ConfidenceLevel
 }

@@ -1,12 +1,8 @@
 'use client'
 import React from 'react'
 import { UIEnrichedEncounter } from '../../types/encounters'
-import {
-  ArrowUpIcon,
-  ArrowDownIcon,
-  ChatBubbleBottomCenterTextIcon,
-} from '@heroicons/react/24/outline'
-import { useRouter } from 'next/navigation'
+import { ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline'
+// import { useRouter } from 'next/navigation'
 import {
   Carousel,
   CarouselContent,
@@ -15,98 +11,152 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel'
 import Image from 'next/image'
+import { format } from 'date-fns'
+// import { faker } from '@faker-js/faker'
+import TrustMeter from '../TrustMeter'
+import { formatCategory } from '../../lib/utils/formatCategory'
 
 //=========Encounter Card Component=========
 
 export default function EncounterCard({
   encounter,
+  socials,
+  isLastCard,
 }: {
   encounter: UIEnrichedEncounter
+  socials?: boolean
+  isLastCard?: boolean
 }): React.ReactElement {
-  const router = useRouter()
-  const { title, content, evidence, media, likes, creator, comments, id } =
+  // const router = useRouter()
+  const { title, content, media, comments, id, date, confidences, category } =
     encounter
 
   return (
     <div
-      className={`flex flex-col justify-between hover:bg-gray-200 transition-colors duration-200  cursor-pointer border-[0.5px] border-black`}
+      className={`flex flex-col transition-colors duration-200  cursor-pointer border-l-[0.5px] ${
+        isLastCard && 'border-r-[0.5px] w-[calc(100%+0.5px)]'
+      } border-black h-[500px]`}
     >
-      {media && (
-        <Carousel className="relative group">
-          <CarouselContent>
-            {media.map((image, index) => {
-              return (
-                <CarouselItem key={image}>
-                  <Image
-                    src={image}
-                    alt="Carousel Item"
-                    width={500}
-                    height={300}
-                    loading={index === 0 ? 'eager' : 'lazy'} // only first is eager
-                    sizes="(max-width: 768px) 100vw, 400px"
-                    // placeholder="blur"
-                    // blurDataURL={encounter.blurDataUrl}
-                  />
-                </CarouselItem>
-              )
-            })}
-          </CarouselContent>
-
-          <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:bg-gray-200 " />
-          <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:bg-gray-200 " />
-        </Carousel>
-      )}
-      <div
+      {/* <div
         onClick={(e) => {
           router.prefetch(`/encounters/${id}`) // preload page
           router.push(`/encounters/${id}`)
         }}
-      >
-        <div className="flex w-full flex-col pt-3 pl-3 pr-3 pb-0 h-[260px]">
-          <div className="flex">
-            <h2
-              className="capitalize font-semibold text-gray-700 hover:underline cursor-pointer"
-              onClick={(e) => {
-                router.prefetch(`/users/${creator.id}`) // preload page
-                router.push(`/users/${creator.id}`)
-                e.stopPropagation() // stops the Link to encounter from firing
-              }}
+      > */}
+      <div className="flex w-full flex-col pt-3 pl-3 pr-3 pb-0 h-[448px]">
+        <h3 className="text-xl font-semibold capitalize overflow-hidden text-ellipsis whitespace-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:1] h-[32px]">
+          {title}
+        </h3>
+        <span className="flex gap-2 mb-[2px]">
+          <span className="w-[15px] flex items-center justify-center h-full">
+            {/* <MapPinIcon className="w-8 h-8 text-gray-600" /> */}
+            <Image
+              src="/location-triangle.png"
+              alt="Map Pin Icon"
+              width={32}
+              height={32}
+              className="h-[13px] w-[13px]"
+            />
+          </span>
+          <span className="flex flex-col gap-0">
+            <p className="text-[16px] text-gray-600 mb-[4px] h-[40px] leading-tight">
+              {/* {faker.location.city().split(' ')[0]},{' '}
+              {faker.location.country().split(' ')[0]} */}
+              Madrid, Spain
+              <br />
+              {format(date, 'dd MMM yyyy')}
+            </p>
+          </span>
+        </span>
+
+        {confidences && (
+          <div className="flex items-center justify-between gap-2 mb-[6px]">
+            <span className="flex gap-2 items-center">
+              <TrustMeter
+                key={id}
+                confidence={
+                  confidences.reduce((sum, conf) => sum + conf.level, 0) /
+                  confidences.length
+                }
+              />
+              <p className="text-[15px] text-gray-600 mb-0">
+                {(
+                  confidences.reduce((sum, conf) => sum + conf.level, 0) /
+                  confidences.length
+                ).toFixed(1)}
+              </p>
+            </span>
+            <p className="text-[15px] text-gray-600 mb-0 underline font-light">
+              {/* fake Votes mock */}
+              Votes <span>{(Math.random() * 1000).toFixed(0)}</span>
+              {/* Votes {confidences.length} */}
+            </p>
+          </div>
+        )}
+
+        <div className="flex gap-1 mb-2 overflow-hidden whitespace-nowrap text-ellipsis">
+          {/* {evidence.map((tag) => (
+            <span
+              key={tag}
+              className="flex items-center justify-center bg-[#E1E8EB] pb-[5px] px-1.5 pt-[2px] text-sm h-[29px]"
             >
-              {creator.username}
-            </h2>
-          </div>
-
-          {/* </Link> */}
-          <h3 className="text-xl font-semibold mb-1 capitalize">{title}</h3>
-
-          <p className="flex flex-wrap gap-2 mb-1 overflow-hidden text-ellipsis whitespace-normal">
-            {evidence.map((tag) => (
-              <span key={tag} className="bg-gray-200/20 px-1.5 py-0.5 text-sm ">
-                #{tag.replace(/\s+/g, '')}
-              </span>
-            ))}
-          </p>
-
-          <p className="overflow-hidden text-ellipsis whitespace-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] mb-4">
-            {content}
-          </p>
+              {tag}
+            </span>
+          ))} */}
+          {category.map((tag) => (
+            <span
+              key={tag}
+              className="flex items-center justify-center bg-[#E1E8EB] pb-[5px] px-1.5 pt-[2px] text-sm h-[29px]"
+            >
+              {formatCategory(tag)}
+            </span>
+          ))}
         </div>
-        <div className="flex w-full justify-around mb-3">
-          <div className="comments flex gap-1 hover:bg-gray-300">
-            <ChatBubbleBottomCenterTextIcon className="w-6 h-6" />
-            {comments.length}
-          </div>
-          <div className="likes flex gap-1">
-            <button className="hover:bg-gray-300">
-              <ArrowDownIcon className="w-6 h-6" />
-            </button>
-            <span>{likes}</span>
-            <button className="hover:bg-gray-300">
-              <ArrowUpIcon className="w-6 h-6" />
-            </button>
-          </div>
-        </div>
+        {media && (
+          <Carousel className="relative group w-full h-[216px] overflow-hidden">
+            <CarouselContent>
+              {media.map((image, index) => {
+                return (
+                  <CarouselItem key={image}>
+                    <Image
+                      src={image}
+                      alt="Carousel Item"
+                      width={500}
+                      height={300}
+                      loading={index === 0 ? 'eager' : 'lazy'} // only first is eager
+                      sizes="(max-width: 768px) 100vw, 400px"
+                      className="w-full h-full object-cover"
+                      // placeholder="blur"
+                      // blurDataURL={encounter.blurDataUrl}
+                    />
+                  </CarouselItem>
+                )
+              })}
+            </CarouselContent>
+            <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:bg-gray-200 border-none" />
+            <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:bg-gray-200 border-none" />
+          </Carousel>
+        )}
+        <p className="overflow-hidden text-ellipsis whitespace-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:4] mb-4 mt-[8px] text-gray-700 h-[91px] leading-tight">
+          {content}
+        </p>
       </div>
+      {socials && (
+        <div className="flex w-full justify-start mb-3 gap-1 px-3">
+          <div className="comments flex gap-1 hover:bg-gray-300 bg-[#E1E8EB] px-2 pb-[2px] pt-[4px] justify-center items center">
+            <ChatBubbleBottomCenterTextIcon className="w-[18px] h-[24px]" />
+            <span>{comments.length}</span>
+          </div>
+          <div className="comments flex gap-1 hover:bg-gray-300 bg-[#E1E8EB] px-2 pb-[2px] pt-[4px] justify-center items center">
+            <Image src="share.svg" alt="Share" width={18} height={24} />
+            <span>Share</span>
+          </div>
+        </div>
+      )}
+      <span className="flex justify-center">
+        <div className="px-5 w-[calc(100%-30px)] border-b-[0.5px] border-black" />
+      </span>
+      {/* </div> */}
     </div>
   )
 }

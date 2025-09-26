@@ -17,6 +17,7 @@ export async function fetchEncounters(): Promise<UIEnrichedEncounter[]> {
           author: { select: { avatarUrl: true, username: true, id: true } },
         },
       },
+      confidences: true,
     },
   })
 

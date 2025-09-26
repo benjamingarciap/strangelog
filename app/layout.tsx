@@ -28,7 +28,7 @@ export default function RootLayout({
         <SessionWrapper>
           <Navbar />
           <div className="flex w-full h-screen">
-            <SideMenu />
+            {/* <SideMenu /> */}
             {children}
           </div>
         </SessionWrapper>

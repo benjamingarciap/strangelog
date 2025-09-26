@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Camera, Calendar, Mail, MapPin } from 'lucide-react'
+import { Mail } from 'lucide-react'
 import { PublicEnrichedUser } from '../../types/user'
 
 export default function ProfileHeader({
@@ -11,49 +11,47 @@ export default function ProfileHeader({
 }: {
   user: PublicEnrichedUser
 }): React.JSX.Element {
-  const { username } = user
+  const { lastName, firstName, avatarUrl, email, confidenceLevel } = user
   return (
-    <Card>
+    <Card className="rounded-none mb-[0px] border-r-0 border-l-0 shadow-none">
       <CardContent className="p-6">
         <div className="flex flex-col items-start gap-6 md:flex-row md:items-center">
           <div className="relative">
-            <Avatar className="h-24 w-24">
-              <AvatarImage
-                src="https://bundui-images.netlify.app/avatars/08.png"
-                alt="Profile"
-              />
+            <Avatar className="h-24 w-24 rounded-none">
+              <AvatarImage src={avatarUrl || undefined} alt="Profile" />
               <AvatarFallback className="text-2xl">JD</AvatarFallback>
             </Avatar>
-            <Button
+            {/* <Button
               size="icon"
               variant="outline"
               className="absolute -right-2 -bottom-2 h-8 w-8 rounded-full"
             >
               <Camera />
-            </Button>
+            </Button> */}
           </div>
           <div className="flex-1 space-y-2">
             <div className="flex flex-col gap-2 md:flex-row md:items-center">
-              <h1 className="text-2xl font-bold">{username}</h1>
-              <Badge variant="secondary">Pro Member</Badge>
+              <h1 className="text-2xl font-bold">
+                {firstName} {lastName}
+              </h1>
+              <Badge variant="secondary">
+                Confidence Level: {confidenceLevel}
+              </Badge>
             </div>
-            <p className="text-muted-foreground">Senior Product Designer</p>
+            <p className="text-muted-foreground">Senior Logger</p>
             <div className="text-muted-foreground flex flex-wrap gap-4 text-sm">
               <div className="flex items-center gap-1">
                 <Mail className="size-4" />
-                john.doe@example.com
-              </div>
-              <div className="flex items-center gap-1">
-                <MapPin className="size-4" />
-                San Francisco, CA
-              </div>
-              <div className="flex items-center gap-1">
-                <Calendar className="size-4" />
-                Joined March 2023
+                {email}
               </div>
             </div>
           </div>
-          <Button variant="default">Edit Profile</Button>
+          <Button
+            variant="outline"
+            className="rounded-none hover:bg-gray-300 cursor-pointer"
+          >
+            Edit Profile
+          </Button>
         </div>
       </CardContent>
     </Card>

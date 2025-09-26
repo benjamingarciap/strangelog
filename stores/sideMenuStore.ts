@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import type { LatLngBounds } from 'leaflet'
 
 type SideMenuState = {
   isOpen: boolean

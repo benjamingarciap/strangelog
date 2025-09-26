@@ -41,9 +41,16 @@ export default function EncounterList({
     )
   } else {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 pt-13">
-        {visibleEncounters.map((encounter) => {
-          return <EncounterCard encounter={encounter} key={encounter.id} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 pt-12 pr-3">
+        {visibleEncounters.map((encounter, index) => {
+          return (
+            <EncounterCard
+              encounter={encounter}
+              key={encounter.id}
+              socials={true}
+              isLastCard={index === visibleEncounters.length - 1}
+            />
+          )
         })}
       </div>
     )

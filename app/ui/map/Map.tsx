@@ -109,7 +109,7 @@ export default function Map({
     <MapContainer
       center={[encounters[61].location.lat, encounters[61].location.lng]} // Madrid as default
       zoom={3}
-      className="w-full h-full border-r-[0.5px] border-black"
+      className="w-full h-full"
       ref={mapRef}
       maxBounds={[
         [-90, -180],
@@ -122,10 +122,10 @@ export default function Map({
     >
       <ZoomControl position="topright" />
       <button
-        className="absolute bg-white border border-black p-2 top-4 right-4 z-[1000] hover:bg-gray-200"
+        className="absolute bg-white border-black border-[0.5px] p-2 top-4 right-4 z-[1000] hover:bg-gray-200"
         onClick={() => useMapStore.getState().toggleFullscreen()}
       >
-        <ArrowsPointingOutIcon className="w-6 h-6" />
+        <ArrowsPointingOutIcon className="w-[18px] h-[20px]" />
       </button>
       {/* carto light */}
       <TileLayer
@@ -139,6 +139,13 @@ export default function Map({
         attribution="&copy; OpenStreetMap &copy; CARTO"
         subdomains="abcd"
       /> */}
+      {/* Stamen toner lite */}
+      {/* <TileLayer
+        url="https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://stamen.com/">Stamen Design</a> &copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
+        subdomains={['a', 'b', 'c', 'd']}
+      /> */}
+
       <MapEventHandler onBoundsChange={onBoundsChange} />
       <EscapeToClosePopup setPopupId={setPopupId} />
       {encounters.map(({ id, location, media, title, content }) => {
