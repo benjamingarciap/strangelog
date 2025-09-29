@@ -16,7 +16,9 @@ export function SideMenu(): React.ReactElement {
   return (
     <div
       className={`fixed top-0 left-0 h-full w-64 bg-white z-[2] transition-transform duration-300 ease-in-out
-    ${isOpen ? 'translate-x-0' : '-translate-x-full'} overflow-hidden`}
+    ${
+      isOpen ? 'translate-x-0' : '-translate-x-full'
+    } overflow-hidden drop-shadow-md`}
     >
       <nav className="flex flex-col items-center justify-start max-h-full space-y-3 w-full mt-[55px]">
         {session &&

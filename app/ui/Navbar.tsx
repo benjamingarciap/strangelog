@@ -23,7 +23,7 @@ export const Navbar = (): React.ReactElement => {
             <NavItem isSideMenu={false} href={'/'}>
               + Create
             </NavItem>
-            <NavItem isSideMenu={false} href={`/users/${user.id}`}>
+            <NavItem isSideMenu={false} href={`/user/${user.id}`}>
               Profile
             </NavItem>
           </>

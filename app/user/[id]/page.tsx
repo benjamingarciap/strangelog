@@ -1,7 +1,6 @@
 import React from 'react'
 import { fetchUserById } from '../../lib/data-users'
-import ProfileHeader from '../../ui/profile/profile-header'
-import ProfileContent from '../../ui/profile/profile-content'
+import Profile from '../../ui/profile/Profile'
 
 export default async function UserPage(props: {
   params: Promise<{ id: string }>
@@ -20,10 +19,9 @@ export default async function UserPage(props: {
 
   // Render user profile
   return (
-    <div className="max-h-full flex flex-col justify-center items-center mt-[15px] w-full overflow-y-auto">
-      <div className="max-h-full container mx-auto space-y-6 px-4 sm:px-6 md:px-8 lg:px-40 py-10 h-[100vh]">
-        <ProfileHeader user={user} />
-        <ProfileContent user={user} />
+    <div className="w-full flex flex-col justify-center items-center mt-[100px]">
+      <div className="flex flex-col mx-auto space-y-6 border-x-black border-y-0 border-[0.5px] w-[60%] px-6">
+        <Profile user={user} />
       </div>
     </div>
   )

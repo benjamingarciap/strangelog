@@ -13,7 +13,7 @@ export function SideMenuButton(): React.ReactElement {
           console.log('clicked', isOpen)
           toggleMenu()
         }}
-        className="flex items-center h-[34px] py-1 cursor-pointer max-h-full"
+        className="flex items-center h-[34px] py-1 cursor-pointer max-h-full transition-all duration-300 ease-in-out"
       >
         {isOpen ? (
           // <XMarkIcon width={24} height={24} />

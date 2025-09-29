@@ -41,7 +41,7 @@ export default function EncounterList({
     )
   } else {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 pt-12 pr-3">
+      <div className="grid sm:grid-cols-1 md:grid-cols-2 pt-12 pr-3">
         {visibleEncounters.map((encounter, index) => {
           return (
             <EncounterCard

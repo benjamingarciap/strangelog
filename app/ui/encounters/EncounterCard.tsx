@@ -22,10 +22,12 @@ export default function EncounterCard({
   encounter,
   socials,
   isLastCard,
+  isSavedEncounter,
 }: {
   encounter: UIEnrichedEncounter
   socials?: boolean
   isLastCard?: boolean
+  isSavedEncounter?: boolean
 }): React.ReactElement {
   // const router = useRouter()
   const { title, content, media, comments, id, date, confidences, category } =
@@ -33,8 +35,10 @@ export default function EncounterCard({
 
   return (
     <div
-      className={`flex flex-col transition-colors duration-200  cursor-pointer border-l-[0.5px] ${
-        isLastCard && 'border-r-[0.5px] w-[calc(100%+0.5px)]'
+      className={`flex flex-col transition-colors duration-200  cursor-pointer ${
+        socials! ? 'border-l-[0.5px]' : 'border-0'
+      } ${
+        isLastCard && socials && 'border-r-[0.5px] w-[calc(100%+0.5px)]'
       } border-black h-[500px]`}
     >
       {/* <div
@@ -67,6 +71,9 @@ export default function EncounterCard({
               {format(date, 'dd MMM yyyy')}
             </p>
           </span>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium">4.3 out of 5</span>
+          </div>
         </span>
 
         {confidences && (
@@ -106,7 +113,7 @@ export default function EncounterCard({
           {category.map((tag) => (
             <span
               key={tag}
-              className="flex items-center justify-center bg-[#E1E8EB] pb-[5px] px-1.5 pt-[2px] text-sm h-[29px]"
+              className="flex items-center justify-center bg-[#E1E8EB] pb-[2px] px-1.5 pt-[2px] text-sm h-[21px]"
             >
               {formatCategory(tag)}
             </span>
@@ -114,20 +121,16 @@ export default function EncounterCard({
         </div>
         {media && (
           <Carousel className="relative group w-full h-[216px] overflow-hidden">
-            <CarouselContent>
+            <CarouselContent className="h-[216px]">
               {media.map((image, index) => {
                 return (
-                  <CarouselItem key={image}>
+                  <CarouselItem key={image} className="relative w-full">
                     <Image
                       src={image}
                       alt="Carousel Item"
-                      width={500}
-                      height={300}
                       loading={index === 0 ? 'eager' : 'lazy'} // only first is eager
-                      sizes="(max-width: 768px) 100vw, 400px"
-                      className="w-full h-full object-cover"
-                      // placeholder="blur"
-                      // blurDataURL={encounter.blurDataUrl}
+                      className="object-cover"
+                      fill
                     />
                   </CarouselItem>
                 )
@@ -137,11 +140,11 @@ export default function EncounterCard({
             <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:bg-gray-200 border-none" />
           </Carousel>
         )}
-        <p className="overflow-hidden text-ellipsis whitespace-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:4] mb-4 mt-[8px] text-gray-700 h-[91px] leading-tight">
+        <p className="overflow-hidden whitespace-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:3] mb-4 mt-[8px] text-gray-700 leading-tight">
           {content}
         </p>
       </div>
-      {socials && (
+      {socials ? (
         <div className="flex w-full justify-start mb-3 gap-1 px-3">
           <div className="comments flex gap-1 hover:bg-gray-300 bg-[#E1E8EB] px-2 pb-[2px] pt-[4px] justify-center items center">
             <ChatBubbleBottomCenterTextIcon className="w-[18px] h-[24px]" />
@@ -150,6 +153,17 @@ export default function EncounterCard({
           <div className="comments flex gap-1 hover:bg-gray-300 bg-[#E1E8EB] px-2 pb-[2px] pt-[4px] justify-center items center">
             <Image src="share.svg" alt="Share" width={18} height={24} />
             <span>Share</span>
+          </div>
+        </div>
+      ) : (
+        <div className="flex w-full justify-start mb-3 gap-1 px-3">
+          {!isSavedEncounter && (
+            <div className="comments flex gap-1 hover:bg-gray-300 bg-[#E1E8EB] px-2 pb-[2px] pt-[4px] justify-center items-center">
+              <span>Edit</span>
+            </div>
+          )}
+          <div className="comments flex gap-1 hover:bg-gray-300 bg-[#E1E8EB] px-2 pb-[2px] pt-[4px] justify-center items-center">
+            <span>Delete</span>
           </div>
         </div>
       )}

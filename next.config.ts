@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
       'images.unsplash.com',
       'plus.unsplash.com',
       'picsum.photos',
+      'avatars.githubusercontent.com',
+      'cdn.jsdelivr.net',
     ],
   },
 }
