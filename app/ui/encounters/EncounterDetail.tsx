@@ -23,7 +23,7 @@ export default function EncounterDetail({
   return (
     <div className="max-h-full flex flex-col justify-center items-center mt-[55px] w-full overflow-y-auto">
       <div className="max-h-full flex max-w-4xl flex-col p-6 my-1.5 mx-1.5 ">
-        <Link href={`/users/${creator.id}`}>
+        <Link href={`/user/${creator.id}`}>
           <h2 className="capitalize font-semibold text-gray-700 hover:underline">
             {creator?.username ?? 'Unknown'}
           </h2>
