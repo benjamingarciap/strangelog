@@ -42,6 +42,7 @@ export default function Map({
   const [hoveredDot, setHoveredDot] = useState<number | null>(null)
   const [popupId, setPopupId] = useState<number | null>(null)
   const isFullscreen = useMapStore((state) => state.isFullscreen)
+  const hoveredCard = useMapStore((state) => state.hoveredCard)
   //=========Map Ref=========
   const { isOpen } = useSideMenuStore()
   const mapRef = useRef<L.Map | null>(null)
@@ -54,7 +55,7 @@ export default function Map({
   // =========Rendering the Map=========
   return (
     <MapContainer
-      center={[encounters[61].location.lat, encounters[61].location.lng]} // Madrid as default
+      center={[encounters[0].location.lat, encounters[0].location.lng]} // Madrid as default
       zoom={3}
       className="w-full h-full"
       ref={mapRef}
@@ -96,7 +97,6 @@ export default function Map({
       <MapEventHandler onBoundsChange={onBoundsChange} />
       <EscapeToClosePopup setPopupId={setPopupId} />
       {encounters.map(({ id, location, media, title, content }) => {
-        const hoveredCard = useMapStore((state) => state.hoveredCard)
         const isActive = popupId === id || hoveredCard === id // marker is "active" if clicked or hovered in list
         const isHovered = hoveredDot === id
 

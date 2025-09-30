@@ -1,10 +1,10 @@
 'use client'
 import React from 'react'
-import { useSideMenuStore } from '../../stores/sideMenuStore'
+import { useSideMenuStore } from '../../../stores/sideMenuStore'
 import Image from 'next/image'
 
 export function SideMenuButton(): React.ReactElement {
-  const { isOpen, toggleMenu } = useSideMenuStore()
+  const { isOpen, toggleMenu, setFilterCategory } = useSideMenuStore()
   return (
     <div className="">
       {/* Hamburger button */}
@@ -12,6 +12,7 @@ export function SideMenuButton(): React.ReactElement {
         onClick={() => {
           console.log('clicked', isOpen)
           toggleMenu()
+          setFilterCategory(null)
         }}
         className="flex items-center h-[34px] py-1 cursor-pointer max-h-full transition-all duration-300 ease-in-out"
       >

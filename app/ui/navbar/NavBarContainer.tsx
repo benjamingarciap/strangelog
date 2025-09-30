@@ -1,5 +1,5 @@
 import React from 'react'
-import { SideMenuButton } from './SideMenuButton'
+import { SideMenuButton } from '../sideMenu/SideMenuButton'
 import Link from 'next/link'
 import Image from 'next/image'
 

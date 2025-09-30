@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
-import { useSideMenuStore } from '../../stores/sideMenuStore'
+import { useSideMenuStore } from '../../../stores/sideMenuStore'
 import { Menu, X } from 'lucide-react'
 
 type NavbarButtonProps = {

@@ -1,18 +1,40 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { UIEnrichedEncounter } from '../../types/encounters'
 import MapWrapper from '../map/MapWrapper'
 import EncounterList from '../encounters/EncounterList'
 import { useMapStore } from '../../../stores/mapStore'
-import { SideMenu } from '../SideMenu'
+import { SideMenu } from '../sideMenu/SideMenu'
+import { useSideMenuStore } from '../../../stores/sideMenuStore'
+import { EncounterCategory } from '../../generated/prisma'
 
 export default function Dashboard({
   encounters,
 }: {
   encounters: UIEnrichedEncounter[]
 }): React.ReactElement {
+  // ---------
+
   const isFullscreen = useMapStore((state) => state.isFullscreen)
-  console.log('Fetched encounters from DB:', encounters)
+  const filterCategory: EncounterCategory | null = useSideMenuStore(
+    (state) => state.filterCategory
+  )
+  const [filteredEncounters, setFilteredEncounters] = React.useState(encounters)
+  // ---------
+  // console.log('Dashboard encounters:', encounters)
+  console.log('Filtered Encounters:', filteredEncounters)
+
+  useEffect(() => {
+    if (filterCategory) {
+      setFilteredEncounters(
+        encounters.filter((encounter) =>
+          encounter.category.includes(filterCategory)
+        )
+      )
+    } else {
+      setFilteredEncounters(encounters)
+    }
+  }, [filterCategory, encounters])
 
   return (
     <div className="flex w-full h-screen">
@@ -25,7 +47,7 @@ export default function Dashboard({
             isFullscreen ? 'w-full' : 'w-3/6'
           }`}
         >
-          <MapWrapper encounters={encounters} />
+          <MapWrapper encounters={filteredEncounters} />
         </div>
 
         {/* Encounter List */}
@@ -35,7 +57,7 @@ export default function Dashboard({
               isFullscreen ? 'hidden' : 'w-3/6'
             }`}
           >
-            <EncounterList encounters={encounters} />
+            <EncounterList encounters={filteredEncounters} />
           </div>
         )}
       </>

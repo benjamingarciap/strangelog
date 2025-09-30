@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { useSession } from 'next-auth/react'
-import { useUserStore } from '../../stores/userStore'
+import { useUserStore } from '../../../stores/userStore'
 import { NavItem } from './NavItem'
 import NavBarContainer from './NavBarContainer'
 
