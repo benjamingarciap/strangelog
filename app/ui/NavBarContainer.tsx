@@ -17,7 +17,13 @@ export default function NavBarContainer({
           <SideMenuButton />
           <Link href="/">
             <span className="flex items-center gap-1">
-              <Image src="/logo-black.png" alt="Logo" width={29} height={29} />
+              <Image
+                src="/logo-black.png"
+                alt="Logo"
+                width={29}
+                height={29}
+                className="w-7 h-auto"
+              />
               <p className="font-sans font-extrabold text-[20px] text-black">
                 strangelog
               </p>
