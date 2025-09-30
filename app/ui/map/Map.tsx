@@ -6,9 +6,7 @@ import {
   Popup,
   Marker,
   TileLayer,
-  useMapEvents,
   MapContainer,
-  useMap,
   ZoomControl,
 } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -29,61 +27,8 @@ import { useMapStore } from '../../../stores/mapStore'
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline'
 import { useSideMenuStore } from '../../../stores/sideMenuStore'
 import Image from 'next/image'
-
-// =========Custom Pulsing Icon=========
-const pulsingIcon = L.divIcon({
-  className: 'leaflet-pulsing-dot',
-  iconSize: [20, 20], // matches CSS
-  iconAnchor: [10, 10], // center the dot
-  html: `
-    <div class="leaflet-pulsing-dot">
-      <div class="ping"></div>
-      <div class="dot"></div>
-    </div>
-  `,
-})
-
-// =========Map Event Handler=========
-function MapEventHandler({
-  onBoundsChange,
-}: {
-  onBoundsChange: (_b: LatLngBounds) => void
-}): null {
-  // Popup state
-  const isFullscreen = useMapStore((state) => state.isFullscreen)
-  //=========Using Map Events to Track Bounds=========
-  const map = useMap()
-  //---------Initial Bounds on Mount---------
-  const { isOpen } = useSideMenuStore()
-  useEffect(() => {
-    // Initial bounds on mount
-    if (map) {
-      onBoundsChange(map.getBounds())
-      setTimeout(() => {
-        map.invalidateSize()
-      }, 100) // tiny delay ensures layout is done
-    }
-    const handleResize = () => {
-      map.invalidateSize()
-    }
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [map, onBoundsChange, isFullscreen, isOpen])
-  //---------Update Bounds on Move---------
-
-  useMapEvents({
-    moveend: (event: L.LeafletEvent) => {
-      const bounds = event.target.getBounds()
-      // console.log('Map moved. New bounds:', bounds)
-      if (onBoundsChange) {
-        onBoundsChange(bounds) // Call the callback with new Bounds
-      }
-    },
-  })
-  return null
-}
+import MapEventHandler from '../../lib/utils/map-event-handler'
+import { pulsingIcon, redDotIcon, redDotHoveredIcon } from './Markers'
 
 //=========Main Map Component=========
 export default function Map({
@@ -93,12 +38,14 @@ export default function Map({
   encounters: UIEnrichedEncounter[]
   onBoundsChange: (_b: LatLngBounds) => void
 }): React.ReactElement {
-  const isFullscreen = useMapStore((state) => state.isFullscreen)
+  //=========State Management=========
+  const [hoveredDot, setHoveredDot] = useState<number | null>(null)
   const [popupId, setPopupId] = useState<number | null>(null)
+  const isFullscreen = useMapStore((state) => state.isFullscreen)
   //=========Map Ref=========
   const { isOpen } = useSideMenuStore()
-
   const mapRef = useRef<L.Map | null>(null)
+  //=========Handle Resize on Fullscreen or Side Menu Toggle=========
   useEffect(() => {
     if (mapRef.current) {
       mapRef.current.invalidateSize()
@@ -122,10 +69,10 @@ export default function Map({
     >
       <ZoomControl position="topright" />
       <button
-        className="absolute bg-white border-black border-[0.5px] p-2 top-4 right-4 z-[1000] hover:bg-gray-200"
+        className="absolute bg-white border-black border-[0.5px] p-[4px] top-4 right-4 z-[1000] hover:bg-gray-200"
         onClick={() => useMapStore.getState().toggleFullscreen()}
       >
-        <ArrowsPointingOutIcon className="w-[18px] h-[20px]" />
+        <ArrowsPointingOutIcon className="w-[26px] h-[26px]" />
       </button>
       {/* carto light */}
       <TileLayer
@@ -149,22 +96,30 @@ export default function Map({
       <MapEventHandler onBoundsChange={onBoundsChange} />
       <EscapeToClosePopup setPopupId={setPopupId} />
       {encounters.map(({ id, location, media, title, content }) => {
-        const isActive = popupId === id // marker is "active" if clicked
+        const hoveredCard = useMapStore((state) => state.hoveredCard)
+        const isActive = popupId === id || hoveredCard === id // marker is "active" if clicked or hovered in list
+        const isHovered = hoveredDot === id
+
         const icon = isActive
           ? pulsingIcon
-          : L.divIcon({
-              className: 'leaflet-red-dot',
-              iconSize: [10, 10],
-              iconAnchor: [5, 5],
-              html: `<div class="dot"></div>`,
-            })
+          : redDotIcon && isHovered
+          ? redDotHoveredIcon
+          : redDotIcon
         return (
           <Marker
             position={[location.lat, location.lng]}
             icon={icon}
             eventHandlers={{
-              click: () => setPopupId(id),
-              popupclose: () => setPopupId(null),
+              click: () => {
+                setPopupId(id)
+                useMapStore.getState().toggleMarkerActive()
+              },
+              popupclose: () => {
+                useMapStore.getState().toggleMarkerActive()
+                setPopupId(null)
+              },
+              mouseover: () => setHoveredDot(id),
+              mouseout: () => setHoveredDot(null),
             }}
             key={id}
             autoPan={true} // pan the map automatically to fit the popup
