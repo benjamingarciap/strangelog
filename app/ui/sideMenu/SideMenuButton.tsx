@@ -8,7 +8,7 @@ export function SideMenuButton({
 }: {
   buttonRef: React.RefObject<HTMLButtonElement>
 }): React.ReactElement {
-  const { isOpen, toggleMenu, setFilterCategory } = useSideMenuStore()
+  const { isOpen, toggleMenu } = useSideMenuStore()
   return (
     <div className="" id="side-menu-button">
       {/* Hamburger button */}
@@ -18,7 +18,6 @@ export function SideMenuButton({
           e.stopPropagation()
           toggleMenu()
           console.log('clicked', isOpen)
-          // setFilterCategory(null)
         }}
         className="flex items-center h-[34px] py-1 cursor-pointer max-h-full transition-all duration-300 ease-in-out"
       >

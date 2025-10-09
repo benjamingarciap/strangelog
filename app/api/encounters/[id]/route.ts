@@ -8,10 +8,11 @@ import {
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
+  const { id } = await params
   try {
-    const encounter = await fetchEncounterById(Number(params.id))
+    const encounter = await fetchEncounterById(Number(id))
     if (!encounter)
       return NextResponse.json({ error: 'Not found' }, { status: 404 })
     return NextResponse.json(encounter)
@@ -38,11 +39,12 @@ export async function POST(req: Request): Promise<NextResponse> {
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
+  const { id } = await params
   try {
     const body = await req.json()
-    const updated = await updateEncounter(Number(params.id), body)
+    const updated = await updateEncounter(Number(id), body)
     return NextResponse.json(updated)
   } catch (error) {
     return NextResponse.json(
@@ -54,10 +56,11 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
+  const { id } = await params
   try {
-    await deleteEncounter(Number(params.id))
+    await deleteEncounter(Number(id))
     return NextResponse.json({ message: 'Encounter deleted' })
   } catch (error) {
     return NextResponse.json(

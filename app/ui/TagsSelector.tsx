@@ -20,7 +20,7 @@ const TagsSelector = ({
 }: {
   categories: string[]
   setCategories: React.Dispatch<React.SetStateAction<string[]>>
-}) => {
+}): React.ReactElement => {
   // const [selected, setSelected] = useState<string[]>([])
   const handleRemove = (value: string) => {
     if (!categories.includes(value)) {

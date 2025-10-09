@@ -1,4 +1,5 @@
 'use client'
+import React from 'react'
 
 import { XIcon } from 'lucide-react'
 import {
@@ -46,7 +47,7 @@ const TagsContext = createContext<TagsContextType>({
   setWidth: undefined,
 })
 
-const useTagsContext = () => {
+const useTagsContext = (): TagsContextType => {
   const context = useContext(TagsContext)
 
   if (!context) {
@@ -72,7 +73,7 @@ export const Tags = ({
   onOpenChange: controlledOnOpenChange,
   children,
   className,
-}: TagsProps) => {
+}: TagsProps): React.ReactElement => {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false)
   const [width, setWidth] = useState<number>()
   const ref = useRef<HTMLDivElement>(null)
@@ -115,7 +116,7 @@ export const TagsTrigger = ({
   className,
   children,
   ...props
-}: TagsTriggerProps) => (
+}: TagsTriggerProps): React.ReactElement => (
   <PopoverTrigger asChild>
     <Button
       className={cn('h-auto w-full justify-between p-2', className)}
@@ -141,7 +142,7 @@ export const TagsValue = ({
   children,
   onRemove,
   ...props
-}: TagsValueProps & { onRemove?: () => void }) => {
+}: TagsValueProps & { onRemove?: () => void }): React.ReactElement => {
   const handleRemove: MouseEventHandler<HTMLDivElement> = (event) => {
     event.preventDefault()
     event.stopPropagation()
@@ -171,7 +172,7 @@ export const TagsContent = ({
   className,
   children,
   ...props
-}: TagsContentProps) => {
+}: TagsContentProps): React.ReactElement => {
   const { width } = useTagsContext()
 
   return (
@@ -187,13 +188,19 @@ export const TagsContent = ({
 
 export type TagsInputProps = ComponentProps<typeof CommandInput>
 
-export const TagsInput = ({ className, ...props }: TagsInputProps) => (
+export const TagsInput = ({
+  className,
+  ...props
+}: TagsInputProps): React.ReactElement => (
   <CommandInput className={cn('h-9', className)} {...props} />
 )
 
 export type TagsListProps = ComponentProps<typeof CommandList>
 
-export const TagsList = ({ className, ...props }: TagsListProps) => (
+export const TagsList = ({
+  className,
+  ...props
+}: TagsListProps): React.ReactElement => (
   <CommandList className={cn('max-h-[200px]', className)} {...props} />
 )
 
@@ -203,7 +210,7 @@ export const TagsEmpty = ({
   children,
   className,
   ...props
-}: TagsEmptyProps) => (
+}: TagsEmptyProps): React.ReactElement => (
   <CommandEmpty {...props}>{children ?? 'No tags found.'}</CommandEmpty>
 )
 
@@ -213,7 +220,10 @@ export const TagsGroup = CommandGroup
 
 export type TagsItemProps = ComponentProps<typeof CommandItem>
 
-export const TagsItem = ({ className, ...props }: TagsItemProps) => (
+export const TagsItem = ({
+  className,
+  ...props
+}: TagsItemProps): React.ReactElement => (
   <CommandItem
     className={cn('cursor-pointer items-center justify-between', className)}
     {...props}
