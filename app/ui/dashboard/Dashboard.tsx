@@ -4,7 +4,7 @@ import { UIEnrichedEncounter } from '../../types/encounters'
 import MapWrapper from '../map/MapWrapper'
 import EncounterList from '../encounters/EncounterList'
 import { useMapStore } from '../../../stores/mapStore'
-import { SideMenu } from '../sideMenu/SideMenu'
+// import { SideMenu } from '../sideMenu/SideMenu'
 import { useSideMenuStore } from '../../../stores/sideMenuStore'
 import { EncounterCategory } from '../../generated/prisma'
 
@@ -14,7 +14,9 @@ export default function Dashboard({
   encounters: UIEnrichedEncounter[]
 }): React.ReactElement {
   // ---------
-
+  // const buttonRef = React.useRef<HTMLButtonElement>(
+  //   null
+  // ) as React.RefObject<HTMLButtonElement>
   const isFullscreen = useMapStore((state) => state.isFullscreen)
   const filterCategory: EncounterCategory | null = useSideMenuStore(
     (state) => state.filterCategory
@@ -40,7 +42,7 @@ export default function Dashboard({
     <div className="flex w-full h-screen">
       <>
         <div className="relative flex-shrink-0">
-          <SideMenu />
+          {/* <SideMenu buttonRef={buttonRef} /> */}
         </div>
         <div
           className={`overflow-y-auto h-full ${

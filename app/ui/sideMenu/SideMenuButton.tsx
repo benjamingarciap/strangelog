@@ -3,40 +3,46 @@ import React from 'react'
 import { useSideMenuStore } from '../../../stores/sideMenuStore'
 import Image from 'next/image'
 
-export function SideMenuButton(): React.ReactElement {
+export function SideMenuButton({
+  buttonRef,
+}: {
+  buttonRef: React.RefObject<HTMLButtonElement>
+}): React.ReactElement {
   const { isOpen, toggleMenu, setFilterCategory } = useSideMenuStore()
   return (
-    <div className="">
+    <div className="" id="side-menu-button">
       {/* Hamburger button */}
       <button
-        onClick={() => {
-          console.log('clicked', isOpen)
+        ref={buttonRef}
+        onClick={(e) => {
+          e.stopPropagation()
           toggleMenu()
-          setFilterCategory(null)
+          console.log('clicked', isOpen)
+          // setFilterCategory(null)
         }}
         className="flex items-center h-[34px] py-1 cursor-pointer max-h-full transition-all duration-300 ease-in-out"
       >
-        {isOpen ? (
+        {/* {isOpen ? (
           // <XMarkIcon width={24} height={24} />
           <Image
-            src="/x.svg"
+            src="/arrow-hamburger-1.svg"
             alt="Menu"
             width={24}
             height={24}
-            className="object-contain w-[60px] h-[60px]"
+            className="object-contain w-[25px] h-[25px]"
           />
         ) : (
-          <>
-            {/* <Bars2Icon width={24} height={24} /> */}
-            <Image
-              src="/hamburger-icon.svg"
-              alt="Menu"
-              width={24}
-              height={24}
-              className="object-contain w-[60px] h-[60px]"
-            />
-          </>
-        )}
+          <> */}
+        {/* <Bars2Icon width={24} height={24} /> */}
+        <Image
+          src="/icons8-menu-30.svg"
+          alt="Menu"
+          width={19}
+          height={19}
+          className="object-contain w-[25px] h-[25px]"
+        />
+        {/* </>
+        } */}
       </button>
     </div>
   )

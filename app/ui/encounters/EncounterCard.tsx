@@ -81,9 +81,6 @@ export default function EncounterCard({
               {format(date, 'dd MMM yyyy')}
             </p>
           </span>
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium">4.3 out of 5</span>
-          </div>
         </span>
 
         {confidences && (

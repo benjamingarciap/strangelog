@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { signOut, useSession } from 'next-auth/react'
 import { useSideMenuStore } from '../../../stores/sideMenuStore'
 import {
@@ -9,46 +9,40 @@ import {
 } from '@/components/ui/accordion'
 import { cn } from '../../../lib/utils'
 import { formatCategory } from '../../lib/utils/formatCategory'
-import { EncounterCategory } from '../../generated/prisma'
+import { encounterCategories } from '../../lib/constants'
 
-const cathegories: EncounterCategory[] = [
-  'UAP_LUMINOUS_ORBS',
-  'UAP_DISC',
-  'UAP_TRIANGLE',
-  'UAP_CYLINDER',
-  'UAP_SPHERE',
-  'UAP_TRANS_MEDIUM',
-  'UAP_FORMATION_SWARM',
-  'CE_1',
-  'CE_2',
-  'CE_3',
-  'CE_4_ABDUCTION',
-  'CE_5_INITIATED_CONTACT',
-  'CE_6_INJURY',
-  'CE_7_LONG_TERM_CONTACT',
-  'ENTITY_ENCOUNTER',
-  'ABDUCTION_SCENARIO',
-  'POLTERGEIST_ACTIVITY',
-  'PORTAL_DIMENSIONAL',
-  'CATTLE_MUTILATION',
-  'MEN_IN_BLACK',
-  'MISSING_TIME',
-  'PSYCHIC_EFFECTS',
-  'TRACE_EVIDENCE',
-  'EM_INTERFERENCE',
-  'RADIATION_EFFECTS',
-  'WEATHER_DISTURBANCE',
-  'OTHER',
-]
-
-export function SideMenu(): React.ReactElement {
-  const { isOpen, filterCategory } = useSideMenuStore()
+export function SideMenu({
+  buttonRef,
+}: {
+  buttonRef: React.RefObject<HTMLButtonElement>
+}): React.ReactElement {
+  const { isOpen, filterCategory, toggleMenu } = useSideMenuStore()
   const { data: session } = useSession()
+  const menuRef = useRef<HTMLDivElement>(null)
   // const [filterCategory, setFilterCategory] = useState<string>('')
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        if (isOpen) toggleMenu()
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen, toggleMenu])
 
   return (
     <div
-      className={`fixed top-0 left-0 h-full w-50 bg-white z-[2] transition-transform duration-300 ease-in-out
+      ref={menuRef}
+      className={`fixed top-0 left-0 h-full w-50 bg-white z-[3] transition-transform duration-300 ease-in-out
     ${
       isOpen ? 'translate-x-0' : '-translate-x-full'
     } overflow-hidden drop-shadow-md`}
@@ -64,7 +58,18 @@ export function SideMenu(): React.ReactElement {
                     Cathegory
                   </AccordionTrigger>
                   <AccordionContent className="flex flex-col justify-start items-start gap-1 pl-2 overflow-auto max-h-[501px]">
-                    {cathegories.map((cathegory) => (
+                    <button
+                      className={cn(
+                        'flex justify-center items-center cursor-pointer hover:underline p-0 text-gray-500',
+                        { underline: filterCategory === null }
+                      )}
+                      onClick={() => {
+                        useSideMenuStore.getState().setFilterCategory(null)
+                      }}
+                    >
+                      No filter
+                    </button>
+                    {encounterCategories.map((cathegory) => (
                       <button
                         key={cathegory}
                         className={cn(
@@ -73,9 +78,13 @@ export function SideMenu(): React.ReactElement {
                         )}
                         onClick={() => {
                           // setFilterCategory(cathegory)
-                          useSideMenuStore
-                            .getState()
-                            .setFilterCategory(cathegory)
+                          if (filterCategory === cathegory) {
+                            useSideMenuStore.getState().setFilterCategory(null)
+                          } else {
+                            useSideMenuStore
+                              .getState()
+                              .setFilterCategory(cathegory)
+                          }
                           console.log(
                             'FILTER CATEGORY: SIDE MENU--->',
                             useSideMenuStore.getState().filterCategory

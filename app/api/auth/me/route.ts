@@ -10,12 +10,13 @@ export async function GET(): Promise<Response> {
         status: 401,
       })
     }
-    console.log('Session found:', session.user)
+    // console.log('Session found:', session.user)
     const response = new Response(JSON.stringify({ user: session.user }), {
       status: 200,
     })
     console.log('Authenticated response:', response)
     return response
+    //==============================
   } catch (error) {
     return new Response(`Internal Server Error: ${error}`, { status: 500 })
   }

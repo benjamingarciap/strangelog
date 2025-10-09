@@ -4,6 +4,7 @@ import { Navbar } from './ui/navbar/Navbar'
 import React, { ReactElement, useEffect } from 'react'
 import { useUserStore } from '../stores/userStore'
 import SessionWrapper from './ui/SessionWrapper'
+import { SideMenu } from './ui/sideMenu/SideMenu'
 // import { SideMenu } from './ui/SideMenu'
 
 export default function RootLayout({
@@ -14,6 +15,9 @@ export default function RootLayout({
   // Fetch user on mount
   const fetchUser = useUserStore((state) => state.fetchUser)
   const user = useUserStore((state) => state.user)
+  const buttonRef = React.useRef<HTMLButtonElement>(
+    null
+  ) as React.RefObject<HTMLButtonElement>
 
   useEffect(() => {
     fetchUser()
@@ -26,7 +30,8 @@ export default function RootLayout({
     <html lang="en">
       <body className="flex flex-col items-center bg-gray-100 min-h-screen">
         <SessionWrapper>
-          <Navbar />
+          <Navbar buttonRef={buttonRef} />
+          <SideMenu buttonRef={buttonRef} />
           <div className="flex w-full h-screen">
             {/* <SideMenu /> */}
             {children}

@@ -6,21 +6,25 @@ import { NavItem } from './NavItem'
 import NavBarContainer from './NavBarContainer'
 
 // Navbar component
-export const Navbar = (): React.ReactElement => {
+export const Navbar = ({
+  buttonRef,
+}: {
+  buttonRef: React.RefObject<HTMLButtonElement>
+}): React.ReactElement => {
   const { data: session, status } = useSession()
   const user = useUserStore((state) => state.user)
 
   // ⏳ While session is being fetched → render nothing or a skeleton
   if (status === 'loading') {
-    return <NavBarContainer />
+    return <NavBarContainer buttonRef={buttonRef} />
   }
   return (
-    <NavBarContainer>
+    <NavBarContainer buttonRef={buttonRef}>
       {/* Right side */}
       <div className="flex items-center gap-0">
         {session && user ? (
           <>
-            <NavItem isSideMenu={false} href={'/'}>
+            <NavItem isSideMenu={false} href={'/create'}>
               + Create
             </NavItem>
             <NavItem isSideMenu={false} href={`/user/${user.id}`}>

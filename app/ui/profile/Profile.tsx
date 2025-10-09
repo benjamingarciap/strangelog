@@ -43,9 +43,9 @@ export default function Profile({
               </div>
             )}
             <div className="flex flex-col gap-2">
-              <h1 className="text-[1.3rem] font-bold text-gray-600 capitalize">
+              <h2 className="text-[1.3rem] font-bold text-gray-600 capitalize">
                 {firstName} {lastName}
-              </h1>
+              </h2>
               <div className="flex items-center gap-2">
                 <TrustMeter confidence={confidenceLevel} readOnly />
                 <p className="text-[0.8rem] text-gray-500">

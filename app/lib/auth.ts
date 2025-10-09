@@ -58,8 +58,10 @@ export const authOptions = {
       if (user) {
         token.id = user.id.toString()
         token.email = user.email
+        token.name = user.name
+        token.picture = user.image
       } // store id in JWT at sign-in
-      console.log('JWT callback token:', token)
+      // console.log('JWT callback token:', token)
       return token
     },
     async session({
@@ -71,6 +73,9 @@ export const authOptions = {
     }): Promise<Session> {
       if (token.id) {
         session.user.id = token.id.toString() // attach id to session
+        session.user.email = token.email
+        session.user.name = token.name
+        session.user.image = token.picture
       }
       return session
     },
