@@ -88,7 +88,7 @@ export default function EncounterDetail({
           {comments &&
             comments.map((comment) => (
               <div key={comment.id}>
-                <Link href={`/users/${comment.author.id}`}>
+                <Link href={`/user/${comment.author.id}`}>
                   <p className="font-semibold capitalize hover:underline">
                     {comment.author.username ?? 'Unknown'}
                   </p>

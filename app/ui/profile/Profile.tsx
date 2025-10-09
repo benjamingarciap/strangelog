@@ -93,14 +93,17 @@ export default function Profile({
               value="saved"
               className="min-h-[555px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4"
             >
-              {savedEncounters.map((savedEncounter) => (
-                <EncounterCard
-                  key={savedEncounter.id}
-                  encounter={savedEncounter}
-                  isSavedEncounter={true}
-                />
-              ))}
-              <p className="text-gray-500">No saved reports yet.</p>
+              {savedEncounters.length > 0 ? (
+                savedEncounters.map((savedEncounter) => (
+                  <EncounterCard
+                    key={savedEncounter.id}
+                    encounter={savedEncounter}
+                    isSavedEncounter={true}
+                  />
+                ))
+              ) : (
+                <p className="text-gray-500">No saved reports yet.</p>
+              )}
             </TabsContent>
           </Tabs>
         </div>

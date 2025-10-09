@@ -15,7 +15,7 @@ import TrustMeter from '../TrustMeter'
 import { formatCategory } from '../../lib/utils/formatCategory'
 import { useRouter } from 'next/navigation'
 import { useMapStore } from '../../../stores/mapStore'
-import router from 'next/router'
+import { useSession } from 'next-auth/react'
 
 //=========Encounter Card Component=========
 
@@ -30,9 +30,26 @@ export default function EncounterCard({
   isLastCard?: boolean
   isSavedEncounter?: boolean
 }): React.ReactElement {
+  const { data: session } = useSession()
+  const currentUserId = session?.user?.id
   const router = useRouter()
-  const { title, content, media, comments, id, date, confidences, category } =
-    encounter
+  const {
+    title,
+    content,
+    media,
+    comments,
+    id,
+    date,
+    confidences,
+    category,
+    creator,
+  } = encounter
+  console.log(
+    'currentUserId',
+    typeof currentUserId, // string | undefined
+    'creator.id',
+    typeof creator.id // number
+  )
   const handleSubmit = async (id: number) => {
     const res = await fetch(`/api/encounters/${id}`, {
       method: 'DELETE',
@@ -188,26 +205,30 @@ export default function EncounterCard({
         </div>
       ) : (
         <div className="flex w-full justify-start mb-3 gap-1 px-3">
-          {!isSavedEncounter && (
-            <button
-              className="comments flex gap-1 hover:bg-gray-300 bg-[#E1E8EB] px-2 pb-[2px] pt-[4px] justify-center items-center cursor-pointer"
-              onClick={(e) => e.stopPropagation()}
-            >
-              Edit
-            </button>
-          )}
-
-          <button
-            className="comments flex gap-1 hover:bg-gray-300 bg-[#E1E8EB] px-2 pb-[2px] pt-[4px] justify-center items-center cursor-pointer"
-            onClick={(e) => {
-              e.stopPropagation()
-              console.log('e', e.target)
-              // deleteEncounter(id)
-              handleSubmit(id)
-            }}
-          >
-            Delete
-          </button>
+          {currentUserId
+            ? parseInt(currentUserId) === creator.id &&
+              !isSavedEncounter && (
+                <>
+                  <button
+                    className="comments flex gap-1 hover:bg-gray-300 bg-[#E1E8EB] px-2 pb-[2px] pt-[4px] justify-center items-center cursor-pointer"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="comments flex gap-1 hover:bg-gray-300 bg-[#E1E8EB] px-2 pb-[2px] pt-[4px] justify-center items-center cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      console.log('e', e.target)
+                      // deleteEncounter(id)
+                      handleSubmit(id)
+                    }}
+                  >
+                    Delete
+                  </button>
+                </>
+              )
+            : null}
         </div>
       )}
       <span className="flex justify-center">
