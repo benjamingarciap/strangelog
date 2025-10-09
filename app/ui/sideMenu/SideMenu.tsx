@@ -42,7 +42,7 @@ export function SideMenu({
   return (
     <div
       ref={menuRef}
-      className={`fixed top-0 left-0 h-full w-50 bg-white z-[3] transition-transform duration-300 ease-in-out
+      className={`fixed top-0 left-0 h-full w-55 bg-white z-[3] transition-transform duration-300 ease-in-out
     ${
       isOpen ? 'translate-x-0' : '-translate-x-full'
     } overflow-hidden drop-shadow-md`}
@@ -52,7 +52,11 @@ export function SideMenu({
           <div className="flex flex-col justify-between items-start w-full gap-4 h-[85%]">
             <div>
               <p className="text-gray-500">Filter by:</p>
-              <Accordion collapsible type="single" className="w-full">
+              <Accordion
+                collapsible
+                type="single"
+                className="w-full min-w-full"
+              >
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="border-b-[1px] border-gray-300 pb-1 mb-2 w-[169px] rounded-none cursor-pointer font-semibold text-gray-500 min-w-full">
                     Cathegory

@@ -15,6 +15,7 @@ import TrustMeter from '../TrustMeter'
 import { formatCategory } from '../../lib/utils/formatCategory'
 import { useRouter } from 'next/navigation'
 import { useMapStore } from '../../../stores/mapStore'
+import router from 'next/router'
 
 //=========Encounter Card Component=========
 
@@ -32,6 +33,21 @@ export default function EncounterCard({
   const router = useRouter()
   const { title, content, media, comments, id, date, confidences, category } =
     encounter
+  const handleSubmit = async (id: number) => {
+    const res = await fetch(`/api/encounters/${id}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+    })
+
+    const data = await res.json()
+    if (res.ok) {
+      console.log('Deleted successfully')
+      router.refresh() // Refresh the current page to reflect changes
+    } else {
+      console.log('data', data)
+      // setError(data.error || 'Something went wrong')
+    }
+  }
 
   return (
     <div
@@ -183,7 +199,12 @@ export default function EncounterCard({
 
           <button
             className="comments flex gap-1 hover:bg-gray-300 bg-[#E1E8EB] px-2 pb-[2px] pt-[4px] justify-center items-center cursor-pointer"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.stopPropagation()
+              console.log('e', e.target)
+              // deleteEncounter(id)
+              handleSubmit(id)
+            }}
           >
             Delete
           </button>
