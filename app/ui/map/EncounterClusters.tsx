@@ -127,9 +127,12 @@ export function EncounterClusters({
             position={[lat, lng]}
             icon={icon}
             eventHandlers={{
-              popupopen: () => {
+              popupopen: (e) => {
                 // Lmap.setView([lat, lng], undefined, { animate: true })
                 setActiveMarkerId(cluster.properties.id)
+                const popup = e.popup
+                // Disable autopan *after* the popup opens
+                popup.options.autoPan = false
               },
               popupclose: () => setActiveMarkerId(null),
               mouseover: () =>

@@ -32,6 +32,55 @@ export async function fetchEncounters(): Promise<UIEnrichedEncounter[]> {
     category: encounter.category as EncounterCategory[],
   }))
 }
+
+export async function fetchEncountersMap(
+  req: Request
+): Promise<UIEnrichedEncounter[]> {
+  const { searchParams } = new URL(req.url)
+  const minLat = searchParams.get('minLat')
+  const maxLat = searchParams.get('maxLat')
+  const minLng = searchParams.get('minLng')
+  const maxLng = searchParams.get('maxLng')
+
+  const where: Prisma.EncounterWhereInput = {}
+
+  // Only apply map filtering if bounds are provided
+  if (minLat && maxLat && minLng && maxLng) {
+    where.locationLat = {
+      gte: parseFloat(minLat),
+      lte: parseFloat(maxLat),
+    }
+    where.locationLng = {
+      gte: parseFloat(minLng),
+      lte: parseFloat(maxLng),
+    }
+  }
+
+  const encounters = await prisma.encounter.findMany({
+    where,
+    orderBy: { createdAt: 'desc' },
+    include: {
+      creator: { select: { avatarUrl: true, username: true, id: true } },
+      comments: {
+        include: {
+          author: { select: { avatarUrl: true, username: true, id: true } },
+        },
+      },
+      confidences: true,
+    },
+  })
+
+  return encounters.map((encounter: EnrichedEncounter) => ({
+    ...encounter,
+    location: {
+      lat: encounter.locationLat,
+      lng: encounter.locationLng,
+    },
+    evidence: encounter.evidence as UIEvidenceTag[],
+    category: encounter.category as EncounterCategory[],
+  }))
+}
+
 export async function fetchEncountersPaginated(
   req: Request
 ): Promise<UIEnrichedEncounter[]> {

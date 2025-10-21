@@ -13,7 +13,13 @@ export default function MapWrapper({
   return (
     <>
       <div className="flex min-w-[300px] w-full h-full sticky top-0 z-0 px-[14px] pb-3 rounded pt-15">
-        <Map encounters={encounters} />
+        {encounters ? (
+          <Map encounters={encounters} />
+        ) : (
+          <div className="flex w-full h-full justify-center items-center">
+            No encounters found
+          </div>
+        )}
       </div>
     </>
   )

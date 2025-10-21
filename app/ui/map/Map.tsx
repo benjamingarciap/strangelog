@@ -29,6 +29,9 @@ export default function Map({
   //=========Map Ref=========
   const { isOpen } = useSideMenuStore()
   const mapRef = useRef<L.Map | null>(null)
+  const center: [number, number] = points.length
+    ? [points[0].geometry.coordinates[1], points[0].geometry.coordinates[0]]
+    : [40.4168, -3.7038] // fallback to Madrid or any default
   //=========Handle Resize on Fullscreen or Side Menu Toggle=========
   useEffect(() => {
     if (mapRef.current) {
@@ -38,10 +41,7 @@ export default function Map({
   // =========Rendering the Map=========
   return (
     <MapContainer
-      center={[
-        points[0].geometry.coordinates[1],
-        points[0].geometry.coordinates[0],
-      ]} // Madrid as default
+      center={center} // Madrid as default
       zoom={3}
       className="w-full h-full rounded"
       ref={mapRef}
