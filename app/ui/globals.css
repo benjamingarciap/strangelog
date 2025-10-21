@@ -1,6 +1,24 @@
 @import 'tailwindcss';
 @tailwind utilities;
 @import 'leaflet/dist/leaflet.css';
+@font-face {
+  font-family: 'Minecraft';
+  src: url('/fonts/Minecraft.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Techovier';
+  src: url('/fonts/Techovier.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Techovier';
+  src: url('/fonts/Techovier-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
 
 body {
   background: var(--background);
@@ -98,15 +116,26 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 /* Leaflet Popup Customization */
+/* .leaflet-popup {
+  position: relative !important;
+} */
 .leaflet-popup-content-wrapper {
   background-color: #ffffff !important;
   color: #000000 !important;
   padding: 0.5rem !important;
-  border-radius: 0 !important; /* remove rounding */
+  border-radius: 4px !important; /* remove rounding */
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; /* shadow-lg */
-  width: 350px !important;
-  height: 360px !important;
+  width: 280px !important;
+  height: 380px !important;
+}
+/* .leaflet-popup-close-button {
+  width: 30px !important;
+  height: 30px !important;
+  background: url('/x-icon.svg') no-repeat center center !important;
+} */
+.leaflet-popup-close-button {
+  display: none !important;
 }
 
 .leaflet-popup-tip {
@@ -154,7 +183,7 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 .leaflet-control-zoom-in {
-  border-bottom: 1px solid #000000 !important; /* black border between buttons */
+  border-bottom: 0.5px solid #000000 !important; /* black border between buttons */
 }
 
 .dashboard-grid {

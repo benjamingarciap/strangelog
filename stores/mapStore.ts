@@ -3,26 +3,28 @@ import type { LatLngBounds } from 'leaflet'
 
 type MapState = {
   bounds: LatLngBounds | null
-  markerActive: boolean
+  activeMarkerId: number | null
   isFullscreen: boolean
   hoveredCard: number | null
   setBounds: (_b: LatLngBounds) => void
   toggleFullscreen: () => void
   setHoveredCard: (id: number | null) => void
-  toggleMarkerActive: () => void
+  setActiveMarkerId: (id: number | null) => void
+  hoveredCluster: string | number | undefined
+  setHoveredCluster: (id: string | number | undefined) => void
+  //
 }
-
 export const useMapStore = create<MapState>((set) => ({
   bounds: null,
   hoveredCard: null,
+  hoveredCluster: undefined,
   isFullscreen: false,
-  markerActive: false,
+  activeMarkerId: null,
   setBounds: (_b) => set({ bounds: _b }),
   toggleFullscreen: () =>
     set((state) => ({ isFullscreen: !state.isFullscreen })),
   setHoveredCard: (id: number | null) => set({ hoveredCard: id }),
-  toggleMarkerActive: () => {
-    set((state) => ({ markerActive: !state.markerActive }))
-    console.log('TOGGLED MARKER ACTIVE', useMapStore.getState().markerActive)
-  },
+  setActiveMarkerId: (id: number | null) => set({ activeMarkerId: id }),
+  setHoveredCluster: (id: string | number | undefined) =>
+    set({ hoveredCluster: id }),
 }))

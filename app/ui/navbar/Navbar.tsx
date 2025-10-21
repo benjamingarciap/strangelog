@@ -21,7 +21,7 @@ export const Navbar = ({
   return (
     <NavBarContainer buttonRef={buttonRef}>
       {/* Right side */}
-      <div className="flex items-center gap-0">
+      <div className="flex items-center gap-3 mr-4">
         {session && user ? (
           <>
             <NavItem isSideMenu={false} href={'/create'}>

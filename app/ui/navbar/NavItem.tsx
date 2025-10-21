@@ -24,7 +24,7 @@ export function NavItem({
           console.log('clicked', isOpen)
           toggleMenu()
         }}
-        className="flex items-center h-[36px] px-5 cursor-pointer border-r-1 border-black max-h-full hover:bg-gray-200"
+        className="flex items-center h-[36px] px-5 cursor-pointer  font-semibold border-r-1 border-black max-h-full hover:bg-gray-200 text-xs"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
@@ -33,9 +33,11 @@ export function NavItem({
     return (
       <Link
         href={`${href}`}
-        className="flex items-center h-[34px] px-5 py-1 cursor-pointer m-0 max-h-full hover:bg-gray-100"
+        className="flex items-center h-[34px] px-3 py-1 cursor-pointer m-0 max-h-full hover:bg-gray-100 rounded-[6px] transition-colors duration-400 bg-white"
       >
-        <p className="font-sans text-[12px] font-medium">{children}</p>
+        <p className="font-sans text-xs text-gray-700 font-semibold">
+          {children}
+        </p>
       </Link>
     )
 }

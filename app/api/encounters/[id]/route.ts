@@ -6,6 +6,9 @@ import {
   createEncounter,
 } from '@/app/lib/actions'
 
+import { getServerSession } from 'next-auth'
+import { authOptions } from '../../../lib/auth'
+
 export async function GET(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -26,6 +29,8 @@ export async function GET(
 
 export async function POST(req: Request): Promise<NextResponse> {
   try {
+    const session = await getServerSession(authOptions)
+    if (!session) return new NextResponse('Unauthorized', { status: 401 })
     const body = await req.json()
     const newEncounter = await createEncounter(body)
     return NextResponse.json(newEncounter, { status: 201 })
@@ -41,6 +46,8 @@ export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
+  const session = await getServerSession(authOptions)
+  if (!session) return new NextResponse('Unauthorized', { status: 401 })
   const { id } = await params
   try {
     const body = await req.json()
@@ -58,6 +65,8 @@ export async function DELETE(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
+  const session = await getServerSession(authOptions)
+  if (!session) return new NextResponse('Unauthorized', { status: 401 })
   const { id } = await params
   try {
     await deleteEncounter(Number(id))

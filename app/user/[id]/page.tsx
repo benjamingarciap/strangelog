@@ -20,7 +20,7 @@ export default async function UserPage(props: {
   // Render user profile
   return (
     <div className="w-full flex flex-col justify-center items-center mt-[100px]">
-      <div className="flex flex-col mx-auto space-y-6 border-x-black border-y-0 border-[0.5px] w-[60%] px-6">
+      <div className="flex flex-col mx-auto space-y-6 border-x-black border-y-0 border-[0.5px] w-[70%] px-6">
         <Profile user={user} />
       </div>
     </div>

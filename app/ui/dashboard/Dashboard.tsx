@@ -39,14 +39,24 @@ export default function Dashboard({
   }, [filterCategory, encounters])
 
   return (
-    <div className="flex w-full h-screen">
+    // <div className="flex w-full h-screen pt-15 bg-[#e3e7eb]">
+    // <div className="flex w-full h-screen bg-[#D5DADC]"> // map bg color
+    <div
+      className="flex w-full h-screen 
+      [@media(max-width:531px)]:flex-col
+      [@media(max-width:531px)]:jusifty-center
+      [@media(max-width:531px)]:items-center
+   "
+    >
       <>
         <div className="relative flex-shrink-0">
           {/* <SideMenu buttonRef={buttonRef} /> */}
         </div>
         <div
           className={`overflow-y-auto h-full ${
-            isFullscreen ? 'w-full' : 'w-3/6'
+            isFullscreen
+              ? 'w-full'
+              : 'w-8/20 [@media(max-width:929px)]:w-11/20 [@media(max-width:532px)]:!w-full'
           }`}
         >
           <MapWrapper encounters={filteredEncounters} />
@@ -56,7 +66,9 @@ export default function Dashboard({
         {!isFullscreen && (
           <div
             className={`overflow-y-auto h-full ${
-              isFullscreen ? 'hidden' : 'w-3/6'
+              isFullscreen
+                ? 'hidden'
+                : 'w-12/20 [@media(max-width:929px)]:w-9/20 [@media(max-width:532px)]:!w-[100%]'
             }`}
           >
             <EncounterList encounters={filteredEncounters} />

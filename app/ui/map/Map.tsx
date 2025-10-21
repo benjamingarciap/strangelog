@@ -2,47 +2,30 @@
 import React from 'react'
 import { useRef, useEffect, useState } from 'react'
 import L from 'leaflet'
-import {
-  Popup,
-  Marker,
-  TileLayer,
-  MapContainer,
-  ZoomControl,
-} from 'react-leaflet'
+import { TileLayer, MapContainer, ZoomControl } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import 'leaflet-defaulticon-compatibility'
-import type { LatLngBounds } from 'leaflet'
 import { UIEnrichedEncounter } from '../../types/encounters'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel'
-import Link from 'next/link'
 import { EscapeToClosePopup } from '../../lib/utils/escape-event-listener'
 import { useMapStore } from '../../../stores/mapStore'
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline'
 import { useSideMenuStore } from '../../../stores/sideMenuStore'
-import Image from 'next/image'
 import MapEventHandler from '../../lib/utils/map-event-handler'
-import { pulsingIcon, redDotIcon, redDotHoveredIcon } from './Markers'
+import { toGeoJSON } from '../../lib/utils/geojson'
+import { EncounterClusters } from './EncounterClusters'
 
 //=========Main Map Component=========
 export default function Map({
   encounters,
-  onBoundsChange,
 }: {
   encounters: UIEnrichedEncounter[]
-  onBoundsChange: (_b: LatLngBounds) => void
 }): React.ReactElement {
+  const points = toGeoJSON(encounters)
   //=========State Management=========
-  const [hoveredDot, setHoveredDot] = useState<number | null>(null)
   const [popupId, setPopupId] = useState<number | null>(null)
   const isFullscreen = useMapStore((state) => state.isFullscreen)
-  const hoveredCard = useMapStore((state) => state.hoveredCard)
+
   //=========Map Ref=========
   const { isOpen } = useSideMenuStore()
   const mapRef = useRef<L.Map | null>(null)
@@ -55,9 +38,12 @@ export default function Map({
   // =========Rendering the Map=========
   return (
     <MapContainer
-      center={[encounters[0].location.lat, encounters[0].location.lng]} // Madrid as default
+      center={[
+        points[0].geometry.coordinates[1],
+        points[0].geometry.coordinates[0],
+      ]} // Madrid as default
       zoom={3}
-      className="w-full h-full"
+      className="w-full h-full rounded"
       ref={mapRef}
       maxBounds={[
         [-90, -180],
@@ -70,7 +56,7 @@ export default function Map({
     >
       <ZoomControl position="topright" />
       <button
-        className="absolute bg-white border-black border-[0.5px] p-[4px] top-4 right-4 z-[1000] hover:bg-gray-200"
+        className="absolute bg-white border-black border-[0.5px] p-[4px] top-4 right-4 z-[1000] hover:bg-gray-200 transition-all duration-300 ease-in-out"
         onClick={() => useMapStore.getState().toggleFullscreen()}
       >
         <ArrowsPointingOutIcon className="w-[26px] h-[26px]" />
@@ -94,71 +80,9 @@ export default function Map({
         subdomains={['a', 'b', 'c', 'd']}
       /> */}
 
-      <MapEventHandler onBoundsChange={onBoundsChange} />
+      <MapEventHandler />
       <EscapeToClosePopup setPopupId={setPopupId} />
-      {encounters.map(({ id, location, media, title, content }) => {
-        const isActive = popupId === id || hoveredCard === id // marker is "active" if clicked or hovered in list
-        const isHovered = hoveredDot === id
-
-        const icon = isActive
-          ? pulsingIcon
-          : redDotIcon && isHovered
-          ? redDotHoveredIcon
-          : redDotIcon
-        return (
-          <Marker
-            position={[location.lat, location.lng]}
-            icon={icon}
-            eventHandlers={{
-              click: () => {
-                setPopupId(id)
-                useMapStore.getState().toggleMarkerActive()
-              },
-              popupclose: () => {
-                useMapStore.getState().toggleMarkerActive()
-                setPopupId(null)
-              },
-              mouseover: () => setHoveredDot(id),
-              mouseout: () => setHoveredDot(null),
-            }}
-            key={id}
-            autoPan={true} // pan the map automatically to fit the popup
-            autoPanPadding={[50, 50]} // space between popup and map edge
-          >
-            <Popup className="" minWidth={120} maxWidth={350}>
-              <div className="flex flex-col justify-start h-full">
-                <Carousel className="relative group">
-                  <CarouselContent>
-                    {media.map((image, index) => {
-                      return (
-                        <CarouselItem key={image}>
-                          <Image
-                            width={500}
-                            height={300}
-                            loading={index === 0 ? 'eager' : 'lazy'}
-                            src={image}
-                            alt="Carousel Item"
-                          />
-                        </CarouselItem>
-                      )
-                    })}
-                  </CarouselContent>
-                  <CarouselPrevious className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:bg-gray-200" />
-                  <CarouselNext className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-none shadow opacity-0 disabled:!opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:bg-gray-200" />
-                </Carousel>
-                <Link href={`/encounters/${id}`}>
-                  <h2 className="capitalize font-bold hover:underline text-lg">
-                    {title}
-                  </h2>
-                </Link>
-                <p className="overflow-hidden text-ellipsis whitespace-normal [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] m-0">
-                  {content}
-                </p>
-              </div>
-            </Popup>
-          </Marker>
-        )
-      })}
+      <EncounterClusters points={points} />
     </MapContainer>
   )
 }

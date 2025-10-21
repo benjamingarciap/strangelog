@@ -1,14 +1,39 @@
 import { NextResponse } from 'next/server'
 import { createEncounter } from '../../lib/actions'
-import { fetchEncounters } from '../../lib/data-encounters'
+import {
+  // fetchEncounters,
+  fetchEncountersPaginated,
+} from '../../lib/data-encounters'
+// import { EncounterCategory, Prisma } from '../../generated/prisma'
+import {
+  // EnrichedEncounter,
+  UIEnrichedEncounter,
+  // UIEvidenceTag,
+} from '../../types/encounters'
+// import prisma from '../../../lib/prisma'
 
 // GET /api/encounters → list all
-export async function GET(): Promise<NextResponse> {
+// export async function GET(): Promise<NextResponse> {
+//   try {
+//     const encounters = await fetchEncounters()
+//     return NextResponse.json(encounters)
+//   } catch (err) {
+//     console.log(err)
+//     return NextResponse.json(
+//       { error: 'Failed to fetch encounters' },
+//       { status: 500 }
+//     )
+//   }
+// }
+export async function GET(req: Request): Promise<NextResponse> {
   try {
-    const encounters = await fetchEncounters()
+    const encounters: UIEnrichedEncounter[] = await fetchEncountersPaginated(
+      req
+    )
+
     return NextResponse.json(encounters)
   } catch (err) {
-    console.log(err)
+    console.error('Failed to fetch encounters', err)
     return NextResponse.json(
       { error: 'Failed to fetch encounters' },
       { status: 500 }

@@ -2,28 +2,30 @@ import { useMap, useMapEvents } from 'react-leaflet'
 import { useMapStore } from '../../../stores/mapStore'
 import { useSideMenuStore } from '../../../stores/sideMenuStore'
 import { useEffect } from 'react'
-import { LatLngBounds } from 'leaflet'
 import L from 'leaflet'
 
-export default function MapEventHandler({
-  onBoundsChange,
-}: {
-  onBoundsChange: (_b: LatLngBounds) => void
-}): null {
+export default function MapEventHandler(): null {
+  const setActiveMarkerId = useMapStore((state) => state.setActiveMarkerId)
+  const setBounds = useMapStore((state) => state.setBounds)
   // Popup state
   const isFullscreen = useMapStore((state) => state.isFullscreen)
   //=========Using Map Events to Track Bounds=========
   const map = useMap()
-  //---------Initial Bounds on Mount---------
   const { isOpen } = useSideMenuStore()
   useEffect(() => {
     // Initial bounds on mount
     if (map) {
-      onBoundsChange(map.getBounds())
+      // onBoundsChange(map.getBounds())
+      setBounds(map.getBounds())
       setTimeout(() => {
         map.invalidateSize()
       }, 100) // tiny delay ensures layout is done
     }
+    map.on('zoomstart', () => {
+      setActiveMarkerId(null)
+      map.closePopup()
+    })
+    // Handle window resize
     const handleResize = () => {
       map.invalidateSize()
     }
@@ -31,15 +33,15 @@ export default function MapEventHandler({
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [map, onBoundsChange, isFullscreen, isOpen])
+  }, [map, setBounds, isFullscreen, isOpen])
   //---------Update Bounds on Move---------
 
   useMapEvents({
     moveend: (event: L.LeafletEvent) => {
       const bounds = event.target.getBounds()
       // console.log('Map moved. New bounds:', bounds)
-      if (onBoundsChange) {
-        onBoundsChange(bounds) // Call the callback with new Bounds
+      if (setBounds) {
+        setBounds(bounds) // Call the callback with new Bounds
       }
     },
   })

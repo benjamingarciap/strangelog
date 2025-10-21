@@ -81,7 +81,7 @@ export default function Profile({
             {/* Reports Submitted */}
             <TabsContent
               value="submitted"
-              className="min-h-[560px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4"
+              className="min-h-[560px] grid grid-cols-3 gap-4 pt-4 [@media(max-width:1232px)]:grid-cols-2 [@media(max-width:796px)]:grid-cols-1"
             >
               {encounters.map((encounter) => (
                 <EncounterCard key={encounter.id} encounter={encounter} />
@@ -91,7 +91,8 @@ export default function Profile({
             {/* Reports Saved */}
             <TabsContent
               value="saved"
-              className="min-h-[555px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4"
+              // className="min-h-[555px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-0"
+              className="min-h-[560px] grid grid-cols-3 gap-4 pt-4 [@media(max-width:1232px)]:grid-cols-2 [@media(max-width:796px)]:grid-cols-1"
             >
               {savedEncounters.length > 0 ? (
                 savedEncounters.map((savedEncounter) => (

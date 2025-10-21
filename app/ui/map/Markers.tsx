@@ -20,6 +20,6 @@ export const redDotIcon = L.divIcon({
 export const redDotHoveredIcon = L.divIcon({
   className: 'leaflet-red-dot',
   iconSize: [16, 16], // slightly bigger
-  iconAnchor: [7, 7], // center adjusted
+  iconAnchor: [8, 8], // center adjusted
   html: `<div class="dot"></div>`,
 })

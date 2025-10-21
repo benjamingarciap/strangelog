@@ -12,7 +12,6 @@ export function EscapeToClosePopup({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         map.closePopup() // closes all open popups
-        setPopupId(null) // reset your popupId state
       }
     }
 
