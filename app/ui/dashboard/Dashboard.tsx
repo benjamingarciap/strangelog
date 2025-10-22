@@ -4,7 +4,6 @@ import { UIEnrichedEncounter } from '../../types/encounters'
 import MapWrapper from '../map/MapWrapper'
 import EncounterList from '../encounters/EncounterList'
 import { useMapStore } from '../../../stores/mapStore'
-// import { SideMenu } from '../sideMenu/SideMenu'
 import { useSideMenuStore } from '../../../stores/sideMenuStore'
 import { EncounterCategory } from '../../generated/prisma'
 
@@ -33,7 +32,7 @@ export default function Dashboard(): React.ReactElement {
     const params = new URLSearchParams({
       page: page.toString(),
       limit: limit.toString(),
-      // ...(mapBounds || {}),
+      filterCategory: filterCategory ? filterCategory : '',
     })
     if (mapBounds) {
       params.set('minLat', mapBounds.getSouthWest().lat.toString())
@@ -62,7 +61,7 @@ export default function Dashboard(): React.ReactElement {
   // }, [filterCategory, encounters])
   useEffect(() => {
     fetchEncounters()
-  }, [mapBounds, page]) // refetch when bounds or page change
+  }, [mapBounds, page, filterCategory]) // refetch when bounds or page change
 
   const cathegorizedEncounters = filterCategory
     ? filteredEncounters.filter((e) => e.category.includes(filterCategory))
@@ -89,7 +88,7 @@ export default function Dashboard(): React.ReactElement {
               : 'w-8/20 [@media(max-width:929px)]:w-11/20 [@media(max-width:532px)]:!w-full'
           }`}
         >
-          <MapWrapper encounters={cathegorizedEncounters} />
+          <MapWrapper encounters={filteredEncounters} />
         </div>
 
         {/* Encounter List */}
@@ -101,7 +100,7 @@ export default function Dashboard(): React.ReactElement {
                 : 'w-12/20 [@media(max-width:929px)]:w-9/20 [@media(max-width:532px)]:!w-[100%]'
             }`}
           >
-            <EncounterList encounters={cathegorizedEncounters} />
+            <EncounterList encounters={filteredEncounters} />
           </div>
         )}
       </>

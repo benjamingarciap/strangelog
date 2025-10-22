@@ -41,6 +41,9 @@ export async function fetchEncountersMap(
   const maxLat = searchParams.get('maxLat')
   const minLng = searchParams.get('minLng')
   const maxLng = searchParams.get('maxLng')
+  const filterCategory = searchParams.get(
+    'filterCategory'
+  ) as EncounterCategory | null
 
   const where: Prisma.EncounterWhereInput = {}
 
@@ -54,6 +57,10 @@ export async function fetchEncountersMap(
       gte: parseFloat(minLng),
       lte: parseFloat(maxLng),
     }
+  }
+  // Apply category filter if provided
+  if (filterCategory) {
+    where.category = { has: filterCategory } // Prisma array filter
   }
 
   const encounters = await prisma.encounter.findMany({

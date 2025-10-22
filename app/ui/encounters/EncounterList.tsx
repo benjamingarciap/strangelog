@@ -1,36 +1,36 @@
-'use client'
-import React from 'react'
-import EncounterCard from './EncounterCard'
-import { UIEnrichedEncounter } from '../../types/encounters'
+// 'use client'
+// import React from 'react'
+// import EncounterCard from './EncounterCard'
+// import { UIEnrichedEncounter } from '../../types/encounters'
 
-export default function EncounterList({
-  encounters,
-}: {
-  encounters: UIEnrichedEncounter[]
-}): React.ReactElement {
-  // =========Rendering Encounter Cards=========
-  if (encounters.length === 0) {
-    return (
-      <div className="flex flex-row justify-center items-center h-screen w-full">
-        <p className="text-gray-600 max-w-sm">No encounters available.</p>
-      </div>
-    )
-  } else {
-    return (
-      <div className=" grid [@media(max-width:929px)]:grid-cols-1 md:grid-cols-2 [@media(min-width:1408px)]:grid-cols-3 pr-3 pt-15">
-        {encounters.map((encounter) => {
-          return (
-            <EncounterCard
-              encounter={encounter}
-              key={encounter.id}
-              socials={true}
-            />
-          )
-        })}
-      </div>
-    )
-  }
-}
+// export default function EncounterList({
+//   encounters,
+// }: {
+//   encounters: UIEnrichedEncounter[]
+// }): React.ReactElement {
+//   // =========Rendering Encounter Cards=========
+//   if (encounters.length === 0) {
+//     return (
+//       <div className="flex flex-row justify-center items-center h-screen w-full">
+//         <p className="text-gray-600 max-w-sm">No encounters available.</p>
+//       </div>
+//     )
+//   } else {
+//     return (
+//       <div className=" grid [@media(max-width:929px)]:grid-cols-1 md:grid-cols-2 [@media(min-width:1408px)]:grid-cols-3 pr-3 pt-15">
+//         {encounters.map((encounter) => {
+//           return (
+//             <EncounterCard
+//               encounter={encounter}
+//               key={encounter.id}
+//               socials={true}
+//             />
+//           )
+//         })}
+//       </div>
+//     )
+//   }
+// }
 // 'use client'
 // import React, { useState } from 'react'
 // import EncounterCard from './EncounterCard'
@@ -95,67 +95,71 @@ export default function EncounterList({
 //   )
 // }
 
-// 'use client'
-// import React, { useState, useEffect, useRef } from 'react'
-// import EncounterCard from './EncounterCard'
-// import { UIEnrichedEncounter } from '../../types/encounters'
+'use client'
+import React, { useState, useEffect, useRef } from 'react'
+import EncounterCard from './EncounterCard'
+import { UIEnrichedEncounter } from '../../types/encounters'
 
-// export default function EncounterList({
-//   encounters,
-// }: {
-//   encounters: UIEnrichedEncounter[]
-// }): React.ReactElement {
-//   const limit = 10
-//   const [visibleCount, setVisibleCount] = useState(limit)
-//   const containerRef = useRef<HTMLDivElement>(null)
+export default function EncounterList({
+  encounters,
+}: {
+  encounters: UIEnrichedEncounter[]
+}): React.ReactElement {
+  const limit = 10
+  const [visibleCount, setVisibleCount] = useState(limit)
+  const containerRef = useRef<HTMLDivElement>(null)
 
-//   const loadMore = () => {
-//     setVisibleCount((prev) => Math.min(prev + limit, encounters.length))
-//   }
+  const loadMore = () => {
+    setVisibleCount((prev) => Math.min(prev + limit, encounters.length))
+  }
 
-//   // Infinite scroll handler
-//   useEffect(() => {
-//     const handleScroll = () => {
-//       if (!containerRef.current) return
-//       const { scrollTop, clientHeight, scrollHeight } = containerRef.current
-//       if (scrollTop + clientHeight >= scrollHeight - 100) {
-//         loadMore()
-//       }
-//     }
+  // Infinite scroll handler
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return
+      const { scrollTop, clientHeight, scrollHeight } = containerRef.current
+      if (scrollTop + clientHeight >= scrollHeight - 100) {
+        setTimeout(() => {
+          loadMore()
+        }, 500) // Simulate loading delay
+        //
+        // loadMore()
+      }
+    }
 
-//     const el = containerRef.current
-//     if (el) el.addEventListener('scroll', handleScroll)
+    const el = containerRef.current
+    if (el) el.addEventListener('scroll', handleScroll)
 
-//     return () => {
-//       if (el) el.removeEventListener('scroll', handleScroll)
-//     }
-//   }, [encounters])
+    return () => {
+      if (el) el.removeEventListener('scroll', handleScroll)
+    }
+  }, [encounters])
 
-//   const visibleEncounters = encounters.slice(0, visibleCount)
+  const visibleEncounters = encounters.slice(0, visibleCount)
 
-//   if (encounters.length === 0) {
-//     return (
-//       <div className="flex flex-row justify-center items-center h-screen w-full">
-//         <p className="text-gray-600 max-w-sm">No encounters available.</p>
-//       </div>
-//     )
-//   }
+  if (encounters.length === 0) {
+    return (
+      <div className="flex flex-row justify-center items-center h-screen w-full">
+        <p className="text-gray-600 max-w-sm">No encounters available.</p>
+      </div>
+    )
+  }
 
-//   return (
-//     <div ref={containerRef} className="overflow-y-auto h-screen flex flex-col">
-//       <div className="grid [@media(max-width:929px)]:grid-cols-1 md:grid-cols-2 [@media(min-width:1408px)]:grid-cols-3 pr-3 pt-15 gap-4">
-//         {visibleEncounters.map((encounter) => (
-//           <EncounterCard
-//             encounter={encounter}
-//             key={encounter.id}
-//             socials={true}
-//           />
-//         ))}
-//       </div>
+  return (
+    <div ref={containerRef} className="overflow-y-auto h-screen flex flex-col">
+      <div className="grid [@media(max-width:929px)]:grid-cols-1 md:grid-cols-2 [@media(min-width:1408px)]:grid-cols-3 pr-3 pt-15 gap-4">
+        {visibleEncounters.map((encounter) => (
+          <EncounterCard
+            encounter={encounter}
+            key={encounter.id}
+            socials={true}
+          />
+        ))}
+      </div>
 
-//       {visibleCount < encounters.length && (
-//         <div className="text-center py-4 text-gray-500">Loading more...</div>
-//       )}
-//     </div>
-//   )
-// }
+      {visibleCount < encounters.length && (
+        <div className="text-center py-4 text-gray-500">Loading more...</div>
+      )}
+    </div>
+  )
+}
