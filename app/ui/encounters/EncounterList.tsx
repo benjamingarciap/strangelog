@@ -94,16 +94,31 @@
 //     </div>
 //   )
 // }
-
 'use client'
 import React, { useState, useEffect, useRef } from 'react'
 import EncounterCard from './EncounterCard'
 import { UIEnrichedEncounter } from '../../types/encounters'
 
+// Skeleton for loading state
+function EncounterSkeleton({ count = 3 }) {
+  return (
+    <div className="grid [@media(max-width:929px)]:grid-cols-1 md:grid-cols-2 [@media(min-width:1408px)]:grid-cols-3 pr-3 pt-15 gap-4">
+      {Array.from({ length: count }).map((_, i) => (
+        <div
+          key={i}
+          className="animate-pulse h-64 bg-gray-300 rounded-xl w-full"
+        />
+      ))}
+    </div>
+  )
+}
+
 export default function EncounterList({
   encounters,
+  loading = false,
 }: {
   encounters: UIEnrichedEncounter[]
+  loading?: boolean
 }): React.ReactElement {
   const limit = 10
   const [visibleCount, setVisibleCount] = useState(limit)
@@ -119,11 +134,7 @@ export default function EncounterList({
       if (!containerRef.current) return
       const { scrollTop, clientHeight, scrollHeight } = containerRef.current
       if (scrollTop + clientHeight >= scrollHeight - 100) {
-        setTimeout(() => {
-          loadMore()
-        }, 500) // Simulate loading delay
-        //
-        // loadMore()
+        loadMore()
       }
     }
 
@@ -135,7 +146,25 @@ export default function EncounterList({
     }
   }, [encounters])
 
-  const visibleEncounters = encounters.slice(0, visibleCount)
+  // Auto-load more if container is not scrollable
+  useEffect(() => {
+    if (!containerRef.current) return
+    const { scrollHeight, clientHeight } = containerRef.current
+    if (scrollHeight <= clientHeight && visibleCount < encounters.length) {
+      loadMore()
+    }
+  }, [encounters, visibleCount])
+
+  if (loading) {
+    return (
+      <div
+        className="overflow-y-auto h-screen flex flex-col"
+        ref={containerRef}
+      >
+        <EncounterSkeleton count={limit} />
+      </div>
+    )
+  }
 
   if (encounters.length === 0) {
     return (
@@ -144,6 +173,8 @@ export default function EncounterList({
       </div>
     )
   }
+
+  const visibleEncounters = encounters.slice(0, visibleCount)
 
   return (
     <div ref={containerRef} className="overflow-y-auto h-screen flex flex-col">

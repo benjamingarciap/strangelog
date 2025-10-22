@@ -68,47 +68,50 @@ export default function Profile({
       </div>
 
       {/* Tabs + EncounterCards */}
-      {encounters && encounters.length > 0 && (
-        <div className="w-full max-h-[600px] overflow-y-auto">
-          <Tabs defaultValue="submitted" className="w-full">
-            <TabsList className="w-full flex justify-start gap-4 sticky top-0 bg-white z-5 border-b-[0.5px] border-black pb-2 rounded-none p-0">
-              <TabsTrigger className="w-[125px] items-end" value="submitted">
-                Reports Submitted
-              </TabsTrigger>
-              <TabsTrigger value="saved">Reports Saved</TabsTrigger>
-            </TabsList>
 
-            {/* Reports Submitted */}
-            <TabsContent
-              value="submitted"
-              className="min-h-[560px] grid grid-cols-3 gap-4 pt-4 [@media(max-width:1232px)]:grid-cols-2 [@media(max-width:796px)]:grid-cols-1"
-            >
-              {encounters.map((encounter) => (
+      <div className="w-full max-h-[600px] overflow-y-auto">
+        <Tabs defaultValue="submitted" className="w-full">
+          <TabsList className="w-full flex justify-start gap-4 sticky top-0 bg-white z-5 border-b-[0.5px] border-black pb-2 rounded-none p-0">
+            <TabsTrigger className="w-[125px] items-end" value="submitted">
+              Reports Submitted
+            </TabsTrigger>
+            <TabsTrigger value="saved">Reports Saved</TabsTrigger>
+          </TabsList>
+
+          {/* Reports Submitted */}
+          <TabsContent
+            value="submitted"
+            className="min-h-[560px] grid grid-cols-3 gap-4 pt-4 [@media(max-width:1232px)]:grid-cols-2 [@media(max-width:796px)]:grid-cols-1"
+          >
+            {encounters.length > 0 ? (
+              encounters.map((encounter) => (
                 <EncounterCard key={encounter.id} encounter={encounter} />
-              ))}
-            </TabsContent>
+              ))
+            ) : (
+              <p className="text-gray-500">No reports submitted yet.</p>
+            )}
+          </TabsContent>
 
-            {/* Reports Saved */}
-            <TabsContent
-              value="saved"
-              // className="min-h-[555px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-0"
-              className="min-h-[560px] grid grid-cols-3 gap-4 pt-4 [@media(max-width:1232px)]:grid-cols-2 [@media(max-width:796px)]:grid-cols-1"
-            >
-              {savedEncounters.length > 0 ? (
-                savedEncounters.map((savedEncounter) => (
-                  <EncounterCard
-                    key={savedEncounter.id}
-                    encounter={savedEncounter}
-                    isSavedEncounter={true}
-                  />
-                ))
-              ) : (
-                <p className="text-gray-500">No saved reports yet.</p>
-              )}
-            </TabsContent>
-          </Tabs>
-        </div>
-      )}
+          {/* Reports Saved */}
+          <TabsContent
+            value="saved"
+            // className="min-h-[555px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-0"
+            className="min-h-[560px] grid grid-cols-3 gap-4 pt-4 [@media(max-width:1232px)]:grid-cols-2 [@media(max-width:796px)]:grid-cols-1"
+          >
+            {savedEncounters.length > 0 ? (
+              savedEncounters.map((savedEncounter) => (
+                <EncounterCard
+                  key={savedEncounter.id}
+                  encounter={savedEncounter}
+                  isSavedEncounter={true}
+                />
+              ))
+            ) : (
+              <p className="text-gray-500">No saved reports yet.</p>
+            )}
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   )
 }
