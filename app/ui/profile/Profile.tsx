@@ -73,9 +73,9 @@ export default function Profile({
         <Tabs defaultValue="submitted" className="w-full">
           <TabsList className="w-full flex justify-start gap-4 sticky top-0 bg-white z-5 border-b-[0.5px] border-black pb-2 rounded-none p-0">
             <TabsTrigger className="w-[125px] items-end" value="submitted">
-              Reports Submitted
+              My encounters
             </TabsTrigger>
-            <TabsTrigger value="saved">Reports Saved</TabsTrigger>
+            <TabsTrigger value="saved">Saved encounters</TabsTrigger>
           </TabsList>
 
           {/* Reports Submitted */}

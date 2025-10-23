@@ -7,9 +7,13 @@ const Map = dynamic(() => import('./Map'), { ssr: false })
 
 export default function MapWrapper({
   encounters,
+  loading,
 }: {
   encounters: UIEnrichedEncounter[]
+  loading: boolean
 }): React.ReactElement {
+  console.log('MapWrapper encounters:', loading)
+
   return (
     <>
       <div className="flex min-w-[300px] w-full h-full sticky top-0 z-0 px-[14px] pb-3 rounded pt-15">

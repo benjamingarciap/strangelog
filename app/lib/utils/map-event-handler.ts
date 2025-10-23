@@ -11,7 +11,6 @@ export default function MapEventHandler(): null {
   const isFullscreen = useMapStore((state) => state.isFullscreen)
   //=========Using Map Events to Track Bounds=========
   const map = useMap()
-  const { isOpen } = useSideMenuStore()
   useEffect(() => {
     // Initial bounds on mount
     if (map) {
@@ -33,7 +32,7 @@ export default function MapEventHandler(): null {
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [map, setBounds, isFullscreen, isOpen])
+  }, [map, setBounds, isFullscreen])
   //---------Update Bounds on Move---------
 
   useMapEvents({

@@ -19,6 +19,7 @@ export default function Dashboard(): React.ReactElement {
   const [filteredEncounters, setFilteredEncounters] = useState<
     UIEnrichedEncounter[]
   >([])
+  const [loading, setLoading] = useState<boolean>(true)
   // ---------
   // console.log('Dashboard encounters:', encounters)
   // console.log('Filtered Encounters:', filteredEncounters)
@@ -29,6 +30,7 @@ export default function Dashboard(): React.ReactElement {
   const limit = 10
 
   const fetchEncounters = async () => {
+    setLoading(true)
     const params = new URLSearchParams({
       page: page.toString(),
       limit: limit.toString(),
@@ -41,11 +43,20 @@ export default function Dashboard(): React.ReactElement {
       params.set('maxLng', mapBounds.getNorthEast().lng.toString())
     }
     console.log('MapWrapper fetch with bounds params:', params.toString())
-    const res = await fetch(`/api/encounters/map?${params.toString()}`)
-    const data = await res.json()
-    console.log('Fetched encounters API ========================>', data)
-    setFilteredEncounters(data)
-    console.log('Filtered Encounters after fetch =======>:', filteredEncounters)
+    try {
+      const res = await fetch(`/api/encounters/map?${params.toString()}`)
+      const data = await res.json()
+      console.log('Fetched encounters API ========================>', data)
+      setFilteredEncounters(data)
+    } catch (error) {
+      console.error('Error fetching encounters:', error)
+    } finally {
+      setLoading(false)
+      console.log(
+        'Filtered Encounters after fetch =======>:',
+        filteredEncounters
+      )
+    }
   }
 
   // useEffect(() => {
@@ -71,7 +82,7 @@ export default function Dashboard(): React.ReactElement {
     // <div className="flex w-full h-screen pt-15 bg-[#e3e7eb]">
     // <div className="flex w-full h-screen bg-[#D5DADC]"> // map bg color
     <div
-      className="flex w-full h-screen 
+      className="flex w-full h-screen
       [@media(max-width:531px)]:flex-col
       [@media(max-width:531px)]:jusifty-center
       [@media(max-width:531px)]:items-center
@@ -88,7 +99,7 @@ export default function Dashboard(): React.ReactElement {
               : 'w-8/20 [@media(max-width:929px)]:w-11/20 [@media(max-width:532px)]:!w-full'
           }`}
         >
-          <MapWrapper encounters={filteredEncounters} />
+          <MapWrapper encounters={filteredEncounters} loading={loading} />
         </div>
 
         {/* Encounter List */}
@@ -100,7 +111,7 @@ export default function Dashboard(): React.ReactElement {
                 : 'w-12/20 [@media(max-width:929px)]:w-9/20 [@media(max-width:532px)]:!w-[100%]'
             }`}
           >
-            <EncounterList encounters={filteredEncounters} />
+            <EncounterList encounters={filteredEncounters} loading={loading} />
           </div>
         )}
       </>
