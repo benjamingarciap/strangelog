@@ -1,4 +1,4 @@
-# 🛸 StrangeLog
+# StrangeLog
 
 A crowdsourced platform for documenting, exploring, and validating paranormal and UAP (Unidentified Anomalous Phenomena) encounters across the globe.
 
