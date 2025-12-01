@@ -6,6 +6,60 @@ A crowdsourced platform for documenting, exploring, and validating paranormal an
 
 StrangeLog is an interactive mapping platform that enables users to report and explore unexplained phenomena—from UFO/UAP sightings to entity encounters, abductions, and other paranormal events. Each encounter is geolocated, categorized, and enriched with media evidence, creating a comprehensive database of strange occurrences worldwide.
 
+## Tech Stack
+
+### Frontend
+
+- **Next.js 15.5** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first styling
+- **Radix UI** - Accessible component primitives
+- **Lucide React** - Icon library
+
+### Mapping & Visualization
+
+- **Leaflet** - Interactive maps
+- **React-Leaflet** - React bindings for Leaflet
+- **Supercluster** - Fast marker clustering algorithm
+
+### Backend & Database
+
+- **Prisma** - Type-safe ORM
+- **PostgreSQL** - Relational database (via Neon)
+- **NextAuth** - Authentication solution
+
+### State Management & Utils
+
+- **Zustand** - Lightweight state management
+- **date-fns** - Date formatting utilities
+- **Cloudinary** - Media hosting and optimization
+
+## Project Structure
+
+```
+strangelog/
+├── app/
+│   ├── api/              # API routes (encounters, auth)
+│   ├── auth/             # Authentication pages
+│   ├── create/           # Encounter creation page
+│   ├── encounters/       # Encounter listing & detail pages
+│   ├── hooks/            # Custom React hooks (useSupercluster)
+│   ├── lib/              # Utilities, actions, data fetching
+│   ├── types/            # TypeScript type definitions
+│   └── ui/               # UI components
+│       ├── dashboard/    # Main dashboard
+│       ├── encounters/   # Encounter cards & lists
+│       ├── map/          # Map components & markers
+│       └── navbar/       # Navigation
+├── components/ui/        # Reusable shadcn components
+├── prisma/
+│   ├── schema.prisma     # Database schema
+│   ├── seed.ts           # Database seeding
+│   └── migrations/       # Database migrations
+├── public/               # Static assets
+└── stores/               # Zustand stores
+```
+
 ### Key Features
 
 - **Interactive Map**: Explore encounters on a Leaflet-powered map with intelligent clustering
@@ -16,6 +70,45 @@ StrangeLog is an interactive mapping platform that enables users to report and e
 - **Community Features**: Comments, reactions, and confidence voting
 - **Advanced Filtering**: Filter by category, map bounds, and evidence types
 - **Responsive Design**: Optimized for desktop, tablet, and mobile
+
+## Key Features Explained
+
+### Interactive Map with Clustering
+
+The map uses Supercluster to efficiently render thousands of encounters. Markers cluster automatically based on zoom level, and clicking a cluster expands to show individual encounters.
+
+### Dynamic Filtering
+
+- **By Map Bounds**: Only encounters within the current viewport are fetched
+- **By Category**: Filter encounters using the side menu
+- **Real-time Updates**: Data refreshes as you pan/zoom the map
+
+### Encounter Creation
+
+Users can create detailed encounter reports with:
+
+- Interactive map for precise location selection
+- Multiple category selection
+- Photo/video uploads (up to 10 images)
+- Evidence tags (Radar, Multi-sensor, Physical trace, etc.)
+- Rich text descriptions
+
+### Community Validation
+
+- **Confidence Voting**: Users rate encounter credibility
+- **Comments**: Discuss encounters with the community
+- **Reactions**: Express support or skepticism
+
+## Database Schema
+
+Key models:
+
+- **User**: Authentication and profile data
+- **Encounter**: Core encounter data (location, category, media)
+- **Comment**: User comments on encounters
+- **Reaction**: Like/dislike functionality
+- **Confidence**: Community credibility ratings
+- **SavedEncounter**: User bookmarks
 
 ## Encounter Categories
 
@@ -108,99 +201,6 @@ StrangeLog is an interactive mapping platform that enables users to report and e
 6. **Open your browser**
 
    Navigate to [http://localhost:3000](http://localhost:3000)
-
-## Tech Stack
-
-### Frontend
-
-- **Next.js 15.5** - React framework with App Router
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first styling
-- **Radix UI** - Accessible component primitives
-- **Lucide React** - Icon library
-
-### Mapping & Visualization
-
-- **Leaflet** - Interactive maps
-- **React-Leaflet** - React bindings for Leaflet
-- **Supercluster** - Fast marker clustering algorithm
-
-### Backend & Database
-
-- **Prisma** - Type-safe ORM
-- **PostgreSQL** - Relational database (via Neon)
-- **NextAuth** - Authentication solution
-
-### State Management & Utils
-
-- **Zustand** - Lightweight state management
-- **date-fns** - Date formatting utilities
-- **Cloudinary** - Media hosting and optimization
-
-## Project Structure
-
-```
-strangelog/
-├── app/
-│   ├── api/              # API routes (encounters, auth)
-│   ├── auth/             # Authentication pages
-│   ├── create/           # Encounter creation page
-│   ├── encounters/       # Encounter listing & detail pages
-│   ├── hooks/            # Custom React hooks (useSupercluster)
-│   ├── lib/              # Utilities, actions, data fetching
-│   ├── types/            # TypeScript type definitions
-│   └── ui/               # UI components
-│       ├── dashboard/    # Main dashboard
-│       ├── encounters/   # Encounter cards & lists
-│       ├── map/          # Map components & markers
-│       └── navbar/       # Navigation
-├── components/ui/        # Reusable shadcn components
-├── prisma/
-│   ├── schema.prisma     # Database schema
-│   ├── seed.ts           # Database seeding
-│   └── migrations/       # Database migrations
-├── public/               # Static assets
-└── stores/               # Zustand stores
-```
-
-## Key Features Explained
-
-### Interactive Map with Clustering
-
-The map uses Supercluster to efficiently render thousands of encounters. Markers cluster automatically based on zoom level, and clicking a cluster expands to show individual encounters.
-
-### Dynamic Filtering
-
-- **By Map Bounds**: Only encounters within the current viewport are fetched
-- **By Category**: Filter encounters using the side menu
-- **Real-time Updates**: Data refreshes as you pan/zoom the map
-
-### Encounter Creation
-
-Users can create detailed encounter reports with:
-
-- Interactive map for precise location selection
-- Multiple category selection
-- Photo/video uploads (up to 10 images)
-- Evidence tags (Radar, Multi-sensor, Physical trace, etc.)
-- Rich text descriptions
-
-### Community Validation
-
-- **Confidence Voting**: Users rate encounter credibility
-- **Comments**: Discuss encounters with the community
-- **Reactions**: Express support or skepticism
-
-## Database Schema
-
-Key models:
-
-- **User**: Authentication and profile data
-- **Encounter**: Core encounter data (location, category, media)
-- **Comment**: User comments on encounters
-- **Reaction**: Like/dislike functionality
-- **Confidence**: Community credibility ratings
-- **SavedEncounter**: User bookmarks
 
 ## Development
 
