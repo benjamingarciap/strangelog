@@ -2,7 +2,7 @@ import React from 'react'
 
 interface CardButtonProps {
   children: React.ReactNode
-  handleSubmit?: (id: number) => Promise<void> | void
+  handleSubmit?: (id?: number) => Promise<void> | void
   id?: number
 }
 
@@ -18,6 +18,8 @@ const CardButton: React.FC<CardButtonProps> = ({
         e.stopPropagation()
         if (id !== undefined && handleSubmit) {
           handleSubmit(id)
+        } else if (handleSubmit) {
+          handleSubmit()
         }
       }}
     >

@@ -32,10 +32,19 @@ export default function Profile({
       <div className="bg-white w-full p-4 sticky top-0 z-2 flex justify-between items-center">
         <div>
           <div className="flex items-end gap-4">
-            {avatarUrl && (
+            {avatarUrl ? (
               <div className="relative h-[100px] w-[100px] flex-shrink-0">
                 <Image
                   src={avatarUrl}
+                  alt="Profile"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <div className="relative h-[100px] w-[100px] flex-shrink-0">
+                <Image
+                  src={'/Alien-Head-Graphics-3993763-1.jpg'}
                   alt="Profile"
                   fill
                   className="object-cover"

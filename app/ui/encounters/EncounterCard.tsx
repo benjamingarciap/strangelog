@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { UIEnrichedEncounter } from '../../types/encounters'
 import Image from 'next/image'
 import { format } from 'date-fns'
@@ -13,6 +13,7 @@ import CardButton from '../CardButton'
 import CardTag from '../CardTag'
 import ShareIcon from '../icons/share.svg'
 import BasicCarousel from '../BasicCarousel'
+import { useUserStore } from '../../../stores/userStore'
 
 //=========Encounter Card Component=========
 
@@ -25,6 +26,7 @@ export default function EncounterCard({
   socials?: boolean
   isSavedEncounter?: boolean
 }): React.ReactElement {
+  const [saved, setSaved] = useState(isSavedEncounter || false)
   const { data: session } = useSession()
   const currentUserId = session?.user?.id
   const router = useRouter()
@@ -39,7 +41,35 @@ export default function EncounterCard({
     category,
     creator,
   } = encounter
-  const handleSubmit = async (id: number) => {
+  const user = useUserStore((state) => state.user) // User
+  const initialSaved =
+    user?.savedEncounters?.some((enc) => enc.id === encounter.id) ?? false
+  // console.log('User in SaveButton:', user)
+  useEffect(() => {
+    setSaved(initialSaved)
+    // console.log('User in EncounterCard:', user)
+  }, [saved, initialSaved])
+
+  const handleSave = async () => {
+    console.log('Toggling save for encounter ID:', id)
+    const res = await fetch('/api/encounters/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: currentUserId,
+        encounterId: id,
+      }),
+    })
+    const data = await res.json()
+    if (res.ok) {
+      console.log('Toggled save encounter:==============>', data)
+      setSaved(data.saved)
+    } else {
+      console.error('Error toggling save encounter:', data)
+    }
+  }
+
+  const handleDelete = async (id?: number) => {
     const res = await fetch(`/api/encounters/${id}`, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -54,7 +84,6 @@ export default function EncounterCard({
       // setError(data.error || 'Something went wrong')
     }
   }
-
   return (
     <div className="mb-3">
       <div
@@ -155,16 +184,33 @@ export default function EncounterCard({
           </p>
         </div>
         {socials ? (
-          <div className="flex w-full justify-start mb-3 gap-1 px-3">
-            <CardButton>
-              <ChatBubbleBottomCenterTextIcon className="w-[18px] h-[24px]" />
-              {comments.length}
-            </CardButton>
+          <div className="flex w-full justify-between mb-3 gap-1 px-3">
+            <div className="flex gap-1">
+              <CardButton>
+                <ChatBubbleBottomCenterTextIcon className="w-[18px] h-[24px]" />
+                {comments.length}
+              </CardButton>
 
-            <CardButton>
-              <ShareIcon className="w-[18px] h-[24px] fill-white stroke-none outline-none" />
-              Share
-            </CardButton>
+              <CardButton>
+                <ShareIcon className="w-[18px] h-[24px] fill-white stroke-none outline-none" />
+                Share
+              </CardButton>
+            </div>
+            {session && (
+              <div>
+                <CardButton handleSubmit={handleSave}>
+                  <Image
+                    width={13}
+                    height={13}
+                    className="w-[13px] h-[24px] fill-white stroke-none outline-none"
+                    src={`${
+                      initialSaved ? '/save1-white.svg' : '/save2-white.svg'
+                    }`}
+                    alt={''}
+                  />
+                </CardButton>
+              </div>
+            )}
           </div>
         ) : (
           <div className="flex w-full justify-start mb-3 gap-1 px-3">
@@ -173,7 +219,7 @@ export default function EncounterCard({
                 !isSavedEncounter && (
                   <>
                     <CardButton>Edit</CardButton>
-                    <CardButton id={id} handleSubmit={handleSubmit}>
+                    <CardButton id={id} handleSubmit={handleDelete}>
                       Delete
                     </CardButton>
                   </>

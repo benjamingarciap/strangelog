@@ -85,3 +85,53 @@ export async function deleteEncounter(
   await prisma.encounter.delete({ where: { id } })
   return { message: 'Encounter deleted successfully' }
 }
+
+// TOGGLE SAVE ENCOUNTER
+export async function toggleSaveEncounter(
+  userId: number,
+  encounterId: number
+): Promise<{ saved: boolean }> {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    include: { savedEncounters: { where: { id: encounterId } } },
+  })
+
+  if (!user) throw new Error('User not found')
+
+  const isSaved = user.savedEncounters.length > 0
+
+  if (isSaved) {
+    // Remove from saved
+    try {
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          savedEncounters: {
+            disconnect: { id: encounterId },
+          },
+        },
+      })
+      console.log('Encounter unsaved successfully')
+      return { saved: false }
+    } catch (error) {
+      console.error('Error toggling save encounter:', error)
+      throw new Error('Failed to toggle save encounter')
+    }
+  } else {
+    // Add to saved
+    try {
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          savedEncounters: {
+            connect: { id: encounterId },
+          },
+        },
+      })
+      return { saved: true }
+    } catch (error) {
+      console.error('Error toggling save encounter:', error)
+      throw new Error('Failed to toggle save encounter')
+    }
+  }
+}

@@ -19,7 +19,7 @@ export async function POST(req: Request): Promise<NextResponse> {
       )
     }
 
-    // Has the password
+    // Hash the password
     const passwordHash = await bcrypt.hash(password, 10)
 
     // Create new user

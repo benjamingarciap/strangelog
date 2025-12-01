@@ -64,7 +64,8 @@ const CreatePage = (): React.ReactElement => {
         title,
         content,
         category: categories,
-        creatorId: parseInt(creatorId),
+        creatorId:
+          typeof creatorId === 'number' ? creatorId : parseInt(creatorId),
         locationLat: lat,
         locationLng: lng,
         media: imageUrlArray,

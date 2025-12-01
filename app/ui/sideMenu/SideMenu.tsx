@@ -47,63 +47,59 @@ export function SideMenu({
     } overflow-hidden drop-shadow-md`}
     >
       <nav className="flex flex-col items-start p-4 justify-start max-h-full h-full space-y-3 w-full mt-[55px]">
-        {session && (
-          <div className="flex flex-col justify-between items-start w-full gap-4 h-[85%]">
-            <div>
-              <p className="text-gray-500">Filter by:</p>
-              <Accordion
-                collapsible
-                type="single"
-                className="w-full min-w-full"
-              >
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="border-b-[1px] border-gray-300 pb-1 mb-2 w-[169px] rounded-none cursor-pointer font-semibold text-gray-500 min-w-full hover:text-gray-700">
-                    Cathegory
-                  </AccordionTrigger>
-                  <AccordionContent className="flex flex-col justify-start items-start gap-1 pl-2 overflow-auto max-h-[501px]">
+        <div className="flex flex-col justify-between items-start w-full gap-4 h-[85%]">
+          <div>
+            <p className="text-gray-500">Filter by:</p>
+            <Accordion collapsible type="single" className="w-full min-w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="border-b-[1px] border-gray-300 pb-1 mb-2 w-[169px] rounded-none cursor-pointer font-semibold text-gray-500 min-w-full hover:text-gray-700">
+                  Cathegory
+                </AccordionTrigger>
+                <AccordionContent className="flex flex-col justify-start items-start gap-1 pl-2 overflow-auto max-h-[501px]">
+                  <button
+                    className={
+                      'flex justify-center items-center cursor-pointer p-0 ' +
+                      (filterCategory === null
+                        ? 'underline text-gray-800'
+                        : 'text-gray-500 hover:underline hover:text-gray-700')
+                    }
+                    onClick={() => {
+                      useSideMenuStore.getState().setFilterCategory(null)
+                    }}
+                  >
+                    No filter
+                  </button>
+                  {encounterCategories.map((cathegory) => (
                     <button
+                      key={cathegory}
                       className={
-                        'flex justify-center items-center cursor-pointer p-0 ' +
-                        (filterCategory === null
-                          ? 'underline text-gray-800'
-                          : 'text-gray-500 hover:underline hover:text-gray-700')
+                        filterCategory === cathegory
+                          ? 'flex justify-center items-center cursor-pointer p-0 underline text-gray-800 transition-colors'
+                          : 'flex justify-center items-center cursor-pointer p-0 text-gray-500 hover:underline hover:text-gray-700 transition-colors'
                       }
                       onClick={() => {
-                        useSideMenuStore.getState().setFilterCategory(null)
+                        // setFilterCategory(cathegory)
+                        if (filterCategory === cathegory) {
+                          useSideMenuStore.getState().setFilterCategory(null)
+                        } else {
+                          useSideMenuStore
+                            .getState()
+                            .setFilterCategory(cathegory)
+                        }
+                        console.log(
+                          'FILTER CATEGORY: SIDE MENU--->',
+                          useSideMenuStore.getState().filterCategory
+                        )
                       }}
                     >
-                      No filter
+                      {formatCategory(cathegory)}
                     </button>
-                    {encounterCategories.map((cathegory) => (
-                      <button
-                        key={cathegory}
-                        className={
-                          filterCategory === cathegory
-                            ? 'flex justify-center items-center cursor-pointer p-0 underline text-gray-800 transition-colors'
-                            : 'flex justify-center items-center cursor-pointer p-0 text-gray-500 hover:underline hover:text-gray-700 transition-colors'
-                        }
-                        onClick={() => {
-                          // setFilterCategory(cathegory)
-                          if (filterCategory === cathegory) {
-                            useSideMenuStore.getState().setFilterCategory(null)
-                          } else {
-                            useSideMenuStore
-                              .getState()
-                              .setFilterCategory(cathegory)
-                          }
-                          console.log(
-                            'FILTER CATEGORY: SIDE MENU--->',
-                            useSideMenuStore.getState().filterCategory
-                          )
-                        }}
-                      >
-                        {formatCategory(cathegory)}
-                      </button>
-                    ))}
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
+          {session && (
             <button
               onClick={() => signOut({ callbackUrl: '/' })}
               className={
@@ -112,8 +108,8 @@ export function SideMenu({
             >
               Log out
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </nav>
     </div>
   )

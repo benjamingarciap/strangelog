@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { GalleryVerticalEnd } from 'lucide-react'
 
-import { LoginForm } from '@/components/login-form'
+import { LoginForm } from '../../app/ui/loginForm'
 
 export default function LoginPage(): React.ReactElement {
   return (

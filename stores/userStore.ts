@@ -1,17 +1,12 @@
 import { create } from 'zustand'
 import axios from 'axios'
-
-interface User {
-  id: string
-  name: string
-  email: string
-}
+import { PublicEnrichedUser } from '../app/types/user'
 
 interface UserState {
-  user: User | null
+  user: PublicEnrichedUser | null
   loading: boolean
   error: null | string
-  setUser: (user: User | null) => void
+  setUser: (user: PublicEnrichedUser | null) => void
   fetchUser: () => Promise<void>
 }
 

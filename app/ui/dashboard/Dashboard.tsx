@@ -5,13 +5,20 @@ import MapWrapper from '../map/MapWrapper'
 import EncounterList from '../encounters/EncounterList'
 import { useMapStore } from '../../../stores/mapStore'
 import { useSideMenuStore } from '../../../stores/sideMenuStore'
-import { EncounterCategory } from '../../generated/prisma'
+import { EncounterCategory, User } from '../../generated/prisma'
+import { useUserStore } from '../../../stores/userStore'
+import { PublicEnrichedUser } from '../../types/user'
 
-export default function Dashboard(): React.ReactElement {
+export default function Dashboard({
+  user,
+}: {
+  user: PublicEnrichedUser | null
+}): React.ReactElement {
   // ---------
   // const buttonRef = React.useRef<HTMLButtonElement>(
   //   null
   // ) as React.RefObject<HTMLButtonElement>
+  const setUser = useUserStore((state) => state.setUser)
   const isFullscreen = useMapStore((state) => state.isFullscreen)
   const filterCategory: EncounterCategory | null = useSideMenuStore(
     (state) => state.filterCategory
@@ -71,7 +78,10 @@ export default function Dashboard(): React.ReactElement {
   //   }
   // }, [filterCategory, encounters])
   useEffect(() => {
+    setUser(user)
+    // console.log('User set in Dashboard useEffect:', user)
     fetchEncounters()
+    // Get user from store
   }, [mapBounds, page, filterCategory]) // refetch when bounds or page change
 
   const cathegorizedEncounters = filterCategory

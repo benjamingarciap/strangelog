@@ -13,6 +13,7 @@ export const Navbar = ({
 }): React.ReactElement => {
   const { data: session, status } = useSession()
   const user = useUserStore((state) => state.user)
+  console.log('Navbar user:================>', user)
 
   // ⏳ While session is being fetched → render nothing or a skeleton
   if (status === 'loading') {

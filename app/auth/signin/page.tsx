@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { LoginForm } from '@/components/login-form'
+import { LoginForm } from '../../ui/loginForm'
 export default function SignInPage(): React.JSX.Element {
   return (
     <div className="max-h-full flex flex-col justify-center items-center w-full overflow-y-auto">
