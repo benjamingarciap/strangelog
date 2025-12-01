@@ -2,27 +2,22 @@
 
 A crowdsourced platform for documenting, exploring, and validating paranormal and UAP (Unidentified Anomalous Phenomena) encounters across the globe.
 
-![Next.js](https://img.shields.io/badge/Next.js-15.5-black?logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)
-![Prisma](https://img.shields.io/badge/Prisma-6.15-2D3748?logo=prisma)
-![License](https://img.shields.io/badge/license-MIT-green)
-
-## 📖 Overview
+## Overview
 
 StrangeLog is an interactive mapping platform that enables users to report and explore unexplained phenomena—from UFO/UAP sightings to entity encounters, abductions, and other paranormal events. Each encounter is geolocated, categorized, and enriched with media evidence, creating a comprehensive database of strange occurrences worldwide.
 
-### ✨ Key Features
+### Key Features
 
-- 🗺️ **Interactive Map**: Explore encounters on a Leaflet-powered map with intelligent clustering
-- 📍 **Geolocation**: Pin encounters to precise locations with coordinate-based filtering
-- 📸 **Media Upload**: Attach photos and videos via Cloudinary integration
-- 🏷️ **26 Encounter Categories**: From UAP sightings to close encounters and paranormal activity
-- 🔐 **User Authentication**: Secure sign-in with NextAuth
-- 💬 **Community Features**: Comments, reactions, and confidence voting
-- 🎯 **Advanced Filtering**: Filter by category, map bounds, and evidence types
-- 📱 **Responsive Design**: Optimized for desktop, tablet, and mobile
+- **Interactive Map**: Explore encounters on a Leaflet-powered map with intelligent clustering
+- **Geolocation**: Pin encounters to precise locations with coordinate-based filtering
+- **Media Upload**: Attach photos and videos via Cloudinary integration
+- **26 Encounter Categories**: From UAP sightings to close encounters and paranormal activity
+- **User Authentication**: Secure sign-in with NextAuth
+- **Community Features**: Comments, reactions, and confidence voting
+- **Advanced Filtering**: Filter by category, map bounds, and evidence types
+- **Responsive Design**: Optimized for desktop, tablet, and mobile
 
-## 🎯 Encounter Categories
+## Encounter Categories
 
 ### UAP/UFO Sightings
 
@@ -53,7 +48,7 @@ StrangeLog is an interactive mapping platform that enables users to report and e
 - Radiation Effects
 - Weather Disturbances
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -114,7 +109,7 @@ StrangeLog is an interactive mapping platform that enables users to report and e
 
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-## 🏗️ Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -142,7 +137,7 @@ StrangeLog is an interactive mapping platform that enables users to report and e
 - **date-fns** - Date formatting utilities
 - **Cloudinary** - Media hosting and optimization
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 strangelog/
@@ -168,7 +163,7 @@ strangelog/
 └── stores/               # Zustand stores
 ```
 
-## 🔧 Key Features Explained
+## Key Features Explained
 
 ### Interactive Map with Clustering
 
@@ -196,7 +191,7 @@ Users can create detailed encounter reports with:
 - **Comments**: Discuss encounters with the community
 - **Reactions**: Express support or skepticism
 
-## 🗄️ Database Schema
+## Database Schema
 
 Key models:
 
@@ -207,7 +202,7 @@ Key models:
 - **Confidence**: Community credibility ratings
 - **SavedEncounter**: User bookmarks
 
-## 🛠️ Development
+## Development
 
 ### Available Scripts
 
@@ -228,7 +223,7 @@ npx prisma migrate reset      # Reset database
 npx prisma db seed            # Seed database with sample data
 ```
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -238,17 +233,17 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Map tiles by [Stadia Maps](https://stadiamaps.com/)
 - Icons by [Lucide](https://lucide.dev/)
 - UI components inspired by [shadcn/ui](https://ui.shadcn.com/)
 
-## 📧 Contact
+## Contact
 
 Benjamin Garcia - [@benjamingarciap](https://github.com/benjamingarciap)
 
