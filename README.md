@@ -2,6 +2,8 @@
 
 A crowdsourced platform for documenting, exploring, and validating paranormal and UAP (Unidentified Anomalous Phenomena) encounters across the globe.
 
+- URL: [https://www.strangelog.vercel.app/](https://www.www.strangelog.vercel.app/)
+
 ## Overview
 
 StrangeLog is an interactive mapping platform that enables users to report and explore unexplained phenomena—from UFO/UAP sightings to entity encounters, abductions, and other paranormal events. Each encounter is geolocated, categorized, and enriched with media evidence, creating a comprehensive database of strange occurrences worldwide.
