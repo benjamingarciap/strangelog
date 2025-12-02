@@ -1,7 +1,15 @@
+export interface ReverseGeocodeResult {
+  country: string | null
+  city: string | null
+  street: string | null
+  postcode: string | null
+  fullAddress: string | null
+}
+
 export default async function reverseGeocode(
   lat: number,
   lng: number
-): Promise<string | null> {
+): Promise<ReverseGeocodeResult | null> {
   try {
     const res = await fetch(
       `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&addressdetails=1`,
@@ -13,12 +21,17 @@ export default async function reverseGeocode(
     )
 
     if (!res.ok) throw new Error('Failed to fetch location')
-    const data = await res.json()
 
-    // You can customize this to include more detail
-    const address = data.display_name || null
-    console.log('Reverse geocoded address:', address)
-    return address
+    const data = await res.json()
+    const addr = data.address || {}
+
+    return {
+      country: addr.country || null,
+      city: addr.city || addr.town || addr.village || addr.municipality || null,
+      street: addr.road || null,
+      postcode: addr.postcode || null,
+      fullAddress: data.display_name || null,
+    }
   } catch (err) {
     console.error('Reverse geocoding failed:', err)
     return null
