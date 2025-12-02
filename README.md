@@ -45,21 +45,38 @@ strangelog/
 │   ├── auth/             # Authentication pages
 │   ├── create/           # Encounter creation page
 │   ├── encounters/       # Encounter listing & detail pages
-│   ├── hooks/            # Custom React hooks (useSupercluster)
-│   ├── lib/              # Utilities, actions, data fetching
-│   ├── types/            # TypeScript type definitions
-│   └── ui/               # UI components
-│       ├── dashboard/    # Main dashboard
-│       ├── encounters/   # Encounter cards & lists
-│       ├── map/          # Map components & markers
-│       └── navbar/       # Navigation
-├── components/ui/        # Reusable shadcn components
+│   ├── login/            # Login page
+│   ├── user/             # User profile pages
+│   ├── globals.css       # Global styles
+│   ├── layout.tsx        # Root layout
+│   └── page.tsx          # Home page
+├── components/ui/        # UI components
+│   ├── dashboard/        # Main dashboard
+│   ├── encounters/       # Encounter cards & lists
+│   ├── map/              # Map components & markers
+│   ├── navbar/           # Navigation
+│   ├── profile/          # User profile components
+│   ├── sideMenu/         # Side menu & filters
+│   └── shadcn/           # Reusable shadcn components
+├── hooks/                # Custom React hooks (useSupercluster)
+├── lib/                  # Utilities, actions, data fetching
+│   ├── actions.ts        # Server actions
+│   ├── auth.ts           # NextAuth configuration
+│   ├── constants.ts      # App constants
+│   ├── data-encounters.ts # Encounter data fetching
+│   ├── data-users.ts     # User data fetching
+│   └── utils/            # Utility functions
+├── types/                # TypeScript type definitions
+│   ├── encounters.ts     # Encounter types
+│   ├── user.ts           # User types
+│   └── next-auth.d.ts    # NextAuth type extensions
 ├── prisma/
 │   ├── schema.prisma     # Database schema
 │   ├── seed.ts           # Database seeding
 │   └── migrations/       # Database migrations
-├── public/               # Static assets
-└── stores/               # Zustand stores
+├── stores/               # Zustand stores (map, user, sideMenu)
+├── public/               # Static assets (images, icons, markers)
+└── generated/            # Generated Prisma client
 ```
 
 ### Key Features
