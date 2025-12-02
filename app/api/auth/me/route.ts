@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../../../lib/auth'
+import { authOptions } from '@/lib/auth'
 
 export async function GET(): Promise<Response> {
   console.log('GET /api/auth/me called')

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 
-import { fetchEncountersMap } from '../../../lib/data-encounters'
-import { UIEnrichedEncounter } from '../../../types/encounters'
+import { fetchEncountersMap } from '@/lib/data-encounters'
+import { UIEnrichedEncounter } from '@/types/encounters'
 
 export async function GET(req: Request): Promise<NextResponse> {
   try {

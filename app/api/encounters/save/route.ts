@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../../../lib/auth'
-import { toggleSaveEncounter } from '@/app/lib/actions'
+import { authOptions } from '@/lib/auth'
+import { toggleSaveEncounter } from '@/lib/actions'
 
 export async function POST(req: Request): Promise<NextResponse> {
   const session = await getServerSession(authOptions)

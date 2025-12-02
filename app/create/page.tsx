@@ -1,18 +1,15 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '../../components/ui/tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useRouter } from 'next/navigation'
-import { useUserStore } from '../../stores/userStore'
-import uploadToCloudinary from '../lib/utils/cloudinary'
-import TagsSelector from '../ui/TagsSelector'
+import { useUserStore } from '@/stores/userStore'
+import uploadToCloudinary from '@/lib/utils/cloudinary'
+import TagsSelector from '@/components/ui/TagsSelector'
 import dynamic from 'next/dynamic'
-const MapCreate = dynamic(() => import('../ui/MapCreate'), { ssr: false })
+const MapCreate = dynamic(() => import('@/components/ui/MapCreate'), {
+  ssr: false,
+})
 
 const CreatePage = (): React.ReactElement => {
   const router = useRouter()

@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server'
-import { createEncounter } from '../../lib/actions'
+import { createEncounter } from '@/lib/actions'
 import {
   // fetchEncounters,
   fetchEncountersPaginated,
-} from '../../lib/data-encounters'
+} from '@/lib/data-encounters'
 // import { EncounterCategory, Prisma } from '../../generated/prisma'
 import {
   // EnrichedEncounter,
   UIEnrichedEncounter,
   // UIEvidenceTag,
-} from '../../types/encounters'
+} from '@/types/encounters'
 // import prisma from '../../../lib/prisma'
 
 // GET /api/encounters → list all

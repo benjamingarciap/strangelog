@@ -10,7 +10,7 @@ import {
   PrismaClient,
   ReactionType,
   EncounterCategory,
-} from '../app/generated/prisma/index.js'
+} from '@/generated/prisma/index.js'
 import { faker } from '@faker-js/faker'
 
 const prisma = new PrismaClient()

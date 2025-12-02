@@ -1,10 +1,10 @@
 'use client'
-import './ui/globals.css'
-import { Navbar } from './ui/navbar/Navbar'
+import './globals.css'
+import { Navbar } from '@/components/ui/navbar/Navbar'
 import React, { ReactElement, useEffect } from 'react'
-import { useUserStore } from '../stores/userStore'
-import SessionWrapper from './ui/SessionWrapper'
-import { SideMenu } from './ui/sideMenu/SideMenu'
+import { useUserStore } from '@/stores/userStore'
+import SessionWrapper from '@/components/ui/SessionWrapper'
+import { SideMenu } from '@/components/ui/sideMenu/SideMenu'
 // import { SideMenu } from './ui/SideMenu'
 
 export default function RootLayout({

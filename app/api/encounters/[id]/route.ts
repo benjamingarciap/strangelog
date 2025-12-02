@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server'
-import { fetchEncounterById } from '@/app/lib/data-encounters'
+import { fetchEncounterById } from '@/lib/data-encounters'
 import {
   updateEncounter,
   deleteEncounter,
   createEncounter,
-} from '@/app/lib/actions'
+} from '@/lib/actions'
 
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../../../lib/auth'
+import { authOptions } from '@/lib/auth'
 
 export async function GET(
   req: Request,

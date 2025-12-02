@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { EncounterCategory } from '../app/generated/prisma'
+import { EncounterCategory } from '@/generated/prisma'
 
 type SideMenuState = {
   isOpen: boolean

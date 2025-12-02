@@ -1,6 +1,6 @@
 import React from 'react'
-import { fetchUserById } from '../../lib/data-users'
-import Profile from '../../ui/profile/Profile'
+import { fetchUserById } from '@/lib/data-users'
+import Profile from '@/components/ui/profile/Profile'
 
 export default async function UserPage(props: {
   params: Promise<{ id: string }>

@@ -8,6 +8,7 @@ export default defineConfig([
   // Global ignore block
   {
     ignores: [
+      'fetchCloudinaryImages.js',
       'node_modules/**',
       '.next/**',
       'out/**',
@@ -17,7 +18,7 @@ export default defineConfig([
       '*.config.*',
       '*.manifest.*',
       'prisma/**',
-      'app/generated/**',
+      'generated/**',
       'scripts/**',
       'public/**',
       '**/*.d.ts',

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import axios from 'axios'
-import { PublicEnrichedUser } from '../app/types/user'
+import { PublicEnrichedUser } from '@/types/user'
 
 interface UserState {
   user: PublicEnrichedUser | null

@@ -1,0 +1,186 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ----------------------
+// Users
+// ----------------------
+model User {
+  id              Int      @id @default(autoincrement())
+  firstName       String?
+  lastName        String?
+  username        String   @unique
+  email           String   @unique
+  passwordHash    String
+  createdAt       DateTime @default(now())
+  avatarUrl       String?
+  confidenceLevel Int
+  bio             String?
+
+  encounters      Encounter[] // no onDelete here
+  comments        Comment[] // no onDelete here
+  reactions       Reaction[] // no onDelete here
+  confidences     Confidence[] // no onDelete here
+  savedEncounters Encounter[]  @relation("SavedEncounters") // many-to-many
+
+  accounts Account[]
+  sessions Session[]
+}
+
+// ----------------------
+// Encounters
+// ----------------------
+model Encounter {
+  id          Int                 @id @default(autoincrement())
+  title       String
+  content     String
+  category    EncounterCategory[]
+  locationLat Float
+  locationLng Float
+  media       String[]
+  evidence    String[]
+  date        DateTime            @default(now())
+  likes       Int                 @default(0)
+  dislikes    Int                 @default(0)
+  creator     User                @relation(fields: [creatorId], references: [id])
+  creatorId   Int
+  comments    Comment[]
+  reactions   Reaction[]
+  confidences Confidence[]
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  savedBy     User[]              @relation("SavedEncounters") // many-to-many
+}
+
+enum EncounterCategory {
+  UAP_LUMINOUS_ORBS
+  UAP_DISC
+  UAP_TRIANGLE
+  UAP_CYLINDER
+  UAP_SPHERE
+  UAP_TRANS_MEDIUM
+  UAP_FORMATION_SWARM
+  CE_1
+  CE_2
+  CE_3
+  CE_4_ABDUCTION
+  CE_5_INITIATED_CONTACT
+  CE_6_INJURY
+  CE_7_LONG_TERM_CONTACT
+  ENTITY_ENCOUNTER
+  ABDUCTION_SCENARIO
+  POLTERGEIST_ACTIVITY
+  PORTAL_DIMENSIONAL
+  CATTLE_MUTILATION
+  MEN_IN_BLACK
+  MISSING_TIME
+  PSYCHIC_EFFECTS
+  TRACE_EVIDENCE
+  EM_INTERFERENCE
+  RADIATION_EFFECTS
+  WEATHER_DISTURBANCE
+  OTHER
+}
+
+// ----------------------
+// Comments
+// ----------------------
+model Comment {
+  id      Int      @id @default(autoincrement())
+  content String
+  date    DateTime @default(now())
+
+  author   User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId Int
+
+  encounter   Encounter @relation(fields: [encounterId], references: [id], onDelete: Cascade)
+  encounterId Int
+
+  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  parentId Int?
+  replies  Comment[] @relation("CommentReplies")
+}
+
+// ----------------------
+// Reactions
+// ----------------------
+model Reaction {
+  id          Int          @id @default(autoincrement())
+  type        ReactionType
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  encounter   Encounter    @relation(fields: [encounterId], references: [id], onDelete: Cascade)
+  encounterId Int
+
+  @@unique([userId, encounterId])
+}
+
+enum ReactionType {
+  LIKE
+  DISLIKE
+}
+
+// ----------------------
+// Confidence votes
+// ----------------------
+model Confidence {
+  id          Int       @id @default(autoincrement())
+  level       Int
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  encounter   Encounter @relation(fields: [encounterId], references: [id], onDelete: Cascade)
+  encounterId Int
+
+  @@unique([userId, encounterId])
+}
+
+// ----------------------
+// NextAuth Account
+// ----------------------
+model Account {
+  id                Int     @id @default(autoincrement())
+  userId            Int
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
+}
+
+// ----------------------
+// NextAuth Session
+// ----------------------
+model Session {
+  id           Int      @id @default(autoincrement())
+  sessionToken String   @unique
+  userId       Int
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+// ----------------------
+// VerificationToken
+// ----------------------
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}

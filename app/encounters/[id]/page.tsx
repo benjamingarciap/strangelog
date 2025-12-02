@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
-import { fetchEncounterById } from '@/app/lib/data-encounters'
-import EncounterDetail from '../../ui/encounters/EncounterDetail'
+import { fetchEncounterById } from '@/lib/data-encounters'
+import EncounterDetail from '@/components/ui/encounters/EncounterDetail'
 import React from 'react'
 
 export default async function Page(props: {
