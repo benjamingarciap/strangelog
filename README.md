@@ -129,37 +129,6 @@ Key models:
 - **Confidence**: Community credibility ratings
 - **SavedEncounter**: User bookmarks
 
-## Encounter Categories
-
-### UAP/UFO Sightings
-
-- Luminous Orbs, Discs, Triangles, Cylinders, Spheres
-- Trans-medium Craft (Air/Water)
-- Formations & Swarms
-
-### Close Encounters (CE Classification)
-
-- **CE-1**: Visual sighting within 500 feet
-- **CE-2**: Physical effects on environment
-- **CE-3**: Visible entities
-- **CE-4**: Abduction experiences
-- **CE-5**: Initiated human contact
-- **CE-6**: Injury or death
-- **CE-7**: Long-term contact/hybrid creation
-
-### Paranormal Phenomena
-
-- Entity Encounters
-- Poltergeist Activity
-- Portal/Dimensional Events
-- Missing Time
-- Psychic Effects
-- Cattle Mutilation
-- Men in Black
-- EM Interference
-- Radiation Effects
-- Weather Disturbances
-
 ## Getting Started
 
 ### Prerequisites
@@ -221,27 +190,6 @@ Key models:
 
    Navigate to [http://localhost:3000](http://localhost:3000)
 
-## Development
-
-### Available Scripts
-
-```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint
-npx prisma studio    # Open Prisma Studio (database GUI)
-```
-
-### Database Commands
-
-```bash
-npx prisma generate           # Generate Prisma Client
-npx prisma migrate dev        # Create and apply migrations
-npx prisma migrate reset      # Reset database
-npx prisma db seed            # Seed database with sample data
-```
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -251,16 +199,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License.
-
-## Acknowledgments
-
-- Map tiles by [Stadia Maps](https://stadiamaps.com/)
-- Icons by [Lucide](https://lucide.dev/)
-- UI components inspired by [shadcn/ui](https://ui.shadcn.com/)
 
 ## Contact
 
