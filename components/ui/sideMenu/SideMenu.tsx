@@ -99,7 +99,7 @@ export function SideMenu({
               </AccordionItem>
             </Accordion>
           </div>
-          {session && (
+          {/* {session && (
             <button
               onClick={() => signOut({ callbackUrl: '/' })}
               className={
@@ -108,7 +108,7 @@ export function SideMenu({
             >
               Log out
             </button>
-          )}
+          )} */}
         </div>
       </nav>
     </div>

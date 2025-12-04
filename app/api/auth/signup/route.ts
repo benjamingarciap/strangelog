@@ -5,7 +5,7 @@ import prisma from '@/lib/prisma'
 export async function POST(req: Request): Promise<NextResponse> {
   try {
     const body = await req.json()
-    const { email, username, password } = body
+    const { email, username, password, firstName, lastName } = body
     if (!email || !username || !password) {
       return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
     }
@@ -25,11 +25,13 @@ export async function POST(req: Request): Promise<NextResponse> {
     // Create new user
     const newUser = await prisma.user.create({
       data: {
+        firstName,
+        lastName,
         email,
         username,
         passwordHash,
         avatarUrl: '',
-        confidenceLevel: 3,
+        confidenceLevel: 2,
       },
     })
     return NextResponse.json({

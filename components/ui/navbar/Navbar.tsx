@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { useSession } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
 import { useUserStore } from '../../../stores/userStore'
 import { NavItem } from './NavItem'
 import NavBarContainer from './NavBarContainer'
@@ -31,6 +31,7 @@ export const Navbar = ({
             <NavItem isSideMenu={false} href={`/user/${user.id}`}>
               Profile
             </NavItem>
+            <NavItem isSideMenu={false} logOut />
           </>
         ) : (
           <>

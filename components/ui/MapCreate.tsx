@@ -57,11 +57,13 @@ const SearchField = ({
   return null
 }
 export default function MapCreate({
+  setError,
   setLat,
   setLng,
   lat,
   lng,
 }: {
+  setError?: (error: string) => void
   setLat: (lat: number) => void
   setLng: (lng: number) => void
   lat: number | null
@@ -71,6 +73,7 @@ export default function MapCreate({
   const LocationMarker = () => {
     useMapEvents({
       click(e) {
+        setError && setError('')
         setLat(e.latlng.lat)
         setLng(e.latlng.lng)
       },
@@ -100,11 +103,11 @@ export default function MapCreate({
         <ZoomControl position="topright" />
         <LocationMarker />
       </MapContainer>
-      {lat && lng && (
+      {/* {lat && lng && (
         <p className="mt-2 text-gray-600 text-sm">
           Selected: {lat.toFixed(5)}, {lng.toFixed(5)}
         </p>
-      )}
+      )} */}
     </div>
   )
 }

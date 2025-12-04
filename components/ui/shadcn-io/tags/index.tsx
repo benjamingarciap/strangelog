@@ -119,7 +119,7 @@ export const TagsTrigger = ({
 }: TagsTriggerProps): React.ReactElement => (
   <PopoverTrigger asChild>
     <Button
-      className={cn('h-auto w-full justify-between p-2', className)}
+      className={cn('h-auto w-full justify-between p-2 ', className)}
       // biome-ignore lint/a11y/useSemanticElements: "Required"
       role="combobox"
       variant="outline"

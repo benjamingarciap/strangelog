@@ -28,6 +28,14 @@ export async function createEncounter(data: {
       creatorId: data.creatorId,
       createdAt: new Date(),
       updatedAt: new Date(),
+      confidences: {
+        create: [
+          {
+            userId: data.creatorId,
+            level: 2,
+          },
+        ],
+      },
     },
   })
 

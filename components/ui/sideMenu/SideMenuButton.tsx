@@ -10,7 +10,7 @@ export function SideMenuButton({
 }): React.ReactElement {
   const { isOpen, toggleMenu } = useSideMenuStore()
   return (
-    <div className="" id="side-menu-button">
+    <div className="pt-[4px]" id="side-menu-button">
       {/* Hamburger button */}
       <button
         ref={buttonRef}

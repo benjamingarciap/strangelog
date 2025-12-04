@@ -15,6 +15,8 @@ import { Label } from '@/components/ui/label'
 
 export default function SignUpPage(): React.JSX.Element {
   const router = useRouter()
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -27,7 +29,7 @@ export default function SignUpPage(): React.JSX.Element {
     const res = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, username, password }),
+      body: JSON.stringify({ email, username, password, firstName, lastName }),
     })
 
     const data = await res.json()
@@ -82,8 +84,8 @@ export default function SignUpPage(): React.JSX.Element {
                   Or continue with
                 </span>
                 <div className="grid gap-6">
-                  <div className="grid gap-3">
-                    <Label htmlFor="email">User name</Label>
+                  <div>
+                    <Label htmlFor="username">User name</Label>
                     <Input
                       id="username"
                       type="text"
@@ -93,7 +95,29 @@ export default function SignUpPage(): React.JSX.Element {
                       className="rounded"
                     />
                   </div>
-                  <div className="grid gap-3">
+                  <div>
+                    <Label htmlFor="firstName">First name</Label>
+                    <Input
+                      id="firstName"
+                      type="text"
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="First name"
+                      required
+                      className="rounded"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="lastName">Last name</Label>
+                    <Input
+                      id="lastName"
+                      type="text"
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Last name"
+                      required
+                      className="rounded"
+                    />
+                  </div>
+                  <div>
                     <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
@@ -104,8 +128,8 @@ export default function SignUpPage(): React.JSX.Element {
                       className="rounded"
                     />
                   </div>
-                  <div className="grid gap-3">
-                    <div className="flex items-center">
+                  <div className="flex flex-col items-start gap-1">
+                    <div className="flex w-full justify-between items-center">
                       <Label htmlFor="password">Password</Label>
                       <a
                         href="#"

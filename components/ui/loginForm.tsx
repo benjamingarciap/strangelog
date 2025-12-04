@@ -79,7 +79,6 @@ export function LoginForm({
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="m@example.com"
                     required
-                    className="rounded-none"
                   />
                 </div>
                 <div className="grid gap-3">
@@ -96,7 +95,6 @@ export function LoginForm({
                     id="password"
                     type="password"
                     required
-                    className="rounded-none"
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
