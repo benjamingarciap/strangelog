@@ -370,7 +370,7 @@ const CreatePage = (): React.ReactElement => {
         </h2>
         <form onSubmit={handleSubmit} className="w-full">
           <Tabs defaultValue="text" className="w-full">
-            <TabsList className="w-full flex justify-start gap-4 sticky top-0 bg-white z-[2] border-b-[0.5px] border-black pb-2 rounded-none p-0">
+            <TabsList className="w-full flex justify-start gap-4 sticky top-0 bg-white z-[2] border-b-[0.5px] border-gray-500 pb-2 rounded-none p-0">
               <TabsTrigger className="w-[125px] items-end" value="text">
                 Text
               </TabsTrigger>

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { UIEnrichedEncounter } from '@/types/encounters'
 import Image from 'next/image'
-import { format } from 'date-fns'
+import { format, set } from 'date-fns'
 import TrustMeter from '../TrustMeter'
 import { formatCategory } from '@/lib/utils/formatCategory'
 import { useRouter } from 'next/navigation'
@@ -48,11 +48,17 @@ export default function EncounterCard({
     ) ?? false
   // console.log('User in SaveButton:', user)
   useEffect(() => {
-    setSaved(initialSaved)
+    console.log('Initial saved value:', initialSaved)
+    if (initialSaved !== saved) {
+      console.log('Updating saved state from', saved, 'to', initialSaved)
+      setSaved(initialSaved)
+    }
     // console.log('User in EncounterCard:', user)
-  }, [saved, initialSaved])
+  }, [initialSaved])
 
   const handleSave = async () => {
+    setSaved(!saved)
+    console.log('Initial saved state:', saved)
     console.log('Toggling save for encounter ID:', id)
     const res = await fetch('/api/encounters/save', {
       method: 'POST',
@@ -65,8 +71,9 @@ export default function EncounterCard({
     const data = await res.json()
     if (res.ok) {
       console.log('Toggled save encounter:==============>', data)
-      setSaved(data.saved)
+      // setSaved(data.saved)
     } else {
+      setSaved(false) // Revert the saved state if the request fails
       console.error('Error toggling save encounter:', data)
     }
   }
@@ -205,9 +212,7 @@ export default function EncounterCard({
                     width={13}
                     height={13}
                     className="w-[13px] h-[24px] fill-white stroke-none outline-none"
-                    src={`${
-                      initialSaved ? '/save1-white.svg' : '/save2-white.svg'
-                    }`}
+                    src={`${saved ? '/save1-white.svg' : '/save2-white.svg'}`}
                     alt={''}
                   />
                 </CardButton>
@@ -220,7 +225,7 @@ export default function EncounterCard({
               ? parseInt(currentUserId) === creator.id &&
                 !isSavedEncounter && (
                   <>
-                    <CardButton>Edit</CardButton>
+                    {/* <CardButton>Edit</CardButton> */}
                     <CardButton id={id} handleSubmit={handleDelete}>
                       Delete
                     </CardButton>
