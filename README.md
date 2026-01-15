@@ -2,7 +2,7 @@
 
 A crowdsourced platform for documenting, exploring, and validating paranormal and UAP (Unidentified Anomalous Phenomena) encounters across the globe.
 
-URL: [https://www.strangelog.vercel.app/](https://www.strangelog.vercel.app/)
+URL: [https://www.strangelog.vercel.app/](strangelog.vercel.app/)
 
 ## Overview
 
